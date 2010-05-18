@@ -1,5 +1,0 @@
-rem SET PATH = %PATH%;C:\Programme\Java\jdk1.6.0_13\bin\
-
-javac -classpath D:\eclipse-jee-ganymede-RC3-win32/eclipse/plugins/org.junit4_4.3.1/junit.jar;:\Programme\Java\jdk1.6.0_13\jre\lib;C:\Programme\Java\jdk1.6.0_13\jre\lib\ext;distrib/classes -d C:\praktikum_cup\CUP2/distrib/classes src\edu\tum\cup2\generator\*.java src\edu\tum\cup2\grammar\*.java src\edu\tum\cup2\io\*.java src\edu\tum\cup2\parser\*.java src\edu\tum\cup2\precedences\*.java src\edu\tum\cup2\scanner\*.java src\edu\tum\cup2\semantics\*.java src\edu\tum\cup2\spec\*.java src\edu\tum\cup2\util\*.java src\edu\tum\cup2\util\exceptions\*.java src\edu\tum\cup2\spec\util\*.java src\edu\tum\cup2\parser\actions\*.java src\edu\tum\cup2\parser\exceptions\*.java src\edu\tum\cup2\parser\states\*.java src\edu\tum\cup2\parser\tables\*.java src\edu\tum\cup2\parser\exceptions\*.java src\edu\tum\cup2\parser\states\*.java src\edu\tum\cup2\generator\exceptions\*.java src\edu\tum\cup2\generator\items\*.java src\edu\tum\cup2\generator\states\*.java src\edu\tum\cup2\grammar\*.java 
-
-rem src\edu\tum\cup2\test\*.java 

@@ -1,100 +1,47 @@
-<?xml version="1.0"?>
+<project name="cup2" default ="dist" basedir=".">
+  <property name="src"       location="src"       />
+  <property name="src"       location="src"       />
+  <property name="classes"      location="classes"       />
+  <property name="lib"      location="lib"       />
 
-<project name="cup2" default="cup2DemoTarget" basedir=".">
+  <!-- initialize the workspace -->
+  <target name="init">
+    <tstamp />
+    <mkdir dir="${classes}" />
+    <mkdir dir="${dist}" />    
+  </target>
 
-<taskdef name="cup2"
-	classname="edu.tum.cup2.ant.Cup2AntTask"
-	classpath="bin" />
+  <property environment="env" />
 
-<!--TODO: adjust path settings -->
-<property name="junit" location="lib/junit.jar" />
+  <path id="libraries">
+     <pathelement location="${src}" />
+     <fileset dir="${lib}">
+	<include name="**/*.jar" />
+     </fileset>
+  </path>
 
+  <path id="binaries">
+     <fileset dir="${bin}">
+	<include name="**/*.jar" />
+     </fileset>
+  </path>
 
-<property name="src" location="./src"/>
-<property name="test" location="./test"/>
-<property name="build" location="./distrib/classes"/>
+  <target name="clean">
+    <delete dir="${classes}" />
+    <delete dir="${dist}" />
+  </target>
 
-<path id="cup2.sources">
-    <pathelement location="./src/"/>
-	<pathelement location="./test/"/>
-</path>
+  <target name="compile" depends="init">
+    <javac encoding="UTF-8" srcdir="${src}" destdir="${classes}" verbose="off" listfiles="off" debug="off" >
+      <classpath refid="libraries"/>
+    </javac>
+  </target>
 
-<target name="cup2DemoTarget">
-
-	<!-- typical cup2 task for SpecCalc4
-		-->
-	      <cup2
-			cup2specification="edu.tum.cup2.test.SpecCalc4"
-	      	SpecSrcDir = "test/edu/tum/cup2/test/"
-	      	Cup2ClassDirectory="bin/"
-	      >
-	    	<classpath>
-	    	   		<pathelement path="${build}"/>
-	    	   		<pathelement path="${junit}"/>
-	    	   		<pathelement location="./bin/"/>
-	    	</classpath>
-	      </cup2>
-
-
-	<!-- cup2 task for SpecCalc4
-	-->
-      <cup2
-		cup2specification="edu.tum.cup2.test.SpecCalc4"
-      	SpecSrcDir = "test/edu/tum/cup2/test/"
-      	Cup2ClassDirectory="bin/"
-      	Cup2SourcePath = "src/"
-
-      	Cup2File = "cup2filefromant_SpecCalc4.cup2"
-      	Algorithm = "LR1"
-      	Verbose = "on"
-      	PrintParsingTable = "printparsingtable_SpecCalc4.htm"
-		>
-	      	<classpath>
-	      		<pathelement path="${build}"/>
-	      		<pathelement path="${junit}"/>
-	      		<pathelement location="./bin/"/>
-	      	</classpath>
-      </cup2>
-
-	<!-- cup2 task for SpecCalc1
-	-->
-	  <cup2
-		cup2specification="edu.tum.cup2.test.SpecCalc1_NotReduced"
-	   	specsrcdir = "test/edu/tum/cup2/test/"
-	   	cup2classdirectory="bin/"
-
-	   	cup2file = "cup2filefromant_SpecCalc1_NotReduced.cup2"
-	   	algorithm = "LR1"
-	   	verbose = "on"
-	   	printparsingtable = "printparsingtable_SpecCalc1_NotReduced.htm"
-		>
-		   	<classpath>
-		   		<pathelement path="${build}"/>
-		   		<pathelement path="${junit}"/>
-		   		<pathelement location="./bin/"/>
-		   	</classpath>
-	  </cup2>
-</target>
-
-
-	<!-- Example:
-	  <cup2
-		cup2specification="edu.tum.cup2.test.SpecCalc4"
-      	specsrcdir = "C:/praktikum_cup/workspace/CUP2/test/edu/tum/cup2/test/"
-      	cup2classdirectory="C:/praktikum_cup/workspace/CUP2/bin"
-      	Cup2SourcePath = "C:/praktikum_cup/workspace/CUP2/src"
-      	specdestdir = "C:/praktikum_cup/workspace/CUP2/specdestdir"
-      	cup2file = "C:/praktikum_cup/workspace/CUP2/cup2filefromant.cup2"
-      	algorithm = "LR1"
-      	verbose = "true"
-      	printparsingtable = "C:/praktikum_cup/workspace/CUP2/printparsingtable.txt"
-		>
-	      	<classpath>
-	      		<pathelement path="${build}"/>
-	      		<pathelement path="${junit}"/>
-	      		<pathelement location="./test/"/>
-	      	</classpath>
-      </cup2>
-    -->
-
+  <target name="dist" depends="compile">
+   <jar jarfile="${dist}/cup2.jar" basedir="${classes}">
+      <manifest>
+        <attribute name="Main-Class" value="edu.tum.cup2.Main" />
+      </manifest>
+    </jar>
+  </target>
 </project>
