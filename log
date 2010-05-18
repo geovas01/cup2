@@ -1,0 +1,510 @@
+Buildfile: ParserDriver.xml
+     [echo] CUP2 Ant Build - ParserDriver.xml
+
+init:
+
+compileCup2:
+     [echo] copying source files...
+  [copydir] DEPRECATED - The copydir task is deprecated.  Use copy instead.
+  [copydir] DEPRECATED - The copydir task is deprecated.  Use copy instead.
+     [echo] compiling Cup2...
+    [javac] Compiling 158 source files to /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/distrib/classes
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_12.java:31: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.GrammarAppel_3_12
+    [javac] 	public enum MyNonTerminal implements NonTerminal
+    [javac] 	                                     ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_12.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.GrammarAppel_3_12
+    [javac] 	public enum MyTerminal implements Terminal
+    [javac] 	                                  ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/generator/items/LR0ItemTest.java:31: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.generator.items.LR0ItemTest
+    [javac] 		implements NonTerminal
+    [javac] 		           ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/generator/items/LR0ItemTest.java:24: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.generator.items.LR0ItemTest
+    [javac] 		implements Terminal
+    [javac] 		           ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_20.java:41: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.GrammarAppel_3_20
+    [javac] 		implements NonTerminal
+    [javac] 		           ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_20.java:30: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.GrammarAppel_3_20
+    [javac] 		implements Terminal
+    [javac] 		           ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_26.java:20: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.GrammarAppel_3_26
+    [javac] 	public enum T implements Terminal
+    [javac] 	                         ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_26.java:26: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.GrammarAppel_3_26
+    [javac] 	public enum N implements NonTerminal
+    [javac] 	                         ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarWiki1.java:48: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.GrammarWiki1
+    [javac] 		implements NonTerminal
+    [javac] 		           ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarWiki1.java:41: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.GrammarWiki1
+    [javac] 		implements Terminal
+    [javac] 		           ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarASU_4_11.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.GrammarASU_4_11
+    [javac] 	public enum T implements Terminal
+    [javac] 	                         ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarASU_4_11.java:31: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.GrammarASU_4_11
+    [javac] 	public enum N implements NonTerminal
+    [javac] 	                         ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecASU_4_21.java:42: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecASU_4_21
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecASU_4_21.java:37: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecASU_4_21
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecActions2.java:41: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecActions2
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecActions2.java:36: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecActions2
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecCalc1.java:40: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecCalc1
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecCalc1.java:35: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecCalc1
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecCalc2.java:49: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecCalc2
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecCalc2.java:44: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecCalc2
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecCalc3.java:39: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecCalc3
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecCalc3.java:34: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecCalc3
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecCalc4.java:57: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecCalc4
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecCalc4.java:52: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecCalc4
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecEpsilon1.java:46: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecEpsilon1
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecEpsilon1.java:41: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecEpsilon1
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecJava14.java:100: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecJava14
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecJava14.java:35: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecJava14
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecMiniJava.java:60: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecMiniJava
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecMiniJava.java:50: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecMiniJava
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecMiniJavaNoActions.java:46: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecMiniJavaNoActions
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecMiniJavaNoActions.java:36: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecMiniJavaNoActions
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecTest1.java:44: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecTest1
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecTest1.java:37: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecTest1
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecTest2.java:41: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecTest2
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecTest2.java:34: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecTest2
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecTest3NoPrec.java:46: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecTest3NoPrec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecTest3NoPrec.java:39: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecTest3NoPrec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecTest3Prec.java:40: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.SpecTest3Prec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/SpecTest3Prec.java:33: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.SpecTest3Prec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/TrashSpecJava14.java:52: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.TrashSpecJava14
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/TrashSpecJava14.java:32: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.TrashSpecJava14
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/Aufgabe14.java:35: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.Aufgabe14
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/Aufgabe14.java:30: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.Aufgabe14
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/Aufgabe14_2.java:34: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.Aufgabe14_2
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/Aufgabe14_2.java:29: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.Aufgabe14_2
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/MultReductErrorTest.java:34: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.MultReductErrorTest
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/MultReductErrorTest.java:29: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.MultReductErrorTest
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/MultReductErrorTest2.java:29: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.MultReductErrorTest2
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/MultReductErrorTest2.java:24: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.MultReductErrorTest2
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/RemoveProduction.java:38: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.RemoveProduction
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/RemoveProduction.java:33: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.RemoveProduction
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/SpecCalc1ErrorTest.java:49: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.SpecCalc1ErrorTest
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/SpecCalc1ErrorTest.java:44: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.SpecCalc1ErrorTest
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/SpecCalc1ErrorTest2.java:39: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.SpecCalc1ErrorTest2
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/SpecCalc1ErrorTest2.java:34: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.SpecCalc1ErrorTest2
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/SpecCalc1ErrorTest3.java:36: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.SpecCalc1ErrorTest3
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/SpecCalc1ErrorTest3.java:31: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.SpecCalc1ErrorTest3
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/SpecMiniJava.java:61: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.SpecMiniJava
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/errorRecovery/SpecMiniJava.java:51: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.errorRecovery.SpecMiniJava
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec14NoPrec.java:32: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec14NoPrec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec14NoPrec.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec14NoPrec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec14Prec.java:36: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec14Prec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec14Prec.java:29: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec14Prec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec1NoPrec.java:46: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec1NoPrec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec1NoPrec.java:39: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec1NoPrec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec1Prec.java:46: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec1Prec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec1Prec.java:39: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec1Prec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec2NoPrec.java:32: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec2NoPrec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec2NoPrec.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec2NoPrec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec2Prec.java:32: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec2Prec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec2Prec.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec2Prec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec3NoPrec.java:32: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec3NoPrec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec3NoPrec.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec3NoPrec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec3Prec.java:32: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec3Prec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec3Prec.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec3Prec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec4NoPrec.java:32: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec4NoPrec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec4NoPrec.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec4NoPrec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec4Prec.java:32: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec4Prec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec4Prec.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec4Prec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec5NoPrec.java:32: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec5NoPrec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec5NoPrec.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec5NoPrec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec5Prec.java:32: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec5Prec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec5Prec.java:25: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec5Prec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec6NoPrec.java:28: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec6NoPrec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec6NoPrec.java:21: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec6NoPrec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec6Prec.java:28: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec6Prec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec6Prec.java:21: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec6Prec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec7NoPrec.java:28: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec7NoPrec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec7NoPrec.java:21: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec7NoPrec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec7Prec.java:28: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec7Prec
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/lr1blowup/Spec7Prec.java:21: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.lr1blowup.Spec7Prec
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/presentation/PresentationBak.java:36: cannot find symbol
+    [javac] symbol  : class Terminal
+    [javac] location: class edu.tum.cup2.test.presentation.PresentationBak
+    [javac] 	public enum Terminals implements Terminal
+    [javac] 	                                 ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/presentation/PresentationBak.java:41: cannot find symbol
+    [javac] symbol  : class NonTerminal
+    [javac] location: class edu.tum.cup2.test.presentation.PresentationBak
+    [javac] 	public enum NonTerminals implements NonTerminal
+    [javac] 	                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_12.java:39: toLinkedList(edu.tum.cup2.grammar.Terminal...) in edu.tum.cup2.util.ArrayTools<edu.tum.cup2.grammar.Terminal> cannot be applied to (edu.tum.cup2.test.GrammarAppel_3_12.MyTerminal[])
+    [javac] 		LinkedList<Terminal> terminals = new ArrayTools<Terminal>().toLinkedList(MyTerminal.values());
+    [javac] 		                                                           ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_12.java:40: toLinkedList(edu.tum.cup2.grammar.NonTerminal...) in edu.tum.cup2.util.ArrayTools<edu.tum.cup2.grammar.NonTerminal> cannot be applied to (edu.tum.cup2.test.GrammarAppel_3_12.MyNonTerminal[])
+    [javac] 		LinkedList<NonTerminal> nonTerminals = new ArrayTools<NonTerminal>().toLinkedList(MyNonTerminal.values());
+    [javac] 		                                                                    ^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_12.java:42: cannot find symbol
+    [javac] symbol  : constructor Production(int,edu.tum.cup2.test.GrammarAppel_3_12.MyNonTerminal,edu.tum.cup2.test.GrammarAppel_3_12.MyTerminal)
+    [javac] location: class edu.tum.cup2.grammar.Production
+    [javac] 			new Production(1, Z, d),
+    [javac] 			^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_12.java:43: cannot find symbol
+    [javac] symbol  : constructor Production(int,edu.tum.cup2.test.GrammarAppel_3_12.MyNonTerminal,edu.tum.cup2.test.GrammarAppel_3_12.MyNonTerminal,edu.tum.cup2.test.GrammarAppel_3_12.MyNonTerminal,edu.tum.cup2.test.GrammarAppel_3_12.MyNonTerminal)
+    [javac] location: class edu.tum.cup2.grammar.Production
+    [javac] 			new Production(2, Z, X, Y, Z),
+    [javac] 			^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_12.java:44: cannot find symbol
+    [javac] symbol  : constructor Production(int,edu.tum.cup2.test.GrammarAppel_3_12.MyNonTerminal,edu.tum.cup2.grammar.SpecialTerminals)
+    [javac] location: class edu.tum.cup2.grammar.Production
+    [javac] 			new Production(3, Y, Epsilon),
+    [javac] 			^
+    [javac] /home/andi/Studium/2009-SS/Masterpraktikum - CUP2/cup2/wenger/Program/CUP2/srctemp/edu/tum/cup2/test/GrammarAppel_3_12.java:45: cannot find symbol
+    [javac] symbol  : constructor Production(int,edu.tum.cup2.test.GrammarAppel_3_12.MyNonTerminal,edu.tum.cup2.test.GrammarAppel_3_12.MyTerminal)
+    [javac] location: class edu.tum.cup2.grammar.Production
+    [javac] 			new Production(4, Y, c),
+    [javac] 			^
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+    [javac] 100 errors

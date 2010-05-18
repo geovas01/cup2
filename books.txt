@@ -1,0 +1,7 @@
+Book references in this project:
+
+"Appel's book":
+  Andrew W. Appel. Modern Compiler Implementation in Java. Cambridge Univ. Press, 1999.
+  
+"ASU99" (German book!):
+  Alfred V. Aho, Ravi Sethi, Jeffrey D. Ullman. Compilerbau Teil 1. 2. Auflage. Oldenbourg, 1999.
