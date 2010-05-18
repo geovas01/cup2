@@ -3,6 +3,7 @@
   <property name="src"       location="src"       />
   <property name="classes"      location="classes"       />
   <property name="lib"      location="lib"       />
+  <property name="dist"      location="dist"       />
 
   <!-- initialize the workspace -->
   <target name="init">
