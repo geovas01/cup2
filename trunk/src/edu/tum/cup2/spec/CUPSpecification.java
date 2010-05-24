@@ -43,9 +43,9 @@ import edu.tum.cup2.util.Reflection;
 public abstract class CUPSpecification
 {
 
-	private boolean init = false;
+	public boolean isInit = false;
 	private LinkedList<NonTerminal> auxNonTerminals = new LinkedList<NonTerminal>();
-	private SymbolValueClasses symbolValueClasses;
+	public SymbolValueClasses symbolValueClasses;
 
 	private Precedences precedences =
 	  new Precedences(
@@ -66,16 +66,16 @@ public abstract class CUPSpecification
 	 * Initializes this class. The grammar method would be too late, because
 	 * we need some information earlier.
 	 */
-	private void init()
+	protected void init()
 	{
-		if (!init)
+		if (!isInit)
 		{
 			//collect symbol-value-bindings
 			Terminal[] terminals = Reflection.getTerminals();
 			NonTerminal[] nonTerminals = Reflection.getNonTerminals();
 			symbolValueClasses = Reflection.getSymbolValueClasses(terminals, nonTerminals);
 			//inited
-			init = true;
+			isInit = true;
 		}
 	}
 
@@ -154,20 +154,29 @@ public abstract class CUPSpecification
 					));
 				}
 			});
-			insertables.addAll(Arrays.asList(Reflection.getTerminals()));
+			insertables.addAll(Arrays.asList(getTerminals()));
     		allTerminals = new LinkedList<Terminal>(insertables);
     	}/**/
 		// SD : Add special terminal used as error-hendl.
 		allTerminals.add(SpecialTerminals.Error);
 
 		LinkedList<NonTerminal> allNonTerminals = new ArrayTools<NonTerminal>()
-			.toLinkedList(Reflection.getNonTerminals());
+			.toLinkedList(getNonTerminals());
 
 		// SD : add the auxiliary non-terminals to the non-terminals list
 		allNonTerminals.addAll(auxNonTerminals);
 
 		//create grammar
 		this.grammar = new Grammar(allTerminals, allNonTerminals, productionsList);
+	}
+	
+	
+	public Terminal[] getTerminals() {
+		return Reflection.getTerminals();
+	}
+	
+	public NonTerminal[] getNonTerminals() {
+		return Reflection.getNonTerminals();
 	}
 
 
@@ -292,11 +301,11 @@ public abstract class CUPSpecification
 						"Right hand side contains an object which is neither RHSSymbols nor Action : "
 							+ rhsItem.getClass().getName());
 		}
-		/*
+		
 		for (List<Symbol> production:prodsRHS)
 		{
 		  System.out.println(lhs+" -> "+production);
-		}*/
+		}
 
 		if (auxNTs.size() > 0)
 			throw new IllegalSpecException("Action missing for production with RHS "
