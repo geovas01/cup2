@@ -1,5 +1,7 @@
 package edu.tum.cup2.semantics;
 
+import static edu.tum.cup2.semantics.SymbolValue.NoValue;
+
 import java.lang.reflect.Method;
 
 import edu.tum.cup2.parser.LRParser;
@@ -18,18 +20,19 @@ public class Action
 	implements RHSItem
 {
 	
-	private transient Method method; //can not be final as it has to be set after de-serializing the Action object
+	protected transient Method method; //can not be final as it has to be set after de-serializing the Action object
 	
 	/**
 	 * @serial actionSubclass is actually used for persisting the Action subclass that represents the semantic action
 	 * @since 1
 	 */
-	private Class<Action> actionSubclass; //this field is actually used for serialization 
+	protected Class<Action> actionSubclass; //this field is actually used for serialization 
 	
-	private transient int paramsCount; //can not be final as it has to be set after de-serializing the Action object
-	private transient boolean returnsVoid; //can not be final as it has to be set after de-serializing the Action object
+	protected transient int paramsCount; //can not be final as it has to be set after de-serializing the Action object
+	protected transient boolean returnsVoid; //can not be final as it has to be set after de-serializing the Action object
 	
 	private transient LRParser parserInstance = null; //associated parser instance
+	
 	
 	/**
 	 * Creates a new instance of a semantic action.
@@ -40,7 +43,7 @@ public class Action
 		init((Class<Action>) getClass());
 	}
 	
-	private void init(Class<Action> myclass)
+	protected void init(Class<Action> myclass)
 	{
 		actionSubclass = myclass;
 		if(myclass == null) return;
@@ -59,6 +62,24 @@ public class Action
 		}
 		throw new IllegalSpecException("Action has no method called \"a\"");
 	}
+	
+	
+	/**
+	 * Executes the Action of this class. By default a method a(..) is searched
+	 * over reflections and called with the current parameters. Don't forget to
+	 * set the parameters previously!
+	 * 
+	 * @return
+	 */
+	public Object doAction(Object[] parameters) throws Exception {
+		Method method = getMethod();
+		Object ret = method.invoke(this, parameters);
+		if (isVoidReturn())
+			return NoValue;
+		else
+			return ret;
+	}
+	
 	
 	/**
 	 * Gets the method assigned to this semantic action.
