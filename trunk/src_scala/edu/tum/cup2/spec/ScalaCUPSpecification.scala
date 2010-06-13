@@ -3,7 +3,8 @@ package edu.tum.cup2.spec {
 import edu.tum.cup2.grammar.{NonTerminal, Terminal, Symbol, Production}
 import edu.tum.cup2.spec.util.{RHSSymbols, RHSItem}
 import edu.tum.cup2.util.{Reflection}
-import edu.tum.cup2.semantics.{Action}
+import edu.tum.cup2.semantics.{Action, SymbolValueClasses, SymbolValue}
+import edu.tum.cup2.spec.exceptions.{IllegalSpecException}
 
 import collection.JavaConversions._
 
@@ -39,7 +40,6 @@ trait ScalaCUPSpecification { self : CUPSpecification =>
    * enums as well as the somewhat nasty reflection usage.
    */
   override def init() = {
-    println("INIT")
     if (! isInit) {
       symbolValueClasses = Reflection.getSymbolValueClasses(terminalsArr, nonTerminalsArr)
       //inited
@@ -66,11 +66,20 @@ trait ScalaCUPSpecification { self : CUPSpecification =>
   
 
   
-  implicit def noterm2prod(nt : NonTerminal) = new { def ->(l : Seq[RHSItem]) = production(nt, l) }
-  
   implicit def item2items(s : Seq[RHSItem]) = new ParserCombinator(s)
   implicit def sym2syms(s : RHSSymbols) = new RHSSymbolsExt(s)
   implicit def sym2syms(s : Symbol) = new RHSSymbolsExt(new RHSSymbols(s))
+  
+  /**
+   * Allows to construct a production by writing "nonterminal -> ..." where ... stands
+   * for a Seq of RHSItems.
+   */
+  implicit def nonterm2prod(nt : NonTerminal) = new {
+	  def ->(items : Seq[RHSItem]) = self.prod(nt, items : _*)
+  }
+  
+  
+  
   
   /**
    * Make it possible that every Symbol can be part of a parser combinator. That
@@ -78,53 +87,42 @@ trait ScalaCUPSpecification { self : CUPSpecification =>
    */
   class ParserCombinator(i : Seq[RHSItem]) {
     def | (o : Seq[RHSItem]) : Seq[RHSItem]       = i ++ o
+    def | (f : AnyRef) : Seq[RHSItem]      = i ++ Seq(new RHSSymbols(), new ScalaAction(f))
   }
 
   /**
    * Extends RHSSymbols class to be combinable.
    */
   class RHSSymbolsExt(i : RHSSymbols) {
-    def ~ (s : Symbol) : RHSSymbols               = new RHSSymbols( (i.getSymbols() :+ s) : _* )
-    //def <~ (s : Symbol) : RHSSymbols               = i
-    //def ~> (s : Symbol) : RHSSymbols               = new RHSSymbols(s)
-    
-    def ^^ (a : Action) : Seq[RHSItem]            = Seq(i, a)
-//    def ^^[A,X](f : A => X) : Seq[RHSItem]        = ^^(new { def a(a) = f(a) } with Action)
-//    def ^^[A,B,X](f : (A,B) => X) : Seq[RHSItem]        = ^^(new Action { def a = f })
-    
-    def ^^[A,X](f : A => X) : Seq[RHSItem]        = ^^(new ScalaAction[A,X](f)) 
-    def ^^[A,B,X](f : (A,B) => X) : Seq[RHSItem]  = ^^(new Scala2Action[A,B,X](f))
-    
-//    def ^^(f : _ => _) : Seq[RHSItem]        = ^^(new Action() { def a = f(_) }) 
-//    def ^^[A,B,X](f : (_,_) => _) : Seq[RHSItem]  = ^^(new Action() { def a = f(_,_) })
+    def ~ (s : Symbol) : RHSSymbols        = new RHSSymbols( (i.getSymbols() :+ s) : _* )
   
-    def ^^*(f : Int => Int) : Seq[RHSItem]        = ^^(new ScalaIntAction(f)) 
-    def ^^**(f : (Int,Int) => Int) : Seq[RHSItem] = ^^(new ScalaInt2Action(f))
+    /**
+     * Old java-version of an action-definition in CUP2.
+     * @param a
+     * @return
+     */
+    @deprecated("use ^^(f : AnyRef) instead!")
+    def ^^(a : Action) : Seq[RHSItem]     = Seq(i, a)
+    /**
+     * New scala and functional version of action-definition. AnyRef has to be
+     * a object with an appropriate apply()-method. So anonymous defined functions
+     * like <code>(x : Int) => x</code> will fit!
+     * @param f
+     * @return
+     */
+    def ^^(f : AnyRef) : Seq[RHSItem]      = ^^(new ScalaAction(f))
   }
   
   
   /**
-   * Reduce-Actions should be defined as functions, but at the moment thats
-   * impossible. Thats because of type erasure and reflection-method search
-   * within cup2.
+   * Override Method to check action not over the default Reflection-Method.
+   * Try to imitate the behaviour of the default method but with respect of
+   * the scala function object.
    */
-  class ScalaIntAction(f : Int => Int) extends Action { def a(a : Integer) : Integer = f(a.intValue) }
-  class ScalaInt2Action(f : (Int,Int) => Int) extends Action { def a(a : Integer, b : Integer) : Integer = f(a.intValue,b.intValue) }
-  
-  class ScalaSmartAction[A,X](f : A => X)(implicit m1 : ClassManifest[A], implicit m2 : ClassManifest[X]) 
-      extends Action {
-    // implement a smart way to get the A and X at runtime
-	// ...
+  override def checkAction(action : Action, position : Int,
+	  rhsSymbols : java.util.List[Symbol], symbolValueClasses : SymbolValueClasses) = {
+	//Reflection.checkAction(action, position, rhsSymbols, symbolValueClasses)
   }
-  
-  
-//  class ScalaAction[A,X](f : A => X) extends Action { def a = f(_) }
-//  class Scala2Action[A,B,X](f : (A,B) => X) extends Action { def a = f(_,_) }
-  
-  // try specialized annotation
-  class ScalaAction[A,X](f : A => X) extends Action { def a(a : A) = f(a) }
-  class Scala2Action[A,B,X](f : (A,B) => X) extends Action { def a(a : A, b : B) = f(a, b) }
-  
 }
 
 }

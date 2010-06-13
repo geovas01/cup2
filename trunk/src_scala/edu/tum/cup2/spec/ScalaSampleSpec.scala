@@ -1,8 +1,7 @@
 package edu.tum.cup2.spec {
 
-import edu.tum.cup2.grammar.{NonTerminal, Terminal, Symbol, Production}
-import edu.tum.cup2.spec.util.{RHSSymbols, RHSItem}
-import edu.tum.cup2.semantics.{Action, SymbolValue}
+import edu.tum.cup2.grammar.{NonTerminal, Terminal, Symbol}
+import edu.tum.cup2.semantics.{SymbolValue}
 
 
 class ScalaSampleSpec extends CUPSpecification with ScalaCUPSpecification {
@@ -29,7 +28,6 @@ class ScalaSampleSpec extends CUPSpecification with ScalaCUPSpecification {
   val terminals = Terminals
   val nonTerminals = NonTerminals
   
-  
   //symbols with values
   class NUMBER extends SymbolValue[Int]{ }
   class expr   extends SymbolValue[Int]{ }
@@ -41,28 +39,12 @@ class ScalaSampleSpec extends CUPSpecification with ScalaCUPSpecification {
   
   // specify grammar
   grammar(
-    // wanted
-    production(res, expr ~ SEMI ^^ { (x : Int) => x }),
-    production(expr, NUMBER ^^ { (x : Int) => x } |
-		     expr ~ PLUS ~ expr ^^ { (x : Int, y : Int) => x + y} |
-		     expr ~ TIMES ~ expr ^^ { (x : Int, y : Int) => x * y} |
-		     LPAREN ~ expr ~ RPAREN ^^ { (x : Int) => x }
-
-    
-    // CUP2-like - works
-//    production(res, expr ~ SEMI ^^ { (x : Int) => x }),
-//    production(expr, NUMBER ^^ new Action { def a(x : Int) = x } |
-//    		     expr ~ PLUS ~ expr ^^ new Action { def a(x : Int, y : Int) = x + y} |
-//    		     expr ~ TIMES ~ expr ^^ new Action { def a(x : Int, y : Int) = x * y} |
-//    		     LPAREN ~ expr ~ RPAREN ^^ new Action { def a(x : Int) = x }
-    
-    // Workaround - works
-//    production(res, expr ~ SEMI ^^ { (x : Int) => x }),
-//    production(expr, NUMBER ^^* ((x : Int) => x) |
-//    		     expr ~ PLUS ~ expr ^^** ( (x : Int, y : Int) => x + y) |
-//    		     expr ~ TIMES ~ expr ^^** ( (x : Int, y : Int) => x * y) |
-//    		     LPAREN ~ expr ~ RPAREN ^^* ( (x : Int) => x )
-    )
+    res   ->  (  expr ~ SEMI ^^ { (x : Int) => x }   ),
+    expr  ->  (  NUMBER ^^ { (x : Int) => x } |
+		         expr ~ PLUS ~ expr ^^ { (x : Int, y : Int) => x + y} |
+		         expr ~ TIMES ~ expr ^^ { (x : Int, y : Int) => x * y} |
+		         LPAREN ~ expr ~ RPAREN ^^ { (x : Int) => x }
+		      )
   )
 }
 
