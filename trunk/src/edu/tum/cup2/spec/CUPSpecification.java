@@ -280,7 +280,7 @@ public abstract class CUPSpecification
 
 						prodsReduceAction.set(prodsReduceAction.size() - 1, action);
 
-						Reflection.checkAction(action, prodsRHS.getLast().size(),
+						checkAction(action, prodsRHS.getLast().size(),
 							prodsRHS.getLast(), symbolValueClasses);
 					} else {
 						// create auxiliary production using this shift-action as reduce-action
@@ -290,7 +290,8 @@ public abstract class CUPSpecification
 							emptyRHS, action);
 						auxNT.symbolValueType = Reflection.getReturnTypeOfAction(action);
 						auxiliaryProductions.add(auxProd);
-						Reflection.checkAction(action, auxNT.numPrecedingSymbols,
+						
+						checkAction(action, auxNT.numPrecedingSymbols,
 							prodsRHS.getLast(), symbolValueClasses);
 						//System.out.println(auxProd.getLHS()+" -> "+auxProd.getRHS());
 					}
@@ -325,6 +326,22 @@ public abstract class CUPSpecification
 		productionCount += prodsRHS.size();
 		return ret;
 	}
+	
+	
+	/**
+	 * Define within this method a way to check if the action is valid. By default
+	 * the method calls {@link Reflection#checkAction(Action, int, List, SymbolValueClasses)}.
+	 * 
+	 * @param action
+	 * @param position
+	 * @param rhsSymbols
+	 * @param symbolValueClasses
+	 */
+	protected void checkAction(Action action, int position,
+			List<Symbol> rhsSymbols, SymbolValueClasses symbolValueClasses) {
+		Reflection.checkAction(action, position, rhsSymbols, symbolValueClasses);
+	}
+	
 
 
 	/**
