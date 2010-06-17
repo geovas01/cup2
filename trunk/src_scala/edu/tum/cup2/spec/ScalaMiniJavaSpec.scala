@@ -45,9 +45,6 @@ class ScalaMiniJavaSpec extends CUPSpecification with ScalaCUPSpecification {
   val nonTerminals = NonTerminals
   
   //symbols with values
-  // changed type of TYPE from Int to String since null-value for
-  // type Int is not allowed in Scala!
-  class TYPE       extends SymbolValue[String]{}
   class BINOP      extends SymbolValue[Int]{}
   class UNOP       extends SymbolValue[Int]{}
   class COMP       extends SymbolValue[Int]{}
@@ -85,7 +82,7 @@ class ScalaMiniJavaSpec extends CUPSpecification with ScalaCUPSpecification {
     decl      ->  (
     		        // !! have to change TYPE from type Int to String since null-value for
     		        // Int is NOT ALLOWED in Scala
-    		        TYPE ~ IDENT ~ identlist ~ SEMICOLON ^^ { (t : String, i : String, il : List[String]) => new Decl(il :+ i) } 
+    		        TYPE ~ IDENT ~ identlist ~ SEMICOLON ^^ { (i : String, il : List[String]) => new Decl(il :+ i) } 
     		      ), 
 	identlist ->  (
 			        identlist ~ COMMA ~ IDENT ^^ { (il : List[String], i : String) =>  il :+ i } | 
