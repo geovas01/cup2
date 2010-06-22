@@ -1,5 +1,8 @@
 package edu.tum.cup2.test;
 
+import edu.tum.cup2.grammar.NonTerminal;
+import edu.tum.cup2.grammar.Terminal;
+import edu.tum.cup2.spec.CUP2Specification;
 import static edu.tum.cup2.test.GrammarAppel_3_20_withSP.Terminals.$;
 import static edu.tum.cup2.test.GrammarAppel_3_20_withSP.NonTerminals.L;
 import static edu.tum.cup2.test.GrammarAppel_3_20_withSP.NonTerminals.S;
@@ -8,9 +11,6 @@ import static edu.tum.cup2.test.GrammarAppel_3_20_withSP.Terminals.comma;
 import static edu.tum.cup2.test.GrammarAppel_3_20_withSP.Terminals.leftbr;
 import static edu.tum.cup2.test.GrammarAppel_3_20_withSP.Terminals.rightbr;
 import static edu.tum.cup2.test.GrammarAppel_3_20_withSP.Terminals.x;
-import edu.tum.cup2.grammar.NonTerminal;
-import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUP2Specification;
 
 
 /**

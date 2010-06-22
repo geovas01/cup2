@@ -1,11 +1,11 @@
 package edu.tum.cup2.generator;
 
-import static edu.tum.cup2.generator.TranslatedPHPSpec.NonTerminals.*;
-import static edu.tum.cup2.generator.TranslatedPHPSpec.Terminals.*;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.SpecialTerminals;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.spec.CUP2Specification;
+import static edu.tum.cup2.generator.TranslatedPHPSpec.NonTerminals.*;
+import static edu.tum.cup2.generator.TranslatedPHPSpec.Terminals.*;
 
 public class TranslatedPHPSpec extends CUP2Specification {
 

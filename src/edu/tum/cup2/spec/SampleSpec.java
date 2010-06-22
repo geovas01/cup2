@@ -1,11 +1,11 @@
 package edu.tum.cup2.spec;
 
-import static edu.tum.cup2.spec.SampleSpec.NonTerminals.*;
-import static edu.tum.cup2.spec.SampleSpec.Terminals.*;
 
 import edu.tum.cup2.grammar.*;
 import edu.tum.cup2.semantics.*;
 
+import static edu.tum.cup2.spec.SampleSpec.NonTerminals.*;
+import static edu.tum.cup2.spec.SampleSpec.Terminals.*;
 
 /**
  * Sample CUP specification: Simple calculator.

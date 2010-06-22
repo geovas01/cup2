@@ -1,15 +1,5 @@
 package edu.tum.cup2.test;
 
-import static edu.tum.cup2.grammar.SpecialTerminals.Placeholder;
-import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.C;
-import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.S;
-import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.Sp;
-import static edu.tum.cup2.test.SpecASU_4_21.Terminals.c;
-import static edu.tum.cup2.test.SpecASU_4_21.Terminals.d;
-import static edu.tum.cup2.util.ArrayTools.toHashSet;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import edu.tum.cup2.generator.Automaton;
@@ -23,6 +13,17 @@ import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Production;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.spec.CUP2Specification;
+
+
+import static edu.tum.cup2.grammar.SpecialTerminals.Placeholder;
+import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.C;
+import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.S;
+import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.Sp;
+import static edu.tum.cup2.test.SpecASU_4_21.Terminals.c;
+import static edu.tum.cup2.test.SpecASU_4_21.Terminals.d;
+import static edu.tum.cup2.util.ArrayTools.toHashSet;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Grammar 4.21 from ASU99, page 283 (german edition),

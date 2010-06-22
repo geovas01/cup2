@@ -125,7 +125,7 @@ public class LALR1GeneratorPerformanceComparison
 				//end time
 				long lEnd = System.currentTimeMillis();
 
-				Integer lalr1Time = this.fTimeLALR1.remove(strSpec);
+				int lalr1Time = this.fTimeLALR1.remove(strSpec);
 				lalr1Time += (lEnd - lStart) * 1000;
 				this.fTimeLALR1.put(strSpec, lalr1Time);
 
@@ -140,11 +140,11 @@ public class LALR1GeneratorPerformanceComparison
 				//end time
 				lEnd = System.currentTimeMillis();
 
-				Integer lr1Time = this.fTimeLR1.remove(strSpec);
+				int lr1Time = this.fTimeLR1.remove(strSpec);
 				lr1Time += (lEnd - lStart) * 1000;
 				this.fTimeLR1.put(strSpec, lr1Time);
 				
-				Integer weakTime = this.fTimeWeak.remove(strSpec);
+				int weakTime = this.fTimeWeak.remove(strSpec);
 				weakTime += (lEnd - lStart) * 1000;
 				this.fTimeWeak.put(strSpec, weakTime);
 

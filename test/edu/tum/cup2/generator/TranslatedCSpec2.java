@@ -1,5 +1,10 @@
 package edu.tum.cup2.generator;
 
+import edu.tum.cup2.grammar.NonTerminal;
+import edu.tum.cup2.grammar.Terminal;
+import edu.tum.cup2.spec.CUP2Specification;
+
+
 import static edu.tum.cup2.generator.TranslatedCSpec2.NonTerminals.abstract_declarator;
 import static edu.tum.cup2.generator.TranslatedCSpec2.NonTerminals.additive_expr;
 import static edu.tum.cup2.generator.TranslatedCSpec2.NonTerminals.and_expr;
@@ -146,9 +151,6 @@ import static edu.tum.cup2.generator.TranslatedCSpec2.Terminals.UNSIGNED;
 import static edu.tum.cup2.generator.TranslatedCSpec2.Terminals.VOID;
 import static edu.tum.cup2.generator.TranslatedCSpec2.Terminals.VOLATILE;
 import static edu.tum.cup2.generator.TranslatedCSpec2.Terminals.WHILE;
-import edu.tum.cup2.grammar.NonTerminal;
-import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUP2Specification;
 
 public class TranslatedCSpec2 extends CUP2Specification {
 

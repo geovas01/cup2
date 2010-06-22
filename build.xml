@@ -1,6 +1,6 @@
 <project name="cup2" default ="dist" basedir=".">
   <property name="src"       location="src"       />
-  <property name="src"       location="src"       />
+  <property name="tests"       location="test"       />
   <property name="classes"      location="classes"       />
   <property name="lib"      location="lib"       />
   <property name="dist"      location="dist"       />
@@ -27,6 +27,11 @@
      </fileset>
   </path>
 
+  <path id="test">
+    <pathelement location="${src}" />
+    <pathelement location="lib/junit.jar" />
+  </path>
+
   <target name="clean">
     <delete dir="${classes}" />
     <delete dir="${dist}" />
@@ -44,5 +49,19 @@
         <attribute name="Main-Class" value="edu.tum.cup2.Main" />
       </manifest>
     </jar>
+  </target>
+
+  <target name="test" depends="dist">
+    <javac encoding="UTF-8" srcdir="${tests}" destdir="${classes}" verbose="off" listfiles="off" debug="off" >
+      <classpath refid="test"/>
+    </javac>
+    <junit failureProperty="test.failure" verbose="on">
+      <classpath refid="test" />
+      <formatter type="brief" usefile="false" />
+      <batchtest>
+        <fileset dir="${classes}" includes="**/*Test.class" />
+      </batchtest>
+    </junit>
+    <fail message="test failed" if="test.failure" />
   </target>
 </project>
