@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.test.Time;
 
 //locate static imports after others to be compatible with javac
@@ -18,7 +18,7 @@ import static edu.tum.cup2.test.lr1blowup.Spec3NoPrec.Terminals.*;
  * @author Andreas Wenger
  */
 public class Spec3NoPrec
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 	

@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.*;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 /**
  * A production consists of a left hand side {@link NonTerminal}
@@ -151,9 +151,9 @@ public final class Production implements Serializable
 				return;
 			}
 			//System.out.println("clazz : "+clazz);
-			Constructor<CUPSpecification> c_enclosing = (Constructor<CUPSpecification>) clazz.getEnclosingConstructor(); //gets constructor for specification
+			Constructor<CUP2Specification> c_enclosing = (Constructor<CUP2Specification>) clazz.getEnclosingConstructor(); //gets constructor for specification
 			//System.out.println("constructor enclosing : "+c_enclosing);
-			Class<CUPSpecification> clazz_enclosing = (Class<CUPSpecification>) clazz.getEnclosingClass();
+			Class<CUP2Specification> clazz_enclosing = (Class<CUP2Specification>) clazz.getEnclosingClass();
 			if (c_enclosing==null){
 				int min = Integer.MAX_VALUE;
 				for (Constructor c : clazz_enclosing.getDeclaredConstructors()){

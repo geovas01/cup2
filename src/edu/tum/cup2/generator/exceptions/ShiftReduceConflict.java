@@ -1,9 +1,7 @@
 package edu.tum.cup2.generator.exceptions;
 
 import edu.tum.cup2.grammar.AuxiliaryLHS4SemanticShiftAction;
-import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.SpecialTerminals;
-import edu.tum.cup2.grammar.Symbol;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.parser.actions.Reduce;
 import edu.tum.cup2.parser.actions.Shift;

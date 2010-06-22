@@ -5,7 +5,7 @@ import edu.tum.cup2.generator.LR1Generator;
 import edu.tum.cup2.generator.LR1toLALRGenerator;
 import edu.tum.cup2.generator.Verbosity;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 
 /**
@@ -16,7 +16,7 @@ import edu.tum.cup2.spec.CUPSpecification;
 public class Time
 {
 	
-	public static void measureTime(CUPSpecification spec)
+	public static void measureTime(CUP2Specification spec)
 	{
 		//LR(0)
 		try

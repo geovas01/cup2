@@ -1,7 +1,7 @@
 package edu.tum.cup2.parser;
 
-import static edu.tum.cup2.test.GrammarWiki1.MyTerminal._1;
-import static edu.tum.cup2.test.GrammarWiki1.MyTerminal.plus;
+import static edu.tum.cup2.test.GrammarWiki1.Terminals._1;
+import static edu.tum.cup2.test.GrammarWiki1.Terminals.plus;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;

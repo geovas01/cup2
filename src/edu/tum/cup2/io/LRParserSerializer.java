@@ -3,7 +3,7 @@ package edu.tum.cup2.io;
 import edu.tum.cup2.generator.LR1Generator;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.parser.LRParser;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 /**
  * LRParserSerializer generates a parser for a given CUPSpecification and
@@ -61,12 +61,12 @@ public final class LRParserSerializer
 			IllegalAccessException, 
 			ClassNotFoundException //createSerialisation failed
 	{
-		Class<CUPSpecification> c = null;
-		CUPSpecification spec = null;
+		Class<CUP2Specification> c = null;
+		CUP2Specification spec = null;
 		LR1Generator generator = null;
 
-		c = (Class<CUPSpecification>) Class.forName(strSpecName);
-		spec = (CUPSpecification) c.newInstance();
+		c = (Class<CUP2Specification>) Class.forName(strSpecName);
+		spec = (CUP2Specification) c.newInstance();
 		generator = new LR1Generator(spec);
 		
 		LRParser parser = new LRParser(generator.getParsingTable());

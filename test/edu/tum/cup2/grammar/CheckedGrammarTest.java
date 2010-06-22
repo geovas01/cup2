@@ -4,7 +4,7 @@ import org.junit.Test;
 import static junit.framework.Assert.fail;
 import edu.tum.cup2.test.*;
 import edu.tum.cup2.generator.TranslatedCSpec2;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import java.util.LinkedList;
 
 /**
@@ -17,7 +17,7 @@ public class CheckedGrammarTest {
 
 	@Test public void checkReachability()
 	{
-		CUPSpecification mySpec = new SpecCalc1_NotReduced(); //Spec with not reachable NonTerminal
+		CUP2Specification mySpec = new SpecCalc1_NotReduced(); //Spec with not reachable NonTerminal
 		Grammar grammar = mySpec.getGrammar();
 		
 		//CheckGrammar as decorator
@@ -44,7 +44,7 @@ public class CheckedGrammarTest {
 	
 	@Test public void checkProductivity()
 	{
-		CUPSpecification mySpec = new SpecCalc1_NotReduced(); //Spec with not reachable NonTerminal
+		CUP2Specification mySpec = new SpecCalc1_NotReduced(); //Spec with not reachable NonTerminal
 		Grammar grammar = mySpec.getGrammar();
 		
 		//CheckGrammar as decorator
@@ -71,7 +71,7 @@ public class CheckedGrammarTest {
 	
 	@Test public void testReducedGrammar()
 	{
-		CUPSpecification mySpec = new SpecCalc1_NotReduced(); //Spec with not reachable NonTerminal
+		CUP2Specification mySpec = new SpecCalc1_NotReduced(); //Spec with not reachable NonTerminal
 		Grammar grammar = mySpec.getGrammar();
 		
 		//CheckGrammar as decorator
@@ -111,7 +111,7 @@ public class CheckedGrammarTest {
 	
 	@Test public void testCSpec()
 	{
-		CUPSpecification cSpec = new TranslatedCSpec2();
+		CUP2Specification cSpec = new TranslatedCSpec2();
 		Grammar grammar = cSpec.getGrammar();
 		
 		//CheckGrammar as decorator

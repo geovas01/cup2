@@ -31,7 +31,7 @@ import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.ErrorInformation;
 import edu.tum.cup2.semantics.ParserInterface;
 import edu.tum.cup2.semantics.SymbolValue;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.spec.Insertable;
 import edu.tum.cup2.test.minijava.Cond;
 import edu.tum.cup2.test.minijava.Constants;
@@ -65,7 +65,7 @@ import static junit.framework.Assert.fail;
  * @author Stefan Dangl
  */
 public class SpecMiniJava
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 

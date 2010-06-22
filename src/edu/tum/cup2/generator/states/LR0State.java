@@ -9,8 +9,6 @@ import edu.tum.cup2.generator.items.LR0Item;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Production;
 import edu.tum.cup2.grammar.Symbol;
-import edu.tum.cup2.io.IAutomatonVisitor;
-import edu.tum.cup2.io.IVisitedElement;
 
 
 /**
@@ -93,7 +91,7 @@ public final class LR0State
 	 * (only the kernel, without closure).
 	 * For a description of this algorithm, see Appel's book, page 60.
 	 */
-	@Override public LR0State goTo(Symbol symbol, GrammarInfo grammarInfo)
+	@Override public LR0State goTo(Symbol symbol)
 	{
 		HashSet<LR0Item> ret = new HashSet<LR0Item>();
 		//find all items where the given symbol follows and add them shifted

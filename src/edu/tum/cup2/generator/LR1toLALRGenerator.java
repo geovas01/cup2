@@ -7,10 +7,8 @@ import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.generator.exceptions.ReduceReduceConflict;
 import edu.tum.cup2.generator.items.LR1Item;
 import edu.tum.cup2.generator.states.LR1State;
-import edu.tum.cup2.grammar.Grammar;
 import edu.tum.cup2.parser.tables.LRParsingTable;
-import edu.tum.cup2.precedences.Precedences;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 
 /**
@@ -30,7 +28,7 @@ public class LR1toLALRGenerator
 	 * Computes a {@link LRParsingTable} for the given LALR(1) grammar.
 	 * The given verbosity tells the generator how many debug messages are requested.
 	 */
-	public LR1toLALRGenerator(CUPSpecification spec, Verbosity verbosity)
+	public LR1toLALRGenerator(CUP2Specification spec, Verbosity verbosity)
 		throws GeneratorException
 	{
 		super(spec, verbosity);
@@ -40,7 +38,7 @@ public class LR1toLALRGenerator
 	/**
 	 * Computes a {@link LRParsingTable} for the given LALR(1) grammar.
 	 */
-	public LR1toLALRGenerator(CUPSpecification spec)
+	public LR1toLALRGenerator(CUP2Specification spec)
 		throws GeneratorException
 	{
 		this(spec, Verbosity.None);

@@ -1,10 +1,9 @@
 package edu.tum.cup2.generator;
 
+import static edu.tum.cup2.util.ArrayTools.toHashSet;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.generator.items.LR0Item;
-import edu.tum.cup2.generator.items.LR1Item;
 import edu.tum.cup2.generator.states.LR0State;
-import edu.tum.cup2.generator.states.LR1State;
 import edu.tum.cup2.grammar.Grammar;
 import edu.tum.cup2.grammar.SpecialTerminals;
 import edu.tum.cup2.parser.LRParser;
@@ -12,9 +11,7 @@ import edu.tum.cup2.parser.actions.Reduce;
 import edu.tum.cup2.parser.states.LRParserState;
 import edu.tum.cup2.parser.tables.LRActionTable;
 import edu.tum.cup2.parser.tables.LRParsingTable;
-import edu.tum.cup2.precedences.Precedences;
-import edu.tum.cup2.spec.CUPSpecification;
-import edu.tum.cup2.util.ArrayTools;
+import edu.tum.cup2.spec.CUP2Specification;
 
 
 /**
@@ -34,7 +31,7 @@ public class LR0Generator
 	 * Computes a {@link LRParsingTable} for the given LR(0) grammar.
 	 * The given verbosity tells the generator how many debug messages are requested.
 	 */
-	public LR0Generator(CUPSpecification spec, Verbosity verbosity)
+	public LR0Generator(CUP2Specification spec, Verbosity verbosity)
 		throws GeneratorException
 	{
 		super(spec, verbosity, true);
@@ -44,7 +41,7 @@ public class LR0Generator
 	/**
 	 * Computes a {@link LRParsingTable} for the given LR(0) grammar.
 	 */
-	public LR0Generator(CUPSpecification spec)
+	public LR0Generator(CUP2Specification spec)
 		throws GeneratorException
 	{
 		this(spec, Verbosity.None);
@@ -57,7 +54,8 @@ public class LR0Generator
 	 */
 	@Override protected LR0State createStartState()
 	{
-		return new LR0State(ArrayTools.toHashSet(new LR0Item(grammar.getStartProduction(), 0)));
+		return new LR0State(
+			toHashSet(new LR0Item(grammar.getStartProduction(), 0)));
 	}
 	
 	

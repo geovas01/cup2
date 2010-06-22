@@ -7,7 +7,7 @@ import edu.tum.cup2.generator.Verbosity;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.test.Time;
 
 //locate static imports after others to be compatible with javac
@@ -21,7 +21,7 @@ import static junit.framework.Assert.fail;
  * @author Andreas Wenger
  */
 public class Spec14Prec
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 	

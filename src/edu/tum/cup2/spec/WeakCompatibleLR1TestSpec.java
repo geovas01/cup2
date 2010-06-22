@@ -12,7 +12,7 @@ import static edu.tum.cup2.spec.WeakCompatibleLR1TestSpec.NonTerminals.*;
  * 
  * @author Daniel Altmann
  */
-public class WeakCompatibleLR1TestSpec extends CUPSpecification
+public class WeakCompatibleLR1TestSpec extends CUP2Specification
 {
 
 

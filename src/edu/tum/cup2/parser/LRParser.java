@@ -346,6 +346,10 @@ public class LRParser implements Serializable
 	
 				// ACTION : ERROR
 				} else if (action instanceof ErrorAction) {
+					
+					//ANDI TEST
+					System.err.println("LINE: " + currentToken.getLine() + " / COLUMN: " + currentToken.getColumn());
+					
 					if (DEBUG)
 						System.out
 							.println("ErrorAction found! Starting error-recovery...");
@@ -409,6 +413,10 @@ public class LRParser implements Serializable
 			if (inserted.getErrorInformation() != null)
 				notifyObserversAbout(inserted.getErrorInformation());
 		}
+		
+		//TEST ANDI
+		//System.out.println(cur.getSymbol());
+		
 		return cur;
 	}
 

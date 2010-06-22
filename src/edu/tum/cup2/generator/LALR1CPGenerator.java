@@ -1,33 +1,33 @@
 package edu.tum.cup2.generator;
 
 import static edu.tum.cup2.grammar.SpecialTerminals.Placeholder;
+import static edu.tum.cup2.util.ArrayTools.toHashSet;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.generator.items.LR1Item;
-import edu.tum.cup2.generator.states.LR1NSEState;
+import edu.tum.cup2.generator.states.LR1State;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.parser.actions.Reduce;
 import edu.tum.cup2.parser.states.LRParserState;
 import edu.tum.cup2.parser.tables.LRActionTable;
 import edu.tum.cup2.parser.tables.LRParsingTable;
-import edu.tum.cup2.spec.CUPSpecification;
-import edu.tum.cup2.util.ArrayTools;
+import edu.tum.cup2.spec.CUP2Specification;
 
 
 /**
- * LALR(1) parser generator, that works without side effects
- * (other than {@link LALR1Generator}).
+ * LALR(1) parser generator, that works with context propagation.
  * 
+ * @author Michael Petter
  * @author Andreas Wenger
  */
-public class LALR1NSEGenerator
-	extends LRGenerator<LR1Item, LR1NSEState>
+public class LALR1CPGenerator
+	extends LRGenerator<LR1Item, LR1State>
 {
 	
 	
 	/**
 	 * Computes a {@link LRParsingTable} for the given specification.
 	 */
-	public LALR1NSEGenerator(CUPSpecification spec)
+	public LALR1CPGenerator(CUP2Specification spec)
 		throws GeneratorException
 	{
 		this(spec, Verbosity.None);
@@ -37,7 +37,7 @@ public class LALR1NSEGenerator
 	/**
 	 * Computes a {@link LRParsingTable} for the given specification.
 	 */
-	public LALR1NSEGenerator(CUPSpecification spec, Verbosity verbosity)
+	public LALR1CPGenerator(CUP2Specification spec, Verbosity verbosity)
 		throws GeneratorException
 	{
 		super(spec, verbosity, true);
@@ -50,7 +50,7 @@ public class LALR1NSEGenerator
 	 * (which is only extended by an auxiliary start production if requested).
 	 * The given verbosity tells the generator how many debug messages are requested.
 	 */
-	public LALR1NSEGenerator(CUPSpecification spec, Verbosity verbosity, boolean extendGrammar)
+	public LALR1CPGenerator(CUP2Specification spec, Verbosity verbosity, boolean extendGrammar)
 		throws GeneratorException
 	{
 		super(spec, verbosity, extendGrammar);
@@ -61,9 +61,10 @@ public class LALR1NSEGenerator
 	 * Creates and returns the start state.
 	 * This is the item, which consists of the start production at position 0.
 	 */
-	@Override protected LR1NSEState createStartState()
+	@Override protected LR1State createStartState()
 	{
-		return new LR1NSEState(ArrayTools.toHashSet(new LR1Item(grammar.getStartProduction(), 0, Placeholder)));
+		return new LR1State(toHashSet(new LR1Item(grammar.getStartProduction(), 0,
+			grammarInfo.getTerminalSet(Placeholder))));
 	}
 	
 	
@@ -76,7 +77,7 @@ public class LALR1NSEGenerator
 	{
 		//in LR(1), reduce the production for each lookahead terminal
 		Reduce reduce = new Reduce(item.getProduction());
-		for (Terminal lookahead : item.getLookaheads())
+		for (Terminal lookahead : item.getLookaheads().getTerminals())
 		{
 			setReduceAction(actionTable, reduce, state, lookahead);
 		}
@@ -86,10 +87,10 @@ public class LALR1NSEGenerator
 	 * Creates the DFA of the parser, consisting of states and edges
 	 * (for shift and goto) connecting them.
 	 */
-	@Override public Automaton<LR1Item, LR1NSEState> createAutomaton()
+	@Override public Automaton<LR1Item, LR1State> createAutomaton()
 		throws GeneratorException
 	{
-		return new LALR1NSEAutomatonFactory().createAutomaton(this, grammarInfo);
+		return new LALR1AutomatonFactory().createAutomaton(this, grammarInfo);
 	}
 
 }

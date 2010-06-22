@@ -16,7 +16,7 @@ import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.scanner.TestScanner;
 import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.SymbolValue;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.scanner.TestScanner.t;
@@ -31,7 +31,7 @@ import static edu.tum.cup2.test.presentation.PresentationBak.NonTerminals.*;
  * @author Andreas Wenger
  */
 public class PresentationBak
-	extends CUPSpecification
+	extends CUP2Specification
 {
 	
 	public enum Terminals implements Terminal

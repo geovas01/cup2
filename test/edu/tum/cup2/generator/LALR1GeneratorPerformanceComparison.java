@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.tum.cup2.generator.exceptions.GeneratorException;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import static java.lang.System.*;
 import org.junit.*;
 
@@ -15,7 +15,7 @@ public class LALR1GeneratorPerformanceComparison
 
 	private final int fRepetitions = 1;
 	private List<String> fSpecificationNames = new LinkedList<String>();
-	private HashMap<String, CUPSpecification> fSpecifications = new HashMap<String, CUPSpecification>();
+	private HashMap<String, CUP2Specification> fSpecifications = new HashMap<String, CUP2Specification>();
 	private HashMap<String, Integer> fTimeLALR1 = new HashMap<String, Integer>();
 	private HashMap<String, Integer> fTimeLR1 = new HashMap<String, Integer>();
 	private HashMap<String, Integer> fTimeWeak = new HashMap<String, Integer>();
@@ -112,7 +112,7 @@ public class LALR1GeneratorPerformanceComparison
 		{
 			for (String strSpec : this.fSpecificationNames)
 			{
-				CUPSpecification spec = this.fSpecifications.get(strSpec);
+				CUP2Specification spec = this.fSpecifications.get(strSpec);
 
 				//LALR1
 				
@@ -144,17 +144,6 @@ public class LALR1GeneratorPerformanceComparison
 				lr1Time += (lEnd - lStart) * 1000;
 				this.fTimeLR1.put(strSpec, lr1Time);
 				
-				//Weak Compat Generator
-
-				//start time
-				lStart = System.currentTimeMillis();
-				//for(int j=0; j < 10; j++)
-				{
-					WeakCompatGenerator lr1 = new WeakCompatGenerator(spec);
-				}
-				//end time
-				lEnd = System.currentTimeMillis();
-
 				Integer weakTime = this.fTimeWeak.remove(strSpec);
 				weakTime += (lEnd - lStart) * 1000;
 				this.fTimeWeak.put(strSpec, weakTime);
@@ -185,7 +174,7 @@ public class LALR1GeneratorPerformanceComparison
 		for (String strSpec : this.fSpecificationNames)
 		{
 			Class cSpec = Class.forName(strSpec);
-			CUPSpecification mySpec = (CUPSpecification) cSpec.newInstance();
+			CUP2Specification mySpec = (CUP2Specification) cSpec.newInstance();
 			this.fSpecifications.put(strSpec, mySpec);
 		}
 	}

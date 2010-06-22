@@ -16,7 +16,7 @@ import edu.tum.cup2.parser.LRParser;
 import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.SymbolValue;
 import edu.tum.cup2.semantics.SymbolValueClasses;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.spec.exceptions.IllegalSpecException;
 import edu.tum.cup2.semantics.ErrorInformation;
 
@@ -37,7 +37,7 @@ public class Reflection
 
 	/**
 	 * Gets an array of all {@link Terminal}s that are defined in the enum
-	 * "Terminals" in the first class that extends {@link CUPSpecification} in
+	 * "Terminals" in the first class that extends {@link CUP2Specification} in
 	 * the current stack trace.
 	 */
 	public static Terminal[] getTerminals()
@@ -74,7 +74,7 @@ public class Reflection
 
 	/**
 	 * Gets an array of all {@link NonTerminal}s that are defined in the enum
-	 * "NonTerminals" in the first class that extends {@link CUPSpecification} in
+	 * "NonTerminals" in the first class that extends {@link CUP2Specification} in
 	 * the current stack trace.
 	 */
 	public static NonTerminal[] getNonTerminals()
@@ -111,7 +111,7 @@ public class Reflection
 
 	/**
 	 * Gets an array of all elements that are defined in the enum
-	 * with the given name in the first class that extends {@link CUPSpecification} in
+	 * with the given name in the first class that extends {@link CUP2Specification} in
 	 * the current stack trace.
 	 */
 	@SuppressWarnings("unchecked") private static Object[] getEnumElements(String name)
@@ -151,7 +151,7 @@ public class Reflection
 
 
 	/**
-	 * Gets the first class that extends {@link CUPSpecification} in
+	 * Gets the first class that extends {@link CUP2Specification} in
 	 * the current stack trace.
 	 */
 	@SuppressWarnings("unchecked") private static Class getSpecClass()
@@ -163,7 +163,7 @@ public class Reflection
 			{
 				String className = ste.getClassName();
 				Class classClass = Class.forName(className);
-				if (!classClass.equals(CUPSpecification.class) && CUPSpecification.class.isAssignableFrom(classClass))
+				if (!classClass.equals(CUP2Specification.class) && CUP2Specification.class.isAssignableFrom(classClass))
 				{
 					//subclass of CUPSpecification found
 					return classClass;
@@ -212,7 +212,7 @@ public class Reflection
 
 	/**
 	 * Gets the symbol-value-binding classes in a hashmap with the symbols as keys.
-	 * These classes are found in the first class that extends {@link CUPSpecification} in
+	 * These classes are found in the first class that extends {@link CUP2Specification} in
 	 * the current stack trace.
 	 */
 	@SuppressWarnings("unchecked") public static SymbolValueClasses

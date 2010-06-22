@@ -10,7 +10,7 @@ import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.io.LRParsingTableDump;
 import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.semantics.SymbolValue;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.test.TrashSpecJava14.NonTerminals.*;
@@ -23,7 +23,7 @@ import static edu.tum.cup2.test.TrashSpecJava14.Terminals.*;
  * @author Andreas Wenger
  */
 public class TrashSpecJava14
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 

@@ -8,7 +8,7 @@ import edu.tum.cup2.grammar.SpecialTerminals;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.SymbolValue;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.test.semanticShiftActions.ShiftReduceConflictTest.NonTerminals.*;
@@ -19,7 +19,7 @@ import static edu.tum.cup2.test.semanticShiftActions.ShiftReduceConflictTest.Ter
  * @author Stefan Dangl
  */
 public class ShiftReduceConflictTest
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 	public enum Terminals implements Terminal

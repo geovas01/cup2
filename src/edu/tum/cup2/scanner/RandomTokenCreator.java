@@ -8,7 +8,7 @@ import java.util.Random;
 
 import edu.tum.cup2.grammar.SpecialTerminals;
 import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 public class RandomTokenCreator
 	implements Scanner
@@ -20,7 +20,7 @@ public class RandomTokenCreator
 	private LinkedList<ScannerToken<? extends Object>>			toOutput	= new LinkedList<ScannerToken<? extends Object>>();
 	private int	inputLength;
 
-	public RandomTokenCreator( CUPSpecification spec, List<List<ScannerToken<? extends Object>>> correctList )
+	public RandomTokenCreator( CUP2Specification spec, List<List<ScannerToken<? extends Object>>> correctList )
 	{
 		LinkedList<Terminal> terminals = (LinkedList<Terminal>) spec.getGrammar().getTerminals().clone();
 		terminals.remove(SpecialTerminals.Error);
@@ -36,7 +36,7 @@ public class RandomTokenCreator
 		this.correctInputs = correctList;
 		this.inputLength = r.nextInt(50)+10;
 	}
-	public RandomTokenCreator( CUPSpecification spec )
+	public RandomTokenCreator( CUP2Specification spec )
 	{
 		this( spec, null );
 	}

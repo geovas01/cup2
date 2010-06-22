@@ -1,10 +1,12 @@
 package edu.tum.cup2.generator;
 
 import static edu.tum.cup2.grammar.SpecialTerminals.Epsilon;
+import static edu.tum.cup2.util.CollectionTools.map;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
+import edu.tum.cup2.generator.terminals.EfficientTerminalSet;
 import edu.tum.cup2.grammar.Grammar;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Production;
@@ -19,9 +21,11 @@ import edu.tum.cup2.grammar.Terminal;
  * 
  * @author Andreas Wenger
  */
-public class FirstSets
-	extends HashMap<Symbol, HashSet<Terminal>>
+public final class FirstSets
 {
+	
+	private final HashMap<Symbol, EfficientTerminalSet> data;
+	
 	
 	
 	/**
@@ -32,32 +36,30 @@ public class FirstSets
 	 */
 	public FirstSets(Grammar grammar, NullableSet nullableSet)
 	{
+		HashMap<Symbol, EfficientTerminalSet> data = map();
 		
 		//initialize map for all symbols
+		EfficientTerminalSet emptySet = new EfficientTerminalSet(grammar.getTerminals());
 		for (Terminal terminal : grammar.getTerminals())
 		{
-			this.put(terminal, new HashSet<Terminal>());
+			data.put(terminal, emptySet);
 		}
 		for (NonTerminal nonTerminal : grammar.getNonTerminals())
 		{
-			this.put(nonTerminal, new HashSet<Terminal>());
+			data.put(nonTerminal, emptySet);
 		}
 		
 		//rule 1: if X is a terminal, then FIRST(X) = {X}
 		for (Terminal terminal : grammar.getTerminals())
 		{
-			HashSet<Terminal> set = new HashSet<Terminal>();
-			set.add(terminal);
-			this.put(terminal, set);
+			data.put(terminal, data.get(terminal).plus(terminal));
 		}
-		HashSet<Terminal> set = new HashSet<Terminal>();
-		set.add(Epsilon);
-		this.put(Epsilon, set);
+		data.put(Epsilon, emptySet.plus(Epsilon));
 		
 		//rule 2: if X → ɛ is a production, add ɛ to FIRST(X)
 		for (NonTerminal nullableNonTerminal : nullableSet)
 		{
-			this.get(nullableNonTerminal).add(Epsilon);
+			data.put(nullableNonTerminal, data.get(nullableNonTerminal).plus(Epsilon));
 		}
 		
 		//rule 3: if X is a non-terminal and X → Y1 Y2 ... Yk is
@@ -88,47 +90,44 @@ public class FirstSets
 					{
 						//epsilon or nullable non-terminal, so go on, but
 						//add their FIRST values
-						changed |= add(this.get(lhs), this.get(symbol));
+						EfficientTerminalSet to = data.get(lhs);
+						EfficientTerminalSet from = data.get(symbol);
+						EfficientTerminalSet merged = to.plusAllExceptEpsilon(from);
+						data.put(lhs, merged);
+						changed |= (!merged.equals(to));
 					}
 				}
 				//first not nullable symbol found? than add its FIRST values.
 				//otherwise add epsilon
 				if (firstNotNullableSymbol != null)
 				{
-					changed |= add(this.get(lhs), this.get(firstNotNullableSymbol));
+					EfficientTerminalSet to = data.get(lhs);
+					EfficientTerminalSet from = data.get(firstNotNullableSymbol);
+					EfficientTerminalSet merged = to.plusAllExceptEpsilon(from);
+					data.put(lhs, merged);
+					changed |= (!merged.equals(to));
 				}
 				else
 				{
-					changed |= this.get(lhs).add(Epsilon);
+					EfficientTerminalSet before = data.get(lhs);
+					EfficientTerminalSet after = before.plus(Epsilon);
+					data.put(lhs, after);
+					changed |= (!before.equals(after));
 				}
 			}
 		}
 		while (changed);
 		
+		this.data = data;
 	}
 	
 	
 	/**
-	 * Adds the given terminals (src) without epsilon to the other given
-	 * set of terminals (dest), returning true if at least one new
-	 * terminal was given, otherwise false.
+	 * Gets the FIRST set for the given symbol.
 	 */
-	private boolean add(HashSet<Terminal> dest, HashSet<Terminal> src)
+	public EfficientTerminalSet get(Symbol symbol)
 	{
-		boolean foundNew = false;
-		for (Terminal terminal : src)
-		{
-			try
-			{
-				if (terminal != Epsilon)
-					foundNew |= dest.add(terminal);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return foundNew;
+		return data.get(symbol);
 	}
 	
 

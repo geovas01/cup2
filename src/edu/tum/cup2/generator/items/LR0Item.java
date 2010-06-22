@@ -44,7 +44,9 @@ public class LR0Item
 		List<Symbol> rhs = production.getRHS();
 		int correctedPosition = position;
 		if (position == 0 && rhs.get(0) == SpecialTerminals.Epsilon)
+		{
 			correctedPosition = 1; //immediately shift over epsilon
+		}
 		this.position = correctedPosition;
 		//shiftable
 		this.shiftable = (this.position < rhs.size());
@@ -92,7 +94,7 @@ public class LR0Item
 	public LR0Item shift()
 	{
 		if (!isShiftable())
-			throw new RuntimeException( //TODO
+			throw new RuntimeException(
 				"Shifting not possible: Item already closed: " + this);
 		
 		//return shifted item

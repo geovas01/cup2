@@ -16,15 +16,16 @@ import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.util.ArrayTools;
 import edu.tum.cup2.util.It;
 import edu.tum.cup2.semantics.ParserInterface;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.grammar.SpecialTerminals.EndOfInputStream;
-import static edu.tum.cup2.test.GrammarWiki1.MyNonTerminal.B;
-import static edu.tum.cup2.test.GrammarWiki1.MyNonTerminal.E;
-import static edu.tum.cup2.test.GrammarWiki1.MyTerminal._0;
-import static edu.tum.cup2.test.GrammarWiki1.MyTerminal._1;
-import static edu.tum.cup2.test.GrammarWiki1.MyTerminal.plus;
-import static edu.tum.cup2.test.GrammarWiki1.MyTerminal.times;
+import static edu.tum.cup2.test.GrammarWiki1.NonTerminals.B;
+import static edu.tum.cup2.test.GrammarWiki1.NonTerminals.E;
+import static edu.tum.cup2.test.GrammarWiki1.Terminals._0;
+import static edu.tum.cup2.test.GrammarWiki1.Terminals._1;
+import static edu.tum.cup2.test.GrammarWiki1.Terminals.plus;
+import static edu.tum.cup2.test.GrammarWiki1.Terminals.times;
 
 /**
  * Grammar, taken from
@@ -35,17 +36,17 @@ import static edu.tum.cup2.test.GrammarWiki1.MyTerminal.times;
  * @author Andreas Wenger
  */
 public class GrammarWiki1
-	extends Grammar
+	extends CUP2Specification
 {
 	
-	public enum MyTerminal
+	public enum Terminals
 		implements Terminal
 	{
 		times, plus, _0, _1;
 	}
 	
 	
-	public enum MyNonTerminal
+	public enum NonTerminals
 		implements NonTerminal
 	{
 		E, B;
@@ -54,7 +55,7 @@ public class GrammarWiki1
 	
 	public GrammarWiki1()
 	{
-		super(MyTerminal.values(), MyNonTerminal.values(), getProductionsArray());
+		grammar(getProductionsArray());
 	}
 	
 	
@@ -79,12 +80,12 @@ public class GrammarWiki1
 		Production[] prods = getProductionsArray();
 		
 		//create states
-		LinkedList<Terminal> terminals = new ArrayTools<Terminal>().toLinkedList(MyTerminal.values());
+		LinkedList<Terminal> terminals = new ArrayTools<Terminal>().toLinkedList(Terminals.values());
 		terminals.add(EndOfInputStream);
 		
 		LRParsingTable table = new LRParsingTable(
 						new Grammar(terminals, 
-							new ArrayTools<NonTerminal>().toLinkedList(MyNonTerminal.values()),
+							new ArrayTools<NonTerminal>().toLinkedList(NonTerminals.values()),
 							new ArrayTools<Production>().toLinkedList(getProductionsArray())
 						),
 						new ParserInterface(),

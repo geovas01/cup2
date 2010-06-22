@@ -6,13 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.tum.cup2.generator.GrammarInfo;
-import edu.tum.cup2.generator.LALR1NSEGenerator;
-import edu.tum.cup2.generator.exceptions.GeneratorException;
+import edu.tum.cup2.generator.LALR1Generator;
 import edu.tum.cup2.parser.LRParser;
 import edu.tum.cup2.parser.exceptions.LRParserException;
 import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.scanner.TestScanner;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.test.SpecJava14;
 
 
@@ -144,10 +143,10 @@ public class RandomWordGenerator
 		throws Exception
 	{
 		//create random Java 1.4 word
-		CUPSpecification spec = new SpecJava14();
+		CUP2Specification spec = new SpecJava14();
 		Grammar grammar = spec.getGrammar();
 		RandomWordGenerator gen = new RandomWordGenerator(grammar);
-		LRParsingTable table = new LALR1NSEGenerator(spec).getParsingTable();
+		LRParsingTable table = new LALR1Generator(spec).getParsingTable();
 		int i = 0;
 		while (true)
 		{

@@ -11,8 +11,7 @@ import edu.tum.cup2.parser.actions.Reduce;
 import edu.tum.cup2.parser.states.LRParserState;
 import edu.tum.cup2.parser.tables.LRActionTable;
 import edu.tum.cup2.parser.tables.LRParsingTable;
-import edu.tum.cup2.precedences.Precedences;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.util.ArrayTools;
 
 
@@ -30,7 +29,7 @@ public class LR1Generator
 	/**
 	 * Computes a {@link LRParsingTable} for the given LR(1) specification.
 	 */
-	public LR1Generator(CUPSpecification spec)
+	public LR1Generator(CUP2Specification spec)
 		throws GeneratorException
 	{
 		this(spec, Verbosity.None);
@@ -38,7 +37,7 @@ public class LR1Generator
 	/**
 	 * Computes a {@link LRParsingTable} for the given LR(1) specification.
 	 */
-	public LR1Generator(CUPSpecification spec, Verbosity verbosity)
+	public LR1Generator(CUP2Specification spec, Verbosity verbosity)
 		throws GeneratorException
 	{
 		super(spec, verbosity, true);
@@ -51,7 +50,7 @@ public class LR1Generator
 	 * (which is only extended by an auxiliary start production if requested).
 	 * The given verbosity tells the generator how many debug messages are requested.
 	 */
-	public LR1Generator(CUPSpecification spec, Verbosity verbosity, boolean extendGrammar)
+	public LR1Generator(CUP2Specification spec, Verbosity verbosity, boolean extendGrammar)
 		throws GeneratorException
 	{
 		super(spec, verbosity, extendGrammar);
@@ -64,7 +63,8 @@ public class LR1Generator
 	 */
 	@Override protected LR1State createStartState()
 	{
-		return new LR1State(ArrayTools.toHashSet(new LR1Item(grammar.getStartProduction(), 0, Placeholder)));
+		return new LR1State(ArrayTools.toHashSet(new LR1Item(grammar.getStartProduction(), 0,
+			grammarInfo.getTerminalSet(Placeholder))));
 	}
 	
 	
@@ -77,7 +77,7 @@ public class LR1Generator
 	{
 		//in LR(1), reduce the production for each lookahead terminal
 		Reduce reduce = new Reduce(item.getProduction());
-		for (Terminal lookahead : item.getLookaheads())
+		for (Terminal lookahead : item.getLookaheads().getTerminals())
 		{
 			setReduceAction(actionTable, reduce, state, lookahead);
 		}

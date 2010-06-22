@@ -1,6 +1,14 @@
 package edu.tum.cup2.test;
 
-import java.util.HashSet;
+import static edu.tum.cup2.grammar.SpecialTerminals.Placeholder;
+import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.C;
+import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.S;
+import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.Sp;
+import static edu.tum.cup2.test.SpecASU_4_21.Terminals.c;
+import static edu.tum.cup2.test.SpecASU_4_21.Terminals.d;
+import static edu.tum.cup2.util.ArrayTools.toHashSet;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -14,14 +22,7 @@ import edu.tum.cup2.grammar.Grammar;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Production;
 import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUPSpecification;
-
-//locate static imports after others to be compatible with javac
-import static edu.tum.cup2.grammar.SpecialTerminals.Placeholder;
-import static edu.tum.cup2.test.SpecASU_4_21.NonTerminals.*;
-import static edu.tum.cup2.test.SpecASU_4_21.Terminals.*;
-import static edu.tum.cup2.util.ArrayTools.toHashSet;
-import static org.junit.Assert.*;
+import edu.tum.cup2.spec.CUP2Specification;
 
 /**
  * Grammar 4.21 from ASU99, page 283 (german edition),
@@ -31,7 +32,7 @@ import static org.junit.Assert.*;
  * @author Andreas Wenger
  */
 public class SpecASU_4_21
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 	public enum Terminals implements Terminal
@@ -62,6 +63,7 @@ public class SpecASU_4_21
 		throws Exception
 	{
 		Grammar grammar = getGrammar();
+		GrammarInfo gi = new GrammarInfo(grammar);
 		LR1Generator gen = new LR1Generator(this, Verbosity.Detailled, false);
 		Automaton<LR1Item, LR1State> dfa = gen.createAutomaton();
 		Production p0 = gen.getGrammar().getProductionAt(0); //S' → S
@@ -71,53 +73,44 @@ public class SpecASU_4_21
 		//10 states
 		assertEquals(10, dfa.getStates().size());
 		//I0 (kernel and closure)
-		LR1State kernel = new LR1State(toHashSet(new LR1Item(p0, 0, th(Placeholder))));
+		LR1State kernel = new LR1State(toHashSet(new LR1Item(p0, 0, gi.getTerminalSet(Placeholder))));
 		assertTrue(dfa.getStates().contains(kernel));
 		assertEquals(kernel.closure(new GrammarInfo(grammar)), new LR1State(toHashSet(
-			new LR1Item(p0, 0, th(Placeholder)),
-			new LR1Item(p1, 0, th(Placeholder)),
-			new LR1Item(p2, 0, th(c, d)),
-			new LR1Item(p3, 0, th(c, d)))));
+			new LR1Item(p0, 0, gi.getTerminalSet(Placeholder)),
+			new LR1Item(p1, 0, gi.getTerminalSet(Placeholder)),
+			new LR1Item(p2, 0, gi.getTerminalSet(c).plus(d)),
+			new LR1Item(p3, 0, gi.getTerminalSet(c).plus(d)))));
 		//I1 (kernel)
-		kernel = new LR1State(toHashSet(new LR1Item(p0, 1, th(Placeholder))));
+		kernel = new LR1State(toHashSet(new LR1Item(p0, 1, gi.getTerminalSet(Placeholder))));
 		assertTrue(dfa.getStates().contains(kernel));
 		//I2 (kernel)
-		kernel = new LR1State(toHashSet(new LR1Item(p1, 1, th(Placeholder))));
+		kernel = new LR1State(toHashSet(new LR1Item(p1, 1, gi.getTerminalSet(Placeholder))));
 		assertTrue(dfa.getStates().contains(kernel));
 		//I3 (kernel and closure)
-		kernel = new LR1State(toHashSet(new LR1Item(p2, 1, th(c, d))));
+		kernel = new LR1State(toHashSet(new LR1Item(p2, 1, gi.getTerminalSet(c).plus(d))));
 		assertTrue(dfa.getStates().contains(kernel));
 		assertEquals(kernel.closure(new GrammarInfo(grammar)), new LR1State(toHashSet(
-			new LR1Item(p2, 1, th(c, d)),
-			new LR1Item(p2, 0, th(c, d)),
-			new LR1Item(p3, 0, th(c, d)))));
+			new LR1Item(p2, 1, gi.getTerminalSet(c).plus(d)),
+			new LR1Item(p2, 0, gi.getTerminalSet(c).plus(d)),
+			new LR1Item(p3, 0, gi.getTerminalSet(c).plus(d)))));
 		//I4 (kernel)
-		kernel = new LR1State(toHashSet(new LR1Item(p3, 1, th(c, d))));
+		kernel = new LR1State(toHashSet(new LR1Item(p3, 1, gi.getTerminalSet(c).plus(d))));
 		assertTrue(dfa.getStates().contains(kernel));
 		//I5 (kernel)
-		kernel = new LR1State(toHashSet(new LR1Item(p1, 2, th(Placeholder))));
+		kernel = new LR1State(toHashSet(new LR1Item(p1, 2, gi.getTerminalSet(Placeholder))));
 		assertTrue(dfa.getStates().contains(kernel));
 		//I6 (kernel)
-		kernel = new LR1State(toHashSet(new LR1Item(p2, 1, th(Placeholder))));
+		kernel = new LR1State(toHashSet(new LR1Item(p2, 1, gi.getTerminalSet(Placeholder))));
 		assertTrue(dfa.getStates().contains(kernel));
 		//I7 (kernel)
-		kernel = new LR1State(toHashSet(new LR1Item(p3, 1, th(Placeholder))));
+		kernel = new LR1State(toHashSet(new LR1Item(p3, 1, gi.getTerminalSet(Placeholder))));
 		assertTrue(dfa.getStates().contains(kernel));
 		//I8 (kernel)
-		kernel = new LR1State(toHashSet(new LR1Item(p2, 2, th(c, d))));
+		kernel = new LR1State(toHashSet(new LR1Item(p2, 2, gi.getTerminalSet(c).plus(d))));
 		assertTrue(dfa.getStates().contains(kernel));
 		//I9 (kernel)
-		kernel = new LR1State(toHashSet(new LR1Item(p2, 2, th(Placeholder))));
+		kernel = new LR1State(toHashSet(new LR1Item(p2, 2, gi.getTerminalSet(Placeholder))));
 		assertTrue(dfa.getStates().contains(kernel));
-	}
-	
-	
-	private HashSet<Terminal> th(Terminal... ts)
-	{
-		HashSet<Terminal> ret = new HashSet<Terminal>();
-		for (Terminal t : ts)
-			ret.add(t);
-		return ret;
 	}
 	
 

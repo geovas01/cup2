@@ -13,17 +13,17 @@ import edu.tum.cup2.semantics.*;
  * @author Andreas Wenger
  */
 public class SampleSpec
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 	//terminals (tokens returned by the scanner)
-	public enum Terminals implements edu.tum.cup2.grammar.Terminal
+	public enum Terminals implements Terminal
 	{
 		SEMI, PLUS, TIMES, LPAREN, RPAREN, NUMBER;
 	}
 	
 	//non-terminals
-	public enum NonTerminals implements edu.tum.cup2.grammar.NonTerminal
+	public enum NonTerminals implements NonTerminal
 	{
 		expr, res;
 	}

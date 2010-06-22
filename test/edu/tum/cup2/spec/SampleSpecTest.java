@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.tum.cup2.generator.LR1Generator;
@@ -90,7 +91,7 @@ public class SampleSpecTest
 	}
 	
 	
-	@Test public void testSumUpFromFile()
+	@Ignore @Test public void testSumUpFromFile()
 	{
 		try
 		{
@@ -149,7 +150,7 @@ public class SampleSpecTest
 	}
 	
 	
-	@Test public void testStackFromFile()
+	@Ignore @Test public void testStackFromFile()
 	{
 		try
 		{

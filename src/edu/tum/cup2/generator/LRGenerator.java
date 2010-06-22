@@ -1,26 +1,17 @@
 package edu.tum.cup2.generator;
 
-import static edu.tum.cup2.generator.Verbosity.Detailled;
-import static edu.tum.cup2.generator.Verbosity.None;
-import static edu.tum.cup2.generator.Verbosity.Sparse;
-import static edu.tum.cup2.generator.Verbosity.Verbose;
-import static edu.tum.cup2.grammar.SpecialTerminals.EndOfInputStream;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.tum.cup2.generator.exceptions.ConsecutiveNonAssocException;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.generator.exceptions.ReduceReduceConflict;
 import edu.tum.cup2.generator.exceptions.ShiftReduceConflict;
-import edu.tum.cup2.generator.exceptions.ConsecutiveNonAssocException;
 import edu.tum.cup2.generator.items.Item;
 import edu.tum.cup2.generator.states.State;
-import edu.tum.cup2.grammar.Grammar;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Production;
 import edu.tum.cup2.grammar.SpecialTerminals;
@@ -37,9 +28,8 @@ import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.precedences.Associativity;
 import edu.tum.cup2.precedences.LeftAssociativity;
 import edu.tum.cup2.precedences.NonAssocAssociativity;
-import edu.tum.cup2.precedences.Precedences;
 import edu.tum.cup2.precedences.RightAssociativity;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.util.It;
 
 
@@ -66,7 +56,7 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 	 * For a description of this algorithm, see Appel's book, pages 62 to 66.
 	 */
 	//public LRGenerator(Grammar grammar, Precedences precedences, Verbosity verbosity, boolean extendGrammar)
-	public LRGenerator(CUPSpecification spec, final Verbosity verbosity, boolean extendGrammar)
+	public LRGenerator(CUP2Specification spec, final Verbosity verbosity, boolean extendGrammar)
 		throws GeneratorException
 	{
 		//extend grammar by "S' → S$" production
@@ -126,9 +116,9 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 		}
 		
 		//create the reduce actions
-		for (S stateKernel : statesMap.keySet()) //for each generator state
+		for (State<I> stateKernel : statesMap.keySet()) //for each generator state
 		{
-			S state = (S) stateKernel.closure(grammarInfo); //unpack state (from kernel to closure)
+			State<I> state = stateKernel.closure(grammarInfo); //unpack state (from kernel to closure)
 			//if any item is not shiftable any more, reduce it to the left hand side of its production
 			for (I item : state.getItems())
 			{

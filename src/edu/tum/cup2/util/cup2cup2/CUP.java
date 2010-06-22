@@ -2,23 +2,23 @@ package edu.tum.cup2.util.cup2cup2;
 
 import java.util.*;
 
-import edu.tum.cup2.generator.LALR1NSEGenerator;
+import edu.tum.cup2.generator.LALR1Generator;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.SpecialTerminals;
 import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.semantics.SymbolValue;
 import edu.tum.cup2.semantics.Action;
 import static edu.tum.cup2.util.cup2cup2.CUP.Terminals.*;
 import static edu.tum.cup2.util.cup2cup2.CUP.NonTerminals.*;
 
-public class CUP extends CUPSpecification {
+public class CUP extends CUP2Specification {
 
 	public static void main(String[] args) {
-		CUPSpecification spec = new CUP();
+		CUP2Specification spec = new CUP();
 		try {
-			LALR1NSEGenerator gen = new LALR1NSEGenerator(spec);
+			LALR1Generator gen = new LALR1Generator(spec);
 		} catch (GeneratorException e) {
 			e.printStackTrace();
 		}

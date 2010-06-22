@@ -11,7 +11,7 @@ import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.io.LRParsingTableDump;
 import edu.tum.cup2.parser.tables.LRParsingTable;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.grammar.SpecialTerminals.Epsilon;
@@ -28,7 +28,7 @@ import static junit.framework.Assert.fail;
  * @author Andreas Wenger
  */
 public class SpecMiniJavaNoActions
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 	

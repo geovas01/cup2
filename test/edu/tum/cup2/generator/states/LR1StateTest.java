@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import edu.tum.cup2.generator.GrammarInfo;
 import edu.tum.cup2.generator.items.LR1Item;
+import edu.tum.cup2.generator.terminals.TerminalSet;
 import edu.tum.cup2.grammar.Grammar;
 import edu.tum.cup2.test.GrammarAppel_3_26;
 import edu.tum.cup2.util.ArrayTools;
@@ -29,9 +30,10 @@ public class LR1StateTest
 	@Test public void closureTest()
 	{
 		Grammar grammar = new GrammarAppel_3_26().getWith$();
+		GrammarInfo grammarInfo = new GrammarInfo(grammar);
 		//compute closure of "S' → .S$" (production 0, position 0) as seen on page 66.
 		LR1State state = createLR1State(
-			new LR1Item(grammar.getProductionAt(0), 0, Placeholder)); //S' → .S$
+			new LR1Item(grammar.getProductionAt(0), 0, grammarInfo.getTerminalSet(Placeholder))); //S' → .S$
 		LR1State closure = state.closure(new GrammarInfo(grammar));
 		//result must have 8 items
 		assertEquals(8, closure.getSimpleItemsCount());
@@ -55,18 +57,19 @@ public class LR1StateTest
 	{
 		Grammar g = new GrammarAppel_3_26().getWith$();
 		GrammarInfo grammarInfo = new GrammarInfo(g);
+		TerminalSet t$ = grammarInfo.getTerminalSet($);
 		//compute goto of state 3 with symbol "=" to state 4
 		//as shown in figure 3.20.
 		LR1State state = createLR1State(
-			new LR1Item(g.getProductionAt(1), 1, $),  //S → V.=E , $
-			new LR1Item(g.getProductionAt(3), 1, $)); //E → V.
-		LR1State goTo = state.goTo(eq, grammarInfo).closure(grammarInfo); //with closure
+			new LR1Item(g.getProductionAt(1), 1, t$),  //S → V.=E , $
+			new LR1Item(g.getProductionAt(3), 1, t$)); //E → V.
+		LR1State goTo = state.goTo(eq).closure(grammarInfo); //with closure
 		//result must have 4 items
 		assertEquals(4, goTo.items.size());
-		assertTrue(goTo.items.contains(new LR1Item(g.getProductionAt(1), 2, $))); //S → V=.E , $
-		assertTrue(goTo.items.contains(new LR1Item(g.getProductionAt(3), 0, $))); //E → .V   , $
-		assertTrue(goTo.items.contains(new LR1Item(g.getProductionAt(4), 0, $))); //V → .x   , $
-		assertTrue(goTo.items.contains(new LR1Item(g.getProductionAt(5), 0, $))); //V → .*E  , $
+		assertTrue(goTo.items.contains(new LR1Item(g.getProductionAt(1), 2, t$))); //S → V=.E , $
+		assertTrue(goTo.items.contains(new LR1Item(g.getProductionAt(3), 0, t$))); //E → .V   , $
+		assertTrue(goTo.items.contains(new LR1Item(g.getProductionAt(4), 0, t$))); //V → .x   , $
+		assertTrue(goTo.items.contains(new LR1Item(g.getProductionAt(5), 0, t$))); //V → .*E  , $
 	}
 	
 	

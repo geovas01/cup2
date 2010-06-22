@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.tum.cup2.generator.terminals.EfficientTerminalSet;
 import edu.tum.cup2.grammar.Grammar;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Production;
+import edu.tum.cup2.grammar.Terminal;
 
 
 /**
@@ -27,6 +29,8 @@ public final class GrammarInfo
 	private final NullableSet nullableSet;
 	private final FirstSets firstSets;
 	private final HashMap<NonTerminal, List<Production>> productionsStartingWith;
+	
+	private final EfficientTerminalSet emptyTerminalsSet;
 	
 	
 	/**
@@ -49,6 +53,8 @@ public final class GrammarInfo
 			}
 			this.productionsStartingWith.put(nonTerminal, Collections.unmodifiableList(list));
 		}
+		//empty set of terminals
+		this.emptyTerminalsSet = new EfficientTerminalSet(grammar.getTerminals());
 	}
 	
 	
@@ -87,6 +93,24 @@ public final class GrammarInfo
 	public FirstSets getFirstSets()
 	{
 		return firstSets;
+	}
+	
+	
+	/**
+	 * Gets an empty set of terminals.
+	 */
+	public EfficientTerminalSet getEmptyTerminalSet()
+	{
+		return emptyTerminalsSet;
+	}
+	
+	
+	/**
+	 * Gets a set of terminals that contains only the given terminal.
+	 */
+	public EfficientTerminalSet getTerminalSet(Terminal terminal)
+	{
+		return emptyTerminalsSet.plus(terminal);
 	}
 	
 

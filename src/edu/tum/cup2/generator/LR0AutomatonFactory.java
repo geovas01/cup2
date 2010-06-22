@@ -52,7 +52,7 @@ public class LR0AutomatonFactory extends AutomatonFactory<LR0Item, LR0State>
 					else
 					{
 						//terminal or non-terminal
-						LR0State shiftedState = (LR0State) state.goTo(symbol, grammarInfo);
+						LR0State shiftedState = (LR0State) state.goTo(symbol);
 						//new state?
 						if (!dfaStates.contains(shiftedState))
 						{

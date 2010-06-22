@@ -2,7 +2,7 @@ package edu.tum.cup2.test.lr1blowup;
 
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.test.lr1blowup.Spec7Prec.NonTerminals.*;
@@ -14,7 +14,7 @@ import static edu.tum.cup2.test.lr1blowup.Spec7Prec.Terminals.*;
  * @author Andreas Wenger
  */
 public class Spec7Prec
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 	

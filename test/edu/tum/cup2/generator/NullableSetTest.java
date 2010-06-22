@@ -1,6 +1,5 @@
 package edu.tum.cup2.generator;
 
-import static edu.tum.cup2.grammar.SpecialTerminals.Epsilon;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 

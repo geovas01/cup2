@@ -52,7 +52,7 @@ public class LR1AutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 					else
 					{
 						//terminal or non-terminal
-						LR1State shiftedState = (LR1State) state.goTo(symbol, grammarInfo);
+						LR1State shiftedState = state.goTo(symbol);
 						//new state?
 						if (!dfaStates.contains(shiftedState))
 						{
@@ -61,7 +61,7 @@ public class LR1AutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 							queue.add(shiftedState);
 						}
 						//add the edge
-						dfaEdges.add(new Edge(stateKernel, symbol, shiftedState, item));
+						dfaEdges.add(new Edge(stateKernel, symbol, shiftedState, item.getLR0Kernel()));
 					} /*end else*/
 				} /*end if*/
 			} /*end for*/

@@ -3,11 +3,10 @@ package edu.tum.cup2.grammar;
 import static edu.tum.cup2.grammar.SpecialNonTerminals.StartLHS;
 import static edu.tum.cup2.grammar.SpecialTerminals.EndOfInputStream;
 
+import java.io.Serializable;
 import java.util.LinkedList;
-import java.util.HashSet;
 
 import edu.tum.cup2.util.ArrayTools;
-import java.io.Serializable;
 
 /**
  * A grammar consists of a list of {@link Production}s.

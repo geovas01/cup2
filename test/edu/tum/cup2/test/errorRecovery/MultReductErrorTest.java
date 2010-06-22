@@ -14,7 +14,7 @@ import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.scanner.TestScanner;
 import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.ErrorInformation;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.semantics.SymbolValue.NoValue;
@@ -24,7 +24,7 @@ import static edu.tum.cup2.test.errorRecovery.MultReductErrorTest.Terminals.*;
 import static org.junit.Assert.assertEquals;
 
 public class MultReductErrorTest
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 	public enum Terminals implements Terminal

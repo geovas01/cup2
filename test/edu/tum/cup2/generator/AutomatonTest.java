@@ -1,20 +1,13 @@
 package edu.tum.cup2.generator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import org.junit.Test;
-
-import edu.tum.cup2.generator.items.Item;
-import edu.tum.cup2.generator.items.LR1Item;
-import edu.tum.cup2.generator.states.LR1NSEState;
-import edu.tum.cup2.generator.states.LR1State;
 import edu.tum.cup2.generator.states.State;
-import edu.tum.cup2.spec.CUPSpecification;
-import edu.tum.cup2.test.SpecMiniJava;
-
-import static org.junit.Assert.*;
 
 
 /**
@@ -114,24 +107,6 @@ public class AutomatonTest
 			
 		}
 		
-	}
-	
-	
-	@Test public void testTestEquals()
-		throws Exception
-	{
-		/* doesn't work yet because of side effects in automaton factory...
-		CUPSpecification spec = new SpecMiniJava();
-		GrammarInfo grammarInfo = new GrammarInfo(spec.getGrammar());
-		//we know that LALR1NSEAutomatonFactory and LALR1AutomatonFactory produce the same automatons
-		LALR1NSEAutomatonFactory f1 = new LALR1NSEAutomatonFactory();
-		LALR1NSEGenerator g1 = new LALR1NSEGenerator(spec);
-		Automaton<LR1Item, LR1NSEState> a1 = f1.createAutomaton(g1, grammarInfo);
-		LALR1AutomatonFactory f2 = new LALR1AutomatonFactory();
-		LALR1Generator g2 = new LALR1Generator(spec);
-		Automaton<LR1Item, LR1State> a2 = f2.createAutomaton(g2, grammarInfo);
-		*/
-		//testEquals(a1, a2);
 	}
 	
 

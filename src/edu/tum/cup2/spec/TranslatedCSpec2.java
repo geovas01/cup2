@@ -5,7 +5,6 @@ import java . util . LinkedList;
 import java . util . Collections; 
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUPSpecification;
 import edu.tum.cup2.semantics.SymbolValue;
 import edu.tum.cup2.semantics.Action;
 import static edu.tum.cup2.grammar.SpecialTerminals.Epsilon;
@@ -13,7 +12,7 @@ import static edu.tum.cup2.grammar.SpecialTerminals.Epsilon;
 import static edu.tum.cup2.spec.TranslatedCSpec2.NonTerminals.*;
 import static edu.tum.cup2.spec.TranslatedCSpec2.Terminals.*;
 
-public class TranslatedCSpec2 extends CUPSpecification {
+public class TranslatedCSpec2 extends CUP2Specification {
 
 public enum Terminals implements Terminal {
 GLEICH,DIVGLEICH,SIGNED,ODERGLEICH,WHILE,LPARECKIG,MOD,CONST,PLUSPLUS,PLUSGLEICH,CASE,GLEICHGLEICH,CHAR,DO,FOR,EXTERN,MINUSMINUS,MINUSGLEICH,FLOAT,SEMIKOLON,KLEINERGLEICH,BREAK,LSHIFTGLEICH,IF,STRING_LITERAL,LPAR,CONTINUE,EXP,MULTGLEICH,EXPGLEICH,UNDGLEICH,IDENTIFIER,GROESSERGLEICH,TILDE,PFEIL,AUTO,RETURN,TYPE_NAME,DOUBLE,RSHIFTGLEICH,PLUS,VOID,KLEINER,GOTO,RSHIFT,REGISTER,UNGLEICH,UND,PUNKT,VOLATILE,DOPPELPUNKT,STATIC,PPP,LSHIFT,TYPEDEF,SWITCH,RPARSCHWEIF,ELSE,DEFAULT,UNDUND,SHORT,STRUCT,INT,MINUS,MULT,FRAGEZEICHEN,LPARSCHWEIF,ODER,UNION,ENUM,UNSIGNED,RPARECKIG,ODERODER,KOMMA,MODGLEICH,SIZEOF,CONSTANT,RPAR,NICHT,GROESSER,DIV,LONG

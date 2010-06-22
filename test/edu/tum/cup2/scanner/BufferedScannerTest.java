@@ -5,7 +5,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static edu.tum.cup2.test.GrammarWiki1.MyTerminal.*;
+import static edu.tum.cup2.test.GrammarWiki1.Terminals.*;
+
 
 /**
  * Test for BufferedScanner.

@@ -1,6 +1,6 @@
 package edu.tum.cup2.generator.states;
 
-import static edu.tum.cup2.test.GrammarAppel_3_20.MyTerminal.*;
+import static edu.tum.cup2.test.GrammarAppel_3_20.Terminals.leftbr;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -9,7 +9,7 @@ import org.junit.Test;
 import edu.tum.cup2.generator.GrammarInfo;
 import edu.tum.cup2.generator.items.LR0Item;
 import edu.tum.cup2.grammar.Grammar;
-import edu.tum.cup2.test.GrammarAppel_3_20;
+import edu.tum.cup2.test.GrammarAppel_3_20_withSP;
 import edu.tum.cup2.util.ArrayTools;
 
 
@@ -26,7 +26,7 @@ public class LR0StateTest
 	 */
 	@Test public void closureTest()
 	{
-		Grammar grammar = new GrammarAppel_3_20().getWith$();
+		Grammar grammar = new GrammarAppel_3_20_withSP().getGrammar();
 		//compute closure of "S → (.L)" (production 1, position 1) as described on page 61 for state 3.
 		LR0State state = createLR0State(
 			new LR0Item(grammar.getProductionAt(1), 1)); //S → (.L)
@@ -46,7 +46,7 @@ public class LR0StateTest
 	 */
 	@Test public void goToTest()
 	{
-		Grammar grammar = new GrammarAppel_3_20().getWith$();
+		Grammar grammar = new GrammarAppel_3_20_withSP().getGrammar();
 		GrammarInfo grammarInfo = new GrammarInfo(grammar);
 		//compute goto of state 8 with symbol "(" to state 3
 		//as shown in figure 3.20.
@@ -54,7 +54,7 @@ public class LR0StateTest
 			new LR0Item(grammar.getProductionAt(4), 2),  //S → L,.S
 			new LR0Item(grammar.getProductionAt(1), 0),  //S → .(L)
 			new LR0Item(grammar.getProductionAt(2), 0)); //S → .x
-		LR0State goTo = state.goTo(leftbr, grammarInfo).closure(grammarInfo); //with closure
+		LR0State goTo = state.goTo(leftbr).closure(grammarInfo); //with closure
 		//result must have 5 items
 		assertEquals(5, goTo.items.size());
 		assertTrue(goTo.items.contains(new LR0Item(grammar.getProductionAt(1), 1))); //S → (.L)

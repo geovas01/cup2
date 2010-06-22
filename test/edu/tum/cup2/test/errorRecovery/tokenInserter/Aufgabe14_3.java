@@ -28,7 +28,7 @@ import edu.tum.cup2.semantics.ErrorInformation;
 import edu.tum.cup2.semantics.ParserInterface;
 import edu.tum.cup2.semantics.ParserObserver;
 import edu.tum.cup2.semantics.SymbolValue;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.spec.Insertable;
 
 //locate static imports after others to be compatible with javac
@@ -51,7 +51,7 @@ import static edu.tum.cup2.test.errorRecovery.tokenInserter.SpecMiniJava.Termina
  * @author Stefan Dangl
  */
 public class Aufgabe14_3
-	extends CUPSpecification
+	extends CUP2Specification
 {
 
 	public enum Terminals implements Terminal

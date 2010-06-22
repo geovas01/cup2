@@ -40,7 +40,7 @@ import edu.tum.cup2.util.Reflection;
  * @author Stefan Dangl
  */
 
-public abstract class CUPSpecification
+public abstract class CUP2Specification
 {
 
 	private boolean init = false;
@@ -158,7 +158,8 @@ public abstract class CUPSpecification
     		allTerminals = new LinkedList<Terminal>(insertables);
     	}/**/
 		// SD : Add special terminal used as error-hendl.
-		allTerminals.add(SpecialTerminals.Error);
+    	//GOON: commented out at the moment by Andi (2010-06-17), because not needed now!
+		allTerminals.add(SpecialTerminals.Error); //- GOON
 
 		LinkedList<NonTerminal> allNonTerminals = new ArrayTools<NonTerminal>()
 			.toLinkedList(Reflection.getNonTerminals());

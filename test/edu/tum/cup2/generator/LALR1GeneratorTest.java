@@ -4,23 +4,25 @@ import java.io.File;
 
 import org.junit.Test;
 
-import edu.tum.cup2.spec.CUPSpecification;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
-import edu.tum.cup2.parser.tables.*;
 import edu.tum.cup2.io.LRParsingTableDump;
 import edu.tum.cup2.parser.LRParser;
-import edu.tum.cup2.scanner.TestScanner;
-import edu.tum.cup2.test.*;
+import edu.tum.cup2.parser.tables.LRParsingTable;
+import edu.tum.cup2.parser.tables.LRParsingTableTest;
+import edu.tum.cup2.spec.CUP2Specification;
+import edu.tum.cup2.test.SpecCalc1;
+import edu.tum.cup2.test.SpecCalc4;
 
 
 /**
- * Unit Test for LALRGenerator
- * This class compared the parsing table created by the LALR1Generator
- * with the parsing table created through the LR1toLALR1Generator
+ * Unit tests for {@link LALR1Generator}
+ * 
+ * This class compares the parsing tables created by the {@link LALR1Generator}
+ * with the parsing tables created by the {@link LR1toLALRGenerator}.
  * 
  * @author Michael Hausmann
  * @author Daniel Altmann
- *
+ * @author Andreas Wenger
  */
 public class LALR1GeneratorTest 
 {
@@ -43,7 +45,7 @@ public class LALR1GeneratorTest
 		String strSpecName = args[0];
 		
 		//create Spec with Reflection
-		CUPSpecification spec = createSpec(strSpecName);
+		CUP2Specification spec = createSpec(strSpecName);
 		if(spec == null) return;
 		
 		try{
@@ -64,13 +66,14 @@ public class LALR1GeneratorTest
 	 * @param specName Name of the Specification to create
 	 * @return CUPSpecification
 	 */
-	private static CUPSpecification createSpec(String specName)
+	@SuppressWarnings("unchecked")
+	private static CUP2Specification createSpec(String specName)
 	{
-		Class<CUPSpecification> specClass = null;
+		Class<CUP2Specification> specClass = null;
 		//get the class object for the specName
 		try {
 			Class aClass = Class.forName(specName);
-			specClass = aClass.asSubclass(CUPSpecification.class);
+			specClass = aClass.asSubclass(CUP2Specification.class);
 		} catch(ClassNotFoundException e) {
 			System.err.println("The class for the passed CUPSpecification could not be found.");
 		} catch(Exception e)
@@ -79,7 +82,7 @@ public class LALR1GeneratorTest
 		}
 		//having found the class, try to instantiate it
 		try {
-			CUPSpecification spec = specClass.newInstance();
+			CUP2Specification spec = specClass.newInstance();
 			return spec;
 		} catch(IllegalAccessException e) {
 			System.err.println("The default construction of " + specName + " could not be accessed.");
@@ -88,58 +91,62 @@ public class LALR1GeneratorTest
 		}
 		return null;
 	}
-	
-	/**
-	 * The lalrTest method
-	 * 
-	 * @param spec
-	 * @param strFileNameTail
-	 * @throws GeneratorException
-	 */
-	private static void lalrTest(CUPSpecification spec, String strFileNameTail) throws GeneratorException
+
+	private static void lalrTest(CUP2Specification spec, String strFileNameTail) throws GeneratorException
 	{
-		String strSpecName = spec.getClass().getSimpleName();
-		if(strSpecName == null)
+		String strFileName1 = spec.getClass().getSimpleName();
+		String strFileName2 = spec.getClass().getSimpleName();
+		String strFileName3 = spec.getClass().getSimpleName();
+		if(strFileName1 == null)
 		{
-			strSpecName = "";
+			strFileName1 = "";
+			strFileName2 = "";
+			strFileName3 = "";
 		}
-		String strFileNameLALR = strSpecName + ".LALR" + strFileNameTail;
-		String strFileNameWeak = strSpecName + ".Weak" + strFileNameTail;
-		String strFileNameLR1  = strSpecName + ".LR1toLALR" + strFileNameTail;
+		strFileName1 += ".table1" + strFileNameTail;
+		strFileName2 += ".table2" + strFileNameTail;
+		strFileName3 += ".table3" + strFileNameTail;
 		
 		//create an LALR1Generator
+		System.out.print(spec.getClass().getSimpleName() + " - LALR1Generator: ");
+		long timeStart = System.currentTimeMillis();
 		LALR1Generator generator = new LALR1Generator(spec);
+		long timeStop = System.currentTimeMillis();
+		System.out.println((timeStop - timeStart) + " ms");
 		//get the parse table from the LALR1Generator and create a parser with it
 		LRParsingTable tblLALR1 = generator.getParsingTable();
-		LRParser parser = new LRParser(tblLALR1);
+		new LRParser(tblLALR1);
 		//dump the parse table
 		LRParsingTableDump.dumpToHTML(
 				tblLALR1, 
-				new File(strFileNameLALR));
+				new File(strFileName1));
 		
-		//create an WeakCompatGenerator
-		WeakCompatGenerator genWeakCompat = new WeakCompatGenerator(spec);
-		LRParsingTable tblgenWeakCompat = genWeakCompat.getParsingTable();
-		LRParser parserWeakCompat = new LRParser(tblgenWeakCompat);
-		LRParsingTableDump.dumpToHTML(
-				tblgenWeakCompat, 
-				new File(strFileNameWeak));
+//		//create an LR1toLALRGenerator for comparison
+//		System.out.print(spec.getClass().getSimpleName() + " - LR1toLALRGenerator: ");
+//		timeStart = System.currentTimeMillis();
+//		LR1toLALRGenerator generator2 = new LR1toLALRGenerator(spec);
+//		timeStop = System.currentTimeMillis();
+//		System.out.println((timeStop - timeStart) + " ms");
+//		LRParsingTable tbl_LR1toLALR1 = generator2.getParsingTable();
+//		new LRParser(tbl_LR1toLALR1);
+//		LRParsingTableDump.dumpToHTML(tbl_LR1toLALR1, new File(strFileName2));
 		
+		//create an LALR1CPGenerator for comparison
+		System.out.print(spec.getClass().getSimpleName() + " - LALR1CPGenerator: ");
+		timeStart = System.currentTimeMillis();
+		LALR1CPGenerator generator3 = new LALR1CPGenerator(spec);
+		timeStop = System.currentTimeMillis();
+		System.out.println((timeStop - timeStart) + " ms");
+		LRParsingTable tbl_LALR1CP = generator3.getParsingTable();
+		new LRParser(tbl_LALR1CP);
+		LRParsingTableDump.dumpToHTML(tbl_LALR1CP, new File(strFileName3));
 		
-		//create an LR1toLALRGenerator for comparison
-		LR1toLALRGenerator generatorLR1toLALR = new LR1toLALRGenerator(spec);
-		LRParsingTable tblLR1toLALR = generatorLR1toLALR.getParsingTable();
-		LRParser parserLR1toLALR = new LRParser(tblLR1toLALR);
-		LRParsingTableDump.dumpToHTML(
-				tblLR1toLALR, 
-				new File(strFileNameLR1));
-		
-		LRParsingTableTest.assertEquals(tblLR1toLALR, tblLALR1);
-		LRParsingTableTest.assertEquals(tblgenWeakCompat, tblLALR1);
+//		LRParsingTableTest.assertEquals(tbl_LR1toLALR1, tblLALR1);
+		LRParsingTableTest.assertEquals(tblLALR1, tbl_LALR1CP);
 			
 	}
 	
-	private static void lalrTest(CUPSpecification spec) throws GeneratorException
+	private static void lalrTest(CUP2Specification spec) throws GeneratorException
 	{
 		lalrTest(spec, ".html");
 	}
@@ -170,7 +177,7 @@ public class LALR1GeneratorTest
 	 */
 	@Test public void lalrTestSpecC() throws Exception
 	{
-		CUPSpecification spec = new TranslatedCSpec2(); //Spec for Test
+		CUP2Specification spec = new TranslatedCSpec2(); //Spec for Test
 		lalrTest(spec);
 	}
 	
@@ -180,7 +187,7 @@ public class LALR1GeneratorTest
 	 */
 	@Test public void lalrTestSpecPHP() throws Exception
 	{
-		CUPSpecification spec = new TranslatedPHPSpec(); //Spec for Test
+		CUP2Specification spec = new TranslatedPHPSpec(); //Spec for Test
 		lalrTest(spec);
 	}
 	

@@ -1,24 +1,28 @@
 package edu.tum.cup2.io;
 
-import org.junit.Test;
+import static junit.framework.Assert.fail;
+
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import edu.tum.cup2.generator.*;
+
+import org.junit.Test;
+
+import edu.tum.cup2.generator.LR1Generator;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
-import edu.tum.cup2.test.GrammarWiki1;
-import edu.tum.cup2.parser.*;
-import edu.tum.cup2.parser.tables.LRParsingTable;
+import edu.tum.cup2.parser.LRParser;
+import edu.tum.cup2.parser.LRParserTestWrapper;
+import edu.tum.cup2.parser.actions.LRAction;
+import edu.tum.cup2.parser.actions.Reduce;
 import edu.tum.cup2.parser.tables.LRActionTable;
 import edu.tum.cup2.parser.tables.LRActionTableTestDecorator;
+import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.parser.tables.LRParsingTableTest;
 import edu.tum.cup2.parser.tables.StateSymbolKey;
-import edu.tum.cup2.parser.actions.*;
-import edu.tum.cup2.test.*;
 import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.ActionCompareDecorator;
-import edu.tum.cup2.spec.CUPSpecification;
-import static junit.framework.Assert.fail;
+import edu.tum.cup2.spec.CUP2Specification;
+import edu.tum.cup2.test.SpecCalc4;
 
 /**
  * Test class for {@link LRParsingTableSerialization}.
@@ -69,7 +73,7 @@ public class LRParserSerializationTest {
 		saveAndLoadParserAndCompare(spec, fTestFileName);
 	}
 	
-	private void saveAndLoadParserAndCompare(CUPSpecification spec, String strTestFileName)
+	private void saveAndLoadParserAndCompare(CUP2Specification spec, String strTestFileName)
 	throws GeneratorException
 	{
 		//create LRParserSerialization object

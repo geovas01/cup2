@@ -1,19 +1,13 @@
 package edu.tum.cup2.generator;
 
-import edu.tum.cup2.grammar.NonTerminal;
-import edu.tum.cup2.grammar.Terminal;
-import edu.tum.cup2.spec.CUPSpecification;
-import edu.tum.cup2.semantics.SymbolValue;
-import edu.tum.cup2.semantics.Action;
-import java . util . * ; 
-//import org . eclipse . php . internal . core . ast . nodes . * ; 
-//import org . eclipse . dltk . ast . Modifiers ;
-
 import static edu.tum.cup2.generator.TranslatedPHPSpec.NonTerminals.*;
 import static edu.tum.cup2.generator.TranslatedPHPSpec.Terminals.*;
+import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.SpecialTerminals;
+import edu.tum.cup2.grammar.Terminal;
+import edu.tum.cup2.spec.CUP2Specification;
 
-public class TranslatedPHPSpec extends CUPSpecification {
+public class TranslatedPHPSpec extends CUP2Specification {
 
 	protected final static Integer PUBLIC = new Integer(0);
 	protected final static Integer PRIVATE = new Integer(0);

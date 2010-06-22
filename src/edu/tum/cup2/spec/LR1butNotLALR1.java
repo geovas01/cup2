@@ -9,7 +9,7 @@ import static edu.tum.cup2.spec.LR1butNotLALR1.NonTerminals.*;
  * 
  * @author Daniel Altmann
  */
-public class LR1butNotLALR1 extends CUPSpecification
+public class LR1butNotLALR1 extends CUP2Specification
 {
 
 

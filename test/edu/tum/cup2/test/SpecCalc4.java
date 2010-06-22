@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import edu.tum.cup2.generator.LALR1NSEGenerator;
+import edu.tum.cup2.generator.LALR1Generator;
 import edu.tum.cup2.generator.LR0Generator;
 import edu.tum.cup2.generator.LR1Generator;
 import edu.tum.cup2.generator.LR1toLALRGenerator;
@@ -22,7 +22,7 @@ import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.scanner.TestScanner;
 import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.SymbolValue;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.scanner.ScannerTokenTest.terminal;
@@ -41,7 +41,7 @@ import static org.junit.Assert.assertEquals;
  */
 @SuppressWarnings("serial") //MH first try to get rid of warning caused through serializable Action
 public class SpecCalc4
-	extends CUPSpecification
+	extends CUP2Specification
 	implements Serializable
 {
 	
@@ -246,7 +246,7 @@ public class SpecCalc4
 	{
 		try
 		{
-			LRParsingTable table = new LALR1NSEGenerator(this).getParsingTable();
+			LRParsingTable table = new LALR1Generator(this).getParsingTable();
 			LRParsingTableDump.dumpToHTML(table, new File("calc4-lalr.html")); //TEST
 			Object result = new LRParser(table).parse(new TestScanner(
 				terminal(NUMBER, 13),

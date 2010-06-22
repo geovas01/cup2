@@ -11,7 +11,7 @@ import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.parser.exceptions.LRParserException;
 import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.SymbolValue;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.test.SpecCalc3.NonTerminals.*;
@@ -27,7 +27,7 @@ import static junit.framework.Assert.fail;
  * @author Andreas Wenger
  */
 public class SpecCalc3
-	extends CUPSpecification
+	extends CUP2Specification
 {
 	
 

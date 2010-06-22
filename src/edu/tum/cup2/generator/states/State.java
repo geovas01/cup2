@@ -34,6 +34,18 @@ public abstract class State<T extends Item>
 	}
 	
 	
+	public T getFirstItem()
+	{
+		return items.iterator().next();
+	}
+	
+	
+	public Collection<T> getItemsAsCollection()
+	{
+		return items;
+	}
+	
+	
 	public int getItemsCount()
 	{
 		return items.size();
@@ -54,7 +66,7 @@ public abstract class State<T extends Item>
 	 * (only the kernel, without closure).
 	 * For a description of this algorithm, see Appel's book, page 62.
 	 */
-	public abstract State<T> goTo(Symbol symbol, GrammarInfo grammarInfo);
+	public abstract State<T> goTo(Symbol symbol);
 
 		
 	@Override public String toString()

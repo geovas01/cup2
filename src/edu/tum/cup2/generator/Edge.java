@@ -1,6 +1,7 @@
 package edu.tum.cup2.generator;
 
 import edu.tum.cup2.generator.items.Item;
+import edu.tum.cup2.generator.items.LR0Item;
 import edu.tum.cup2.generator.states.State;
 import edu.tum.cup2.grammar.Symbol;
 import edu.tum.cup2.io.IAutomatonVisitor;
@@ -27,13 +28,13 @@ import edu.tum.cup2.io.IVisitedElement;
 
 	private final State src, dest;
 	private final Symbol symbol;
-	private final Item srcItem;
+	private final LR0Item srcItem;
 	
 	
 	/**
 	 * Edge which leads to another non-accepting state.
 	 */
-	public Edge(State src, Symbol symbol, State dest, Item srcItem)
+	public Edge(State src, Symbol symbol, State dest, LR0Item srcItem)
 	{
 		this.src = src;
 		this.symbol = symbol;
@@ -69,7 +70,7 @@ import edu.tum.cup2.io.IVisitedElement;
 	}
 	
 	
-	public Item getSrcItem()
+	public LR0Item getSrcItem()
 	{
 		return srcItem;
 	}

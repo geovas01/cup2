@@ -11,7 +11,7 @@ import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.scanner.TestScanner;
 import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.SymbolValue;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.grammar.SpecialTerminals.$a;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
  * @author Andreas Wenger
  */
 public class SpecActions2
-	extends CUPSpecification
+	extends CUP2Specification
 {
 	
 	private int testSum = 0;
