@@ -28,7 +28,7 @@
   </path>
 
   <path id="test">
-    <pathelement location="${src}" />
+    <pathelement location="${classes}" />
     <pathelement location="lib/junit.jar" />
   </path>
 
@@ -55,11 +55,11 @@
     <javac encoding="UTF-8" srcdir="${tests}" destdir="${classes}" verbose="off" listfiles="off" debug="off" >
       <classpath refid="test"/>
     </javac>
-    <junit failureProperty="test.failure" verbose="on">
+    <junit failureProperty="test.failure">
       <classpath refid="test" />
       <formatter type="brief" usefile="false" />
-      <batchtest>
-        <fileset dir="${classes}" includes="**/*Test.class" />
+      <batchtest fork="yes">
+        <fileset dir="${tests}" includes="**/*Test.java" />
       </batchtest>
     </junit>
     <fail message="test failed" if="test.failure" />
