@@ -19,7 +19,7 @@ import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.test.Time;
 
 //locate static imports after others to be compatible with javac
-import static edu.tum.cup2.scanner.ScannerTokenTest.terminal;
+import static edu.tum.cup2.scanner.ScannerTokenTestTool.terminal;
 import static edu.tum.cup2.test.lr1blowup.Spec1NoPrec.NonTerminals.*;
 import static edu.tum.cup2.test.lr1blowup.Spec1NoPrec.Terminals.*;
 import static junit.framework.Assert.fail;

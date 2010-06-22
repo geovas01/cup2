@@ -17,7 +17,7 @@ import edu.tum.cup2.parser.actions.Reduce;
 import edu.tum.cup2.parser.tables.LRActionTable;
 import edu.tum.cup2.parser.tables.LRActionTableTestDecorator;
 import edu.tum.cup2.parser.tables.LRParsingTable;
-import edu.tum.cup2.parser.tables.LRParsingTableTest;
+import edu.tum.cup2.parser.tables.LRParsingTableTestTool;
 import edu.tum.cup2.parser.tables.StateSymbolKey;
 import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.semantics.ActionCompareDecorator;
@@ -104,7 +104,7 @@ public class LRParserSerializationTest {
 				new File("SpecCalc4.table2.test.cup2.html"));
 	
 		//automatic comparsion of parsing tables
-		LRParsingTableTest.assertEquals(table1, table2);
+		LRParsingTableTestTool.assertEquals(table1, table2);
 		
 		//verify whether semantic action are de-serialized properly
 		equalSemanticActions(table2.getActionTable(), table1.getActionTable());

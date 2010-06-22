@@ -8,7 +8,7 @@ import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.io.LRParsingTableDump;
 import edu.tum.cup2.parser.LRParser;
 import edu.tum.cup2.parser.tables.LRParsingTable;
-import edu.tum.cup2.parser.tables.LRParsingTableTest;
+import edu.tum.cup2.parser.tables.LRParsingTableTestTool;
 import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.test.SpecCalc1;
 import edu.tum.cup2.test.SpecCalc4;
@@ -142,7 +142,7 @@ public class LALR1GeneratorTest
 		LRParsingTableDump.dumpToHTML(tbl_LALR1CP, new File(strFileName3));
 		
 //		LRParsingTableTest.assertEquals(tbl_LR1toLALR1, tblLALR1);
-		LRParsingTableTest.assertEquals(tblLALR1, tbl_LALR1CP);
+		LRParsingTableTestTool.assertEquals(tblLALR1, tbl_LALR1CP);
 			
 	}
 	

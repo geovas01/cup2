@@ -24,7 +24,7 @@ import edu.tum.cup2.parser.states.LRParserState;
  * 
  * @author Andreas Wenger
  */
-public class LRParsingTableTest
+public class LRParsingTableTestTool
 {
 	
 	private static boolean DEBUG = false;

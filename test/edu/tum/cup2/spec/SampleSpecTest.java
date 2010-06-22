@@ -1,6 +1,6 @@
 package edu.tum.cup2.spec;
 
-import static edu.tum.cup2.scanner.ScannerTokenTest.terminal;
+import static edu.tum.cup2.scanner.ScannerTokenTestTool.terminal;
 import static edu.tum.cup2.spec.SampleSpec.Terminals.*;
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
@@ -67,7 +67,7 @@ public class SampleSpecTest
 			SampleSpec spec = new SampleSpec();
 			LRParsingTable table = new LR1Generator(spec, Verbosity.None).getParsingTable();
 			//add the numbers from 1 to max
-			int max = 5000000;
+			int max = 50000;
 			@SuppressWarnings("unchecked") ScannerToken[] input = new ScannerToken[max * 2];
 			for (int i = 0; i < max; i++)
 			{

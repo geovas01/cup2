@@ -3,7 +3,7 @@ package edu.tum.cup2.scanner;
 import edu.tum.cup2.grammar.Terminal;
 
 
-public class ScannerTokenTest
+public class ScannerTokenTestTool
 {
 	
 	public static ScannerToken<Integer> terminal(Terminal terminal, int x)

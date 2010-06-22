@@ -25,7 +25,7 @@ import edu.tum.cup2.semantics.SymbolValue;
 import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
-import static edu.tum.cup2.scanner.ScannerTokenTest.terminal;
+import static edu.tum.cup2.scanner.ScannerTokenTestTool.terminal;
 import static edu.tum.cup2.test.SpecCalc4.NonTerminals.*;
 import static edu.tum.cup2.test.SpecCalc4.Terminals.*;
 import static junit.framework.Assert.fail;

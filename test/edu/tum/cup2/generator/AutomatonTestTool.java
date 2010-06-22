@@ -15,7 +15,7 @@ import edu.tum.cup2.generator.states.State;
  * 
  * @author Andreas Wenger
  */
-public class AutomatonTest
+public class AutomatonTestTool
 {
 	
 	

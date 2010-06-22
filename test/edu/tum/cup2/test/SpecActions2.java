@@ -15,7 +15,7 @@ import edu.tum.cup2.spec.CUP2Specification;
 
 //locate static imports after others to be compatible with javac
 import static edu.tum.cup2.grammar.SpecialTerminals.$a;
-import static edu.tum.cup2.scanner.ScannerTokenTest.terminal;
+import static edu.tum.cup2.scanner.ScannerTokenTestTool.terminal;
 import static edu.tum.cup2.test.SpecActions2.NonTerminals.*;
 import static edu.tum.cup2.test.SpecActions2.Terminals.*;
 import static org.junit.Assert.assertEquals;

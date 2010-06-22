@@ -45,7 +45,7 @@ import edu.tum.cup2.test.minijava.Expr.Identifier;
 // locate static imports after others to be compatible with javac
 import static edu.tum.cup2.grammar.SpecialTerminals.Epsilon;
 import static edu.tum.cup2.grammar.SpecialTerminals.Error;
-import static edu.tum.cup2.scanner.ScannerTokenTest.terminal;
+import static edu.tum.cup2.scanner.ScannerTokenTestTool.terminal;
 import static edu.tum.cup2.test.errorRecovery.tokenInserter.SpecMiniJava.NonTerminals.*;
 import static edu.tum.cup2.test.errorRecovery.tokenInserter.SpecMiniJava.Terminals.*;
 import static edu.tum.cup2.test.minijava.Constants.LE;

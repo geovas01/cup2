@@ -54,7 +54,7 @@ public class LR0StateTest
 			new LR0Item(grammar.getProductionAt(4), 2),  //S → L,.S
 			new LR0Item(grammar.getProductionAt(1), 0),  //S → .(L)
 			new LR0Item(grammar.getProductionAt(2), 0)); //S → .x
-		LR0State goTo = state.goTo(leftbr).closure(grammarInfo); //with closure
+		LR0State goTo = state.goTo(edu.tum.cup2.test.GrammarAppel_3_20_withSP.Terminals.leftbr).closure(grammarInfo); //with closure
 		//result must have 5 items
 		assertEquals(5, goTo.items.size());
 		assertTrue(goTo.items.contains(new LR0Item(grammar.getProductionAt(1), 1))); //S → (.L)
