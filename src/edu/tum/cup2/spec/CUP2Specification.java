@@ -43,9 +43,9 @@ import edu.tum.cup2.util.Reflection;
 public abstract class CUP2Specification
 {
 
-	private boolean init = false;
+	public boolean isInit = false;
 	private LinkedList<NonTerminal> auxNonTerminals = new LinkedList<NonTerminal>();
-	private SymbolValueClasses symbolValueClasses;
+	public SymbolValueClasses symbolValueClasses;
 
 	private Precedences precedences =
 	  new Precedences(
@@ -66,16 +66,16 @@ public abstract class CUP2Specification
 	 * Initializes this class. The grammar method would be too late, because
 	 * we need some information earlier.
 	 */
-	private void init()
+	protected void init()
 	{
-		if (!init)
+		if (!isInit)
 		{
 			//collect symbol-value-bindings
 			Terminal[] terminals = Reflection.getTerminals();
 			NonTerminal[] nonTerminals = Reflection.getNonTerminals();
 			symbolValueClasses = Reflection.getSymbolValueClasses(terminals, nonTerminals);
 			//inited
-			init = true;
+			isInit = true;
 		}
 	}
 
@@ -154,7 +154,7 @@ public abstract class CUP2Specification
 					));
 				}
 			});
-			insertables.addAll(Arrays.asList(Reflection.getTerminals()));
+			insertables.addAll(Arrays.asList(getTerminals()));
     		allTerminals = new LinkedList<Terminal>(insertables);
     	}/**/
 		// SD : Add special terminal used as error-hendl.
@@ -162,13 +162,22 @@ public abstract class CUP2Specification
 		allTerminals.add(SpecialTerminals.Error); //- GOON
 
 		LinkedList<NonTerminal> allNonTerminals = new ArrayTools<NonTerminal>()
-			.toLinkedList(Reflection.getNonTerminals());
+			.toLinkedList(getNonTerminals());
 
 		// SD : add the auxiliary non-terminals to the non-terminals list
 		allNonTerminals.addAll(auxNonTerminals);
 
 		//create grammar
 		this.grammar = new Grammar(allTerminals, allNonTerminals, productionsList);
+	}
+	
+	
+	public Terminal[] getTerminals() {
+		return Reflection.getTerminals();
+	}
+	
+	public NonTerminal[] getNonTerminals() {
+		return Reflection.getNonTerminals();
 	}
 
 
@@ -178,7 +187,7 @@ public abstract class CUP2Specification
 	 * of {@link Action}s which belong to the preceding right hand side.
 	 * @throws IllegalSpecException 
 	 */
-	protected Production[] prod(NonTerminal lhs, RHSItem... rhsItems)
+	public Production[] prod(NonTerminal lhs, RHSItem... rhsItems)
 		throws IllegalSpecException {
 		init();
 		if (rhsItems.length == 0 || !(rhsItems[0] instanceof RHSSymbols)) {
@@ -272,7 +281,7 @@ public abstract class CUP2Specification
 
 						prodsReduceAction.set(prodsReduceAction.size() - 1, action);
 
-						Reflection.checkAction(action, prodsRHS.getLast().size(),
+						checkAction(action, prodsRHS.getLast().size(),
 							prodsRHS.getLast(), symbolValueClasses);
 					} else {
 						// create auxiliary production using this shift-action as reduce-action
@@ -282,7 +291,8 @@ public abstract class CUP2Specification
 							emptyRHS, action);
 						auxNT.symbolValueType = Reflection.getReturnTypeOfAction(action);
 						auxiliaryProductions.add(auxProd);
-						Reflection.checkAction(action, auxNT.numPrecedingSymbols,
+						
+						checkAction(action, auxNT.numPrecedingSymbols,
 							prodsRHS.getLast(), symbolValueClasses);
 						//System.out.println(auxProd.getLHS()+" -> "+auxProd.getRHS());
 					}
@@ -317,6 +327,22 @@ public abstract class CUP2Specification
 		productionCount += prodsRHS.size();
 		return ret;
 	}
+	
+	
+	/**
+	 * Define within this method a way to check if the action is valid. By default
+	 * the method calls {@link Reflection#checkAction(Action, int, List, SymbolValueClasses)}.
+	 * 
+	 * @param action
+	 * @param position
+	 * @param rhsSymbols
+	 * @param symbolValueClasses
+	 */
+	protected void checkAction(Action action, int position,
+			List<Symbol> rhsSymbols, SymbolValueClasses symbolValueClasses) {
+		Reflection.checkAction(action, position, rhsSymbols, symbolValueClasses);
+	}
+	
 
 
 	/**

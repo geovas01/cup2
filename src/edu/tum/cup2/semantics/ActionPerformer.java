@@ -1,8 +1,5 @@
 package edu.tum.cup2.semantics;
 
-import static edu.tum.cup2.semantics.SymbolValue.NoValue;
-
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -48,21 +45,15 @@ public class ActionPerformer
 			}
 		}
 		//call the first (and only) method of the action with the collected parameters
-		Method method = null;
 		try
 		{
-			method = action.getMethod();
-			Object ret = method.invoke(action, parameters);
-			if (action.isVoidReturn())
-				return NoValue;
-			else
-				return ret;
+			return action.doAction(parameters);
 		}
 		catch (IllegalArgumentException ex)
 		{
 			//TODO
 			System.err.println("Error:");
-			System.err.println("  Requested action: " + method.toGenericString());
+			System.err.println("  Requested action: " + action.getMethod().toGenericString());
 			System.err.println("  Given parameters: " + Arrays.toString(parameters));
 			System.err.println("  RHS size:         " + rhsSize);
 			System.err.println("  Value stack:      " + valueStack);
