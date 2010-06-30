@@ -8,6 +8,8 @@ import edu.tum.cup2.spec.exceptions.{IllegalSpecException}
 
 import collection.JavaConversions._
 
+import java.lang.reflect.Method
+
 
 /**
  * Reduce-Actions should be defined as functions. That is done over extending
@@ -31,18 +33,31 @@ class ScalaAction(val f : AnyRef) extends Action {
 	
 	// search for apply-method in function f, thats the method
 	// of this action
-	for(m <- f.getClass().getMethods()) {
-	  if(m.getName() == "apply") {
-	 	// again, define local variable and break, cause everything is init
-        this.method = m
-        this.paramsCount = m.getParameterTypes().size
-	 	this.returnsVoid = m.getReturnType().equals(Void.TYPE)
-	 	return
-	  }
+	this.method = searchMethod
+	
+	if(method != null) {
+      this.paramsCount = this.method.getParameterTypes().size
+      this.returnsVoid = this.method.getReturnType().equals(Void.TYPE)
+	  return
 	}
 	
 	throw new IllegalSpecException("Action has no function f, respectively an apply()-method")
   }
+  
+  /**
+   * Searches the action-Method which means that the first apply() Method of
+   * the given AnyRef-Object f is taken. The result is null if there is no
+   * such method.
+   * 
+   * @return
+   */
+  def searchMethod() : Method = {
+	f.getClass().getMethods().find( _.getName() == "apply") match {
+	case Some(x) => return x;
+    case None    => return null;
+    }
+  }
+  
   
   /**
    * Override doAction() to invoke method on function f with the parameters. They must have been

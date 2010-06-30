@@ -371,101 +371,10 @@ public class Reflection
 			{
 				throw new IllegalSpecException("All actions must have exactly one method called \"a\"!");
 			}
-			//get the parameters of this method
-			Type[] parameters = method.getGenericParameterTypes();
-			//for each parameter, find the appropriate symbol-value (go on if not matching,
-			//since unneeded symbols can be left out).
-			//when we have gone through all parameters, it is ok if we have not exceeded the given position.
-			int curPosition = 0;
-			It<Symbol> rhs = new It<Symbol>(rhsSymbols);
-			for (int i = 0; i < parameters.length; i++)
-			{
-				//type of action parameter
-				Type paramType = parameters[i];
-				//find corresponding RHS symbol
-				while (true)
-				{
-					if (!rhs.hasNext())
-					{
-						throw new IllegalSpecException("Parameters do not match for an action for the RHS: " + rhsSymbols.toString());
-					}
-					Symbol rhsSymbol = rhs.next();
-					curPosition++;
-					if  (curPosition > position)
-		      {
-		        throw new IllegalSpecException("The action occurs too early or it's method requires too much parameters: " + rhsSymbols.toString());
-		      }
-					//does parameter stand for a symbol-value-binding?
-					//this is the case when the parameter class is the same as the rhsSymbol's value class
-					Class<SymbolValue<Object>> symbolClass = symbolValueClasses.get(rhsSymbol);
-					if (symbolClass != null)
-					{
-					  // rhsSymbol has symbol-value-binding => parameter MUST HAVE equal type.
-					  Type expectedType = ((ParameterizedType) symbolClass.getGenericSuperclass()).getActualTypeArguments()[0];
-					  if (expectedType instanceof ParameterizedType)
-					    expectedType = ((ParameterizedType) expectedType).getRawType();
-            if (paramType instanceof ParameterizedType)
-              paramType = ((ParameterizedType) paramType).getRawType();
-				    //System.out.println(paramType+" == "+expectedType);
-					  if (((Class<?>)paramType).isAssignableFrom((Class<?>)expectedType))
-					    break;
-					  else
-					    throw new IllegalSpecException(
-					        "Parameters do not match for an action for the RHS: " + rhsSymbols.toString() +
-					        "(expected "+expectedType+", found "+paramType+")"
-					    );
-					}
-          if (rhsSymbol instanceof AuxiliaryLHS4SemanticShiftAction)
-          {
-            // rhsSymbol has no symbol-value-binding, but is an auxiliary NT =>
-            // if auxNT has symbol-value void ignore auxiliary NT,
-            // otherwise parameter MUST BE symbolvaluetype of aux NT.
-            AuxiliaryLHS4SemanticShiftAction auxNT = (AuxiliaryLHS4SemanticShiftAction)rhsSymbol;
-            if (auxNT.symbolValueType==Void.TYPE)
-              continue;
-            if (((Class<?>)paramType).isAssignableFrom(auxNT.symbolValueType))
-              break;
-            else
-              throw new IllegalSpecException(
-                  "Parameters do not match for an action for the RHS: " + rhsSymbols.toString() +
-                  "(expected "+auxNT.symbolValueType+", found "+paramType+")"
-              );
-          }
-          if (SpecialTerminals.Error.equals(rhsSymbol))
-          {
-            // rhsSymbol has no symbol-value-binding, is no auxiliary NT, but is an Error => parameter MUST BE ErrorInformation
-            if(paramType.equals(ErrorInformation.class))
-              break;
-            else
-              throw new IllegalSpecException(
-                  "Parameters do not match for an action for the RHS: " + rhsSymbols.toString() +
-                  "(expected ErrorInformation, found "+paramType+")"
-              );
-          }
-          // rhsSymbol is neither value-binded, an aux NT nor an Error => It has no meaning at all (for example Epsilon)
-				}
-			}
-			//given position must be at least as high as the computed minimal position
-			if (curPosition < position)
-			{
-			  while(curPosition < position)
-			  {
-			    if (!rhs.hasNext())
-			      throw new IllegalSpecException("Parameters do not match for an action for the RHS: " + rhsSymbols.toString());
-			    Symbol rhsSymbol = rhs.next();
-			    curPosition++;
-          Class<SymbolValue<Object>> symbolClass = symbolValueClasses.get(rhsSymbol);
-			    if (
-			        symbolClass!=null ||
-			        (
-			            rhsSymbol instanceof AuxiliaryLHS4SemanticShiftAction &&
-			            ((AuxiliaryLHS4SemanticShiftAction)rhsSymbol).symbolValueType!=Void.TYPE
-			        ) ||
-			        SpecialTerminals.Error.equals(rhsSymbol)
-			    )
-			      throw new IllegalSpecException("The action occurs too late or it's method requires too less parameters: " + rhsSymbols.toString());
-			  }
-			}
+			
+			// do the checking
+			checkParamsOfAction(method, position, rhsSymbols, symbolValueClasses);
+			
 		}
 		catch (Exception ex)
 		{
@@ -474,6 +383,153 @@ public class Reflection
 			throw new IllegalSpecException(ex.getMessage());
 		}
 	}
+	
+	
+	/**
+	 * Checks the parameters of the method <code>method</code> if they are compatible with
+	 * the expected values. Note that there is a special checking for primitive types which
+	 * can occur if the specification is written in scala.
+	 * 
+	 * @param method
+	 * @param position
+	 * @param rhsSymbols
+	 * @param symbolValueClasses
+	 * @throws Exception
+	 */
+	public static void checkParamsOfAction(Method method, int position,
+		List<Symbol> rhsSymbols, SymbolValueClasses symbolValueClasses) throws Exception {
+	
+		//get the parameters of this method
+		Type[] parameters = method.getGenericParameterTypes();
+		//for each parameter, find the appropriate symbol-value (go on if not matching,
+		//since unneeded symbols can be left out).
+		//when we have gone through all parameters, it is ok if we have not exceeded the given position.
+		int curPosition = 0;
+		It<Symbol> rhs = new It<Symbol>(rhsSymbols);
+		for (int i = 0; i < parameters.length; i++)
+		{
+			//type of action parameter
+			Type paramType = parameters[i];
+			//find corresponding RHS symbol
+			while (true)
+			{
+				if (!rhs.hasNext())
+				{
+					throw new IllegalSpecException("Parameters do not match for an action for the RHS: " + rhsSymbols.toString());
+				}
+				Symbol rhsSymbol = rhs.next();
+				curPosition++;
+				if  (curPosition > position)
+	      {
+	        throw new IllegalSpecException("The action occurs too early or it's method requires too much parameters: " + rhsSymbols.toString());
+	      }
+				//does parameter stand for a symbol-value-binding?
+				//this is the case when the parameter class is the same as the rhsSymbol's value class
+				Class<SymbolValue<Object>> symbolClass = symbolValueClasses.get(rhsSymbol);
+				if (symbolClass != null)
+				{
+					// rhsSymbol has symbol-value-binding => parameter MUST HAVE
+					// equal type.
+					Type expectedType = ((ParameterizedType) symbolClass
+							.getGenericSuperclass()).getActualTypeArguments()[0];
+					if (expectedType instanceof ParameterizedType)
+						expectedType = ((ParameterizedType) expectedType)
+								.getRawType();
+					if (paramType instanceof ParameterizedType)
+						paramType = ((ParameterizedType) paramType)
+								.getRawType();
+					// System.out.println(paramType+" == "+expectedType);
+
+					
+					// primitive Type can occur if you use scala for the specification,
+					// so first wrap the primitive types and then go on with checking
+					if (((Class<?>) paramType).isPrimitive()) {
+						
+						if(((Class<?>) paramType).isAssignableFrom(Integer.TYPE)) {
+							paramType = Integer.class;
+						} else if(((Class<?>) paramType).isAssignableFrom(Boolean.TYPE)) {
+							paramType = Boolean.class;
+						} else if(((Class<?>) paramType).isAssignableFrom(Character.TYPE)) {
+							paramType = Character.class;
+						} else if(((Class<?>) paramType).isAssignableFrom(Byte.TYPE)) {
+							paramType = Byte.class;
+						} else if(((Class<?>) paramType).isAssignableFrom(Short.TYPE)) {
+							paramType = Short.class;
+						} else if(((Class<?>) paramType).isAssignableFrom(Long.TYPE)) {
+							paramType = Long.class;
+						} else if(((Class<?>) paramType).isAssignableFrom(Float.TYPE)) {
+							paramType = Float.class;
+						} else if(((Class<?>) paramType).isAssignableFrom(Double.TYPE)) {
+							paramType = Double.class;
+						}
+						
+					}
+
+					if (((Class<?>) paramType)
+							.isAssignableFrom((Class<?>) expectedType))
+						break;
+					else {
+
+						throw new IllegalSpecException(
+								"Parameters do not match for an action for the RHS: "
+										+ rhsSymbols.toString() + "(expected "
+										+ expectedType + ", found " + paramType
+										+ ")");
+					}
+				}
+      if (rhsSymbol instanceof AuxiliaryLHS4SemanticShiftAction)
+      {
+        // rhsSymbol has no symbol-value-binding, but is an auxiliary NT =>
+        // if auxNT has symbol-value void ignore auxiliary NT,
+        // otherwise parameter MUST BE symbolvaluetype of aux NT.
+        AuxiliaryLHS4SemanticShiftAction auxNT = (AuxiliaryLHS4SemanticShiftAction)rhsSymbol;
+        if (auxNT.symbolValueType==Void.TYPE)
+          continue;
+        if (((Class<?>)paramType).isAssignableFrom(auxNT.symbolValueType))
+          break;
+        else
+          throw new IllegalSpecException(
+              "Parameters do not match for an action for the RHS: " + rhsSymbols.toString() +
+              "(expected "+auxNT.symbolValueType+", found "+paramType+")"
+          );
+      }
+      if (SpecialTerminals.Error.equals(rhsSymbol))
+      {
+        // rhsSymbol has no symbol-value-binding, is no auxiliary NT, but is an Error => parameter MUST BE ErrorInformation
+        if(paramType.equals(ErrorInformation.class))
+          break;
+        else
+          throw new IllegalSpecException(
+              "Parameters do not match for an action for the RHS: " + rhsSymbols.toString() +
+              "(expected ErrorInformation, found "+paramType+")"
+          );
+      }
+      // rhsSymbol is neither value-binded, an aux NT nor an Error => It has no meaning at all (for example Epsilon)
+			}
+		}
+		//given position must be at least as high as the computed minimal position
+		if (curPosition < position)
+		{
+		  while(curPosition < position)
+		  {
+		    if (!rhs.hasNext())
+		      throw new IllegalSpecException("Parameters do not match for an action for the RHS: " + rhsSymbols.toString());
+		    Symbol rhsSymbol = rhs.next();
+		    curPosition++;
+      Class<SymbolValue<Object>> symbolClass = symbolValueClasses.get(rhsSymbol);
+		    if (
+		        symbolClass!=null ||
+		        (
+		            rhsSymbol instanceof AuxiliaryLHS4SemanticShiftAction &&
+		            ((AuxiliaryLHS4SemanticShiftAction)rhsSymbol).symbolValueType!=Void.TYPE
+		        ) ||
+		        SpecialTerminals.Error.equals(rhsSymbol)
+		    )
+		      throw new IllegalSpecException("The action occurs too late or it's method requires too less parameters: " + rhsSymbols.toString());
+		  }
+		}
+	}
+	
 	/**
 	 * Instantiates enumeration object at runtime.
 	 * @author Stefan Dangl

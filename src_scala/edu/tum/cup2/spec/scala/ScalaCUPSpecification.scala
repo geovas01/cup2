@@ -122,7 +122,19 @@ trait ScalaCUPSpecification { self : CUP2Specification =>
    */
   override def checkAction(action : Action, position : Int,
 	  rhsSymbols : java.util.List[Symbol], symbolValueClasses : SymbolValueClasses) = {
-	//Reflection.checkAction(action, position, rhsSymbols, symbolValueClasses)
+	
+	// surely possible cast
+	var a = action.asInstanceOf[ScalaAction]
+	
+	// get real method to work with
+	var method = a.searchMethod()
+	
+	try {
+		edu.tum.cup2.util.Reflection.checkParamsOfAction(method, position, rhsSymbols, symbolValueClasses)
+	} catch {
+		case ex => ex.printStackTrace();
+			throw new IllegalSpecException(ex.getMessage());
+	}
   }
 }
 
