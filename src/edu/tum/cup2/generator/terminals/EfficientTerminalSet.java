@@ -236,8 +236,8 @@ public final class EfficientTerminalSet
 	 */
 	public boolean equals(EfficientTerminalSet terminals)
 	{
-		if (this.terminals != terminals.terminals)
-			return false;
+//		if (this.terminals != terminals.terminals)
+//			return false;
 		for (int i = 0; i < data.length; i++)
 		{
 			if (data[i] != terminals.data[i])

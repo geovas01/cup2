@@ -85,7 +85,7 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 		statesMap.put(state0, tableStates.next()); //start state
 		for (S dfaState : dfa.getStates())
 		{
-			if (dfaState != state0)
+			if (!dfaState.equals(state0))
 				statesMap.put(dfaState, tableStates.next()); //other state
 		}
 		

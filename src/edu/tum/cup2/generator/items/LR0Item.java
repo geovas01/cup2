@@ -113,7 +113,8 @@ public class LR0Item
 		if (obj instanceof LR0Item)
 		{
 			LR0Item l = (LR0Item) obj;
-			if (production != l.production) //OBSOLETE: !production.equals(l.production))
+			//if (production != l.production) //OBSOLETE: 
+			if (!production.equals(l.production))
 				return false;
 			if (position != l.position)
 				return false;

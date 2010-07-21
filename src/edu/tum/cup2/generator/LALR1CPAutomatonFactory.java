@@ -58,7 +58,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 		
 		//hashmap which matches a kernel of a state
 		//to its complete (with closure) state
-		HashMap<LALR1CPState, LALR1CPState> dfaStates = map();
+		HashMap<LALR1CPState, LALR1CPState> kernel2closure = map();
 		
 		//collected go-to context propagation links
 		//(key: source item, value contains target state *closure*)
@@ -68,7 +68,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 		HashMap<LALR1CPItem, LALR1CPState> itemStates = map();
 		
 		//set of edges
-		Set<Edge> dfaEdges = set();
+		Set<Edge> lr0Edges = set();
 		
 		//TODO: own function
 		{
@@ -76,7 +76,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 			//initialize queue, which consists of states
 			HashSet<LALR1CPState> queue = set();
 			queue.add(startStateKernel);
-			dfaStates.put(startStateKernel, startStateKernel.closure(grammarInfo));
+			kernel2closure.put(startStateKernel, startStateKernel.closure(grammarInfo));
 			
 			//for all states, find their edges to other (possibly new) states
 			while (!queue.isEmpty())
@@ -92,7 +92,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 				
 				//first, create a LALR(1)-with-CP-Links automaton and remember the closures
 				//for performance reasons
-				LALR1CPState state = dfaStates.get(stateKernel);
+				LALR1CPState state = kernel2closure.get(stateKernel);
 				Set<Symbol> shiftedSymbols = new HashSet<Symbol>();
 				for (LALR1CPItem item : state.getItems())
 				{
@@ -105,7 +105,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 						if (symbol == EndOfInputStream)
 						{
 							//$-symbol: here we accept
-							dfaEdges.add(createAcceptEdge(stateKernel, symbol)); //GOON: with or without closure?
+							lr0Edges.add(createAcceptEdge(stateKernel, symbol)); //GOON: with or without closure?
 						}
 						else if (!shiftedSymbols.add(symbol)) //shift each symbol only once
 						{
@@ -118,13 +118,13 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 							
 							//we try to find out if there is already some state which has an equal
 							//kernel to the shifted state (LALR1CPState equals on kernel)
-							LALR1CPState equalStateLALR1CP = dfaStates.get(shiftedStateKernel);
+							LALR1CPState equalStateLALR1CP = kernel2closure.get(shiftedStateKernel);
 							LALR1CPState gotoLinkTargetState = equalStateLALR1CP;
 							if (equalStateLALR1CP == null)
 							{
 								//add new state
 								LALR1CPState shiftedState = shiftedStateKernel.closure(grammarInfo);
-								dfaStates.put(shiftedStateKernel, shiftedState);
+								kernel2closure.put(shiftedStateKernel, shiftedState);
 								queue.add(shiftedStateKernel);
 								gotoLinkTargetState = shiftedState;
 								
@@ -133,35 +133,53 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 							//remember CP links (cp link contains closure of target state, not only kernel)
 							for (CPGoToLink link : shiftedStateCPLinks)
 							{
-								goToLinks.put(item, link.withTargetState(gotoLinkTargetState));
+								LALR1CPItem todoItem = link.getSource();
+								if (goToLinks.containsKey(todoItem))
+									throw new RuntimeException("Double gotoLink!");
+								goToLinks.put(todoItem, link.withTargetState(gotoLinkTargetState));
 							}
 							
 							//add edge
-							dfaEdges.add(new Edge(stateKernel, symbol, shiftedStateKernel, item.getLR0Item()));
+							lr0Edges.add(new Edge(stateKernel, symbol, shiftedStateKernel, item.getLR0Item()));
 						}
 					}
 				}
 			}
 		}
 		
+		HashMap<LALR1CPItem, EfficientTerminalSet> lookaheads = map();
 		//TODO: own function
 		{
 			//now, since we have built the LALR(1)-CP automaton, we compute
 			//all lookaheads by just following the CP links. Therefore, we just save the lookaheads
 			//for each LALR1CPItem in a hashmap
-			HashMap<LALR1CPItem, EfficientTerminalSet> lookaheads = map();
+
 			
 			//initialize queue (consisting of kernels) with the start item kernel
 			HashSet<LALR1CPItem> queue = set();
-			LALR1CPItem firstItem = startStateKernel.getFirstItem();
+			LALR1CPState st = kernel2closure.get(startStateKernel);
+			LALR1CPItem firstItem = st.getItemWithLookaheadByLR0Item(startStateKernelItem);
 			queue.add(firstItem);
 			lookaheads.put(firstItem, firstItem.getLookaheads());
+
+			EfficientTerminalSet empty = firstItem.getLookaheads().empty();
+			for (LALR1CPState sta: kernel2closure.values()){
+				for (LALR1CPItem ite : sta.getItems()){
+					if (ite.getPosition()==0) { 
+						queue.add(ite);
+						lookaheads.put(ite,ite.getLookaheads());
+					}
+					else
+						lookaheads.put(ite,empty);
+				}
+			}
+			
 			
 			while (!queue.isEmpty())
 			{
 				LALR1CPItem item = queue.iterator().next();
 				queue.remove(item);
-				EfficientTerminalSet itemLookaheads = lookaheads.get(item);
+				EfficientTerminalSet sourceItemLookaheads = lookaheads.get(item);
 				
 				//go-to-links: propagate lookaheads to all target items
 				CPGoToLink gotoLink = goToLinks.get(item);
@@ -172,7 +190,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 					//add lookaheads to target item
 					//if new lookaheads were found, add target item to the queue
 					EfficientTerminalSet before = lookaheads.get(targetItem);
-					EfficientTerminalSet after = before.plusAll(itemLookaheads);
+					EfficientTerminalSet after = before.plusAll(sourceItemLookaheads);
 					if (!before.equals(after))
 					{
 						lookaheads.put(targetItem, after);
@@ -188,7 +206,8 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 					//add lookaheads to target item
 					//if new lookaheads were found, add target item to the queue
 					EfficientTerminalSet before = lookaheads.get(targetItem);
-					EfficientTerminalSet after = before.plusAll(itemLookaheads);
+					EfficientTerminalSet after = before.plusAll(sourceItemLookaheads);
+					after=after.plusAll(targetItem.getLookaheads());
 					if (!before.equals(after))
 					{
 						lookaheads.put(targetItem, after);
@@ -201,20 +220,23 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 		
 		//create states and edges from collected information
 		HashMap<LALR1CPState, LR1State> lalr1CPToLR1Map = map(); 
-		for (LALR1CPState state : dfaStates.keySet())
+		for (LALR1CPState state : kernel2closure.keySet())
 		{
 			HashSet<LR1Item> lr1Items = new HashSet<LR1Item>();
-			for (LALR1CPItem item : state.getItems())
-			{
-				lr1Items.add(new LR1Item(item.getLR0Item(), item.getLookaheads()));
+			LALR1CPState stateWithClosure = kernel2closure.get(state);
+			
+			for (LR0Item strippedItem : state.getStrippedItems()){
+				LALR1CPItem item = stateWithClosure.getItemWithLookaheadByLR0Item(strippedItem);
+				EfficientTerminalSet terminals = lookaheads.get(item);
+				lr1Items.add(new LR1Item(strippedItem, terminals));
 			}
 			LR1State lr1State = new LR1State(lr1Items);
 			lalr1CPToLR1Map.put(state, lr1State);
-			this.dfaStates.add(lr1State);
+			dfaStates.add(lr1State);
 		}
 		
 		//fill dfaEdges
-		for (Edge edge : dfaEdges)
+		for (Edge edge : lr0Edges)
 		{
 			this.dfaEdges.add(new Edge(lalr1CPToLR1Map.get(edge.getSrc()),
 				edge.getSymbol(), lalr1CPToLR1Map.get(edge.getDest()), edge.getSrcItem()));
