@@ -2,9 +2,12 @@ package edu.tum.cup2.generator;
 
 import java.io.File;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import edu.tum.cup2.generator.exceptions.GeneratorException;
+import edu.tum.cup2.generator.items.LR1Item;
+import edu.tum.cup2.generator.states.LR1State;
 import edu.tum.cup2.io.LRParsingTableDump;
 import edu.tum.cup2.parser.LRParser;
 import edu.tum.cup2.parser.tables.LRParsingTable;
@@ -12,6 +15,8 @@ import edu.tum.cup2.parser.tables.LRParsingTableTestTool;
 import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.test.SpecCalc1;
 import edu.tum.cup2.test.SpecCalc4;
+import edu.tum.cup2.test.SpecJava14;
+import edu.tum.cup2.test.SpecMiniJava;
 
 
 /**
@@ -137,11 +142,21 @@ public class LALR1GeneratorTest
 		LALR1CPGenerator generator3 = new LALR1CPGenerator(spec);
 		timeStop = System.currentTimeMillis();
 		System.out.println((timeStop - timeStart) + " ms");
+
+		Automaton<LR1Item, LR1State> autoLALR1 = generator.getAutomaton();
+		Automaton<LR1Item, LR1State> autoLALR1CP = generator3.getAutomaton();
+		
+ 		Assert.assertEquals(autoLALR1.getStates().size(), autoLALR1CP.getStates().size());
+		Assert.assertEquals(autoLALR1.getEdges().size(), autoLALR1CP.getEdges().size());
+ 		// AutomatonTestTool.testContainmentOfAllStates(autoLALR1);
+			
+		AutomatonTestTool.testEquals(autoLALR1, autoLALR1CP);
+		
+		
 		LRParsingTable tbl_LALR1CP = generator3.getParsingTable();
 		new LRParser(tbl_LALR1CP);
-		LRParsingTableDump.dumpToHTML(tbl_LALR1CP, new File(strFileName3));
-		
-//		LRParsingTableTest.assertEquals(tbl_LR1toLALR1, tblLALR1);
+//		LRParsingTableDump.dumpToHTML(tbl_LALR1CP, new File(strFileName3));
+//		LRParsingTableTestTool.assertEquals(tbl_LR1toLALR1, tblLALR1);
 		LRParsingTableTestTool.assertEquals(tblLALR1, tbl_LALR1CP);
 			
 	}
@@ -180,7 +195,19 @@ public class LALR1GeneratorTest
 		CUP2Specification spec = new TranslatedCSpec2(); //Spec for Test
 		lalrTest(spec);
 	}
+	@Test public void lalrTestMiniJava() throws Exception
+	{
+		SpecMiniJava spec = new SpecMiniJava();
+		lalrTest(spec);
+	}
+
+	@Test public void lalrTestJava() throws Exception
+	{
+		SpecJava14 spec = new SpecJava14();
+		lalrTest(spec);
+	}
 	
+	 	
 	/**
 	 * Unit Test for LALRGenerator with the PHP Spec
 	 * @throws Exception

@@ -48,7 +48,7 @@ public class AutomatonTestTool
 		//(this is is tested as soon as the states are dequeued).
 		while (!queue.isEmpty())
 		{
-			State s1 = queue.getFirst();
+			State s1 = queue.poll();
 			
 			//find equal state in a2
 			State s2 = null;
@@ -95,11 +95,22 @@ public class AutomatonTestTool
 				//target states must be equal. if still unknown, queue.
 				State ts1 = e1.getDest();
 				State ts2 = e2.getDest();
+				
+				if (ts1==null){
+					if (ts2!=null)
+						fail("Edge with symbol " + e1.getSymbol() + " leads to a final state in Automaton 1 only");
+					else
+						continue;
+				}
+
+				
+				
 				if (!ts1.equals(ts2))
 				{
-					fail("Edge with symbol " + e1.getSymbol() + " leads to different states at state: " + s1);
+					ts1.equals(ts2);
+					fail("Edge with symbol " + e1.getSymbol() + " leads to different states at state: " + ts1 + " and state "+ts2);
 				}
-				else if (!queue.contains(ts1) && finished.contains(ts1))
+				else if ((!queue.contains(ts1)) && (!finished.contains(ts1)))
 				{
 					queue.add(ts1);
 				}
