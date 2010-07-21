@@ -26,7 +26,7 @@ public final class LALR1CPItem
 	implements Item
 {
 	
-	private final LR0Item kernel;
+	private final LR0Item stripped;
 	private final EfficientTerminalSet lookaheads;
 	
 	//closure CP links
@@ -39,9 +39,9 @@ public final class LALR1CPItem
 	/**
 	 * Creates a new {@link LALR1Item}, using the LR(0) kernel and a set of lookaheads (may not be null).
 	 */
-	public LALR1CPItem(LR0Item kernel, EfficientTerminalSet lookaheads)
+	public LALR1CPItem(LR0Item stripped, EfficientTerminalSet lookaheads)
 	{
-		this(kernel, lookaheads, new HashSet<LR0Item>());
+		this(stripped, lookaheads, new HashSet<LR0Item>());
 	}
 	
 	
@@ -49,25 +49,25 @@ public final class LALR1CPItem
 	 * Creates a new {@link LALR1Item}, using the given kernel, a set of lookaheads (may not be null)
 	 * and a set of closure context propagation links.
 	 */
-	private LALR1CPItem(LR0Item kernel, EfficientTerminalSet lookaheads, Set<LR0Item> closureLinks)
+	private LALR1CPItem(LR0Item stripped, EfficientTerminalSet lookaheads, Set<LR0Item> closureLinks)
 	{
-		this.kernel = kernel;
+		this.stripped = stripped;
 		this.lookaheads = lookaheads;
 		this.closureLinks = closureLinks;
 		//compute hashcode
-		this.hashCode = this.kernel.hashCode() + lookaheads.hashCode() * 100;
+		this.hashCode = this.stripped.hashCode() + lookaheads.hashCode() * 100;
 	}
 	
 	
 	public Production getProduction()
 	{
-		return kernel.getProduction();
+		return stripped.getProduction();
 	}
 	
 	
 	public int getPosition()
 	{
-		return kernel.getPosition();
+		return stripped.getPosition();
 	}
 	
 	
@@ -77,13 +77,13 @@ public final class LALR1CPItem
 	 */
 	public Symbol getNextSymbol()
 	{
-		return kernel.getNextSymbol();
+		return stripped.getNextSymbol();
 	}
 	
 	
 	public boolean isShiftable()
 	{
-		return kernel.isShiftable();
+		return stripped.isShiftable();
 	}
 	
 	
@@ -95,10 +95,10 @@ public final class LALR1CPItem
 	 */
 	public LALR1CPItem shift()
 	{
-		if (kernel.position >= kernel.getProduction().getRHS().size())
+		if (stripped.position >= stripped.getProduction().getRHS().size())
 			throw new RuntimeException(
-				"Shifting not possible: Item already closed: " + kernel.production.toString(kernel.position));
-		return new LALR1CPItem(new LR0Item(kernel.production, kernel.position + 1), lookaheads);
+				"Shifting not possible: Item already closed: " + stripped.production.toString(stripped.position));
+		return new LALR1CPItem(new LR0Item(stripped.production, stripped.position + 1), lookaheads);
 	}
 	
 	
@@ -123,9 +123,9 @@ public final class LALR1CPItem
 		EfficientTerminalSet ret = lookaheads.empty();
 		//while the symbols of β (if any) are nullable, collect their FIRST sets.
 		//when not nullable, collect the symbols and stop.
-		for (int i = kernel.position + 1; i < kernel.production.getRHS().size(); i++)
+		for (int i = stripped.position + 1; i < stripped.production.getRHS().size(); i++)
 		{
-			Symbol symbol = kernel.production.getRHS().get(i);
+			Symbol symbol = stripped.production.getRHS().get(i);
 			ret = ret.plusAll(firstSets.get(symbol));
 			if (!(symbol == Epsilon || nullableSet.contains(symbol))) //TODO: why "symbol == Epsilon"? redundant to nullableSet
 				return t(ret, false);
@@ -144,7 +144,7 @@ public final class LALR1CPItem
 	
 	@Override public String toString()
 	{
-		StringBuilder s = new StringBuilder(kernel.production.toString(kernel.position));
+		StringBuilder s = new StringBuilder(stripped.production.toString(stripped.position));
 		s.append(" [");
 		s.append(lookaheads.toString());
 		s.append("] CP: <");
@@ -168,7 +168,7 @@ public final class LALR1CPItem
 	
 	public LALR1CPItem plusLookaheads(EfficientTerminalSet lookaheads)
 	{
-		return new LALR1CPItem(kernel, this.lookaheads.plusAll(lookaheads), closureLinks);
+		return new LALR1CPItem(stripped, this.lookaheads.plusAll(lookaheads), closureLinks);
 	}
 	
 	
@@ -176,7 +176,7 @@ public final class LALR1CPItem
 	{
 		//GOON: this is destructive. can we use a persistent data structure instead?
 		closureLinks.add(targetItem);
-		return new LALR1CPItem(kernel, lookaheads, closureLinks);
+		return new LALR1CPItem(stripped, lookaheads, closureLinks);
 	}
 	
 	
@@ -186,9 +186,9 @@ public final class LALR1CPItem
 	}
 	
 	
-	public LR0Item getLR0Kernel()
+	public LR0Item getLR0Item()
 	{
-		return kernel;
+		return stripped;
 	}
 	
 

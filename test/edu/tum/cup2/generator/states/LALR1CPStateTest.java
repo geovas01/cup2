@@ -45,26 +45,26 @@ public class LALR1CPStateTest
 		LALR1CPState closure = state.closure(grammarInfo);
 		//result must have 8 items
 		assertEquals(6, closure.getItemsCount());
-		Set<LR0Item> closureKernels = closure.getKernels();
+		Set<LR0Item> closureKernels = closure.getStrippedItems();
 		//S → .S$ , ? , no CP links
 		LR0Item startKernel = new LR0Item(grammar.getProductionAt(0), 0);
 		LR0Item kernel = startKernel;
 		assertTrue(closureKernels.contains(kernel)); 
-		LALR1CPItem closureItem = closure.getItemByKernel(kernel);
+		LALR1CPItem closureItem = closure.getItemWithLookaheadByLR0Item(kernel);
 		assertEquals(1, closureItem.getLookaheads().getTerminals().size());
 		assertTrue(closureItem.getLookaheads().getTerminals().contains(Placeholder));
 		assertEquals(0, closureItem.getClosureLinks().size());
 		//S → .V=E , $ , no CP links
 		kernel = new LR0Item(grammar.getProductionAt(1), 0);
 		assertTrue(closureKernels.contains(kernel)); 
-		closureItem = closure.getItemByKernel(kernel);
+		closureItem = closure.getItemWithLookaheadByLR0Item(kernel);
 		assertEquals(1, closureItem.getLookaheads().getTerminals().size());
 		assertTrue(closureItem.getLookaheads().getTerminals().contains($));
 		assertEquals(0, closureItem.getClosureLinks().size());
 		//S → .E   , $ , CP link to E → .V
 		kernel = new LR0Item(grammar.getProductionAt(2), 0);
 		assertTrue(closureKernels.contains(kernel)); 
-		closureItem = closure.getItemByKernel(kernel);
+		closureItem = closure.getItemWithLookaheadByLR0Item(kernel);
 		assertEquals(1, closureItem.getLookaheads().getTerminals().size());
 		assertTrue(closureItem.getLookaheads().getTerminals().contains($));
 		assertEquals(1, closureItem.getClosureLinks().size());
@@ -72,7 +72,7 @@ public class LALR1CPStateTest
 		//E → .V   , ∅ , CP links to V → .x and V → .*E
 		kernel = new LR0Item(grammar.getProductionAt(3), 0);
 		assertTrue(closureKernels.contains(kernel)); 
-		closureItem = closure.getItemByKernel(kernel);
+		closureItem = closure.getItemWithLookaheadByLR0Item(kernel);
 		assertEquals(0, closureItem.getLookaheads().getTerminals().size());
 		assertEquals(2, closureItem.getClosureLinks().size());
 		assertTrue(closureItem.getClosureLinks().contains(new LR0Item(grammar.getProductionAt(4), 0)));
@@ -80,14 +80,14 @@ public class LALR1CPStateTest
 		//V → .x   , = , no CP links
 		kernel = new LR0Item(grammar.getProductionAt(4), 0);
 		assertTrue(closureKernels.contains(kernel)); 
-		closureItem = closure.getItemByKernel(kernel);
+		closureItem = closure.getItemWithLookaheadByLR0Item(kernel);
 		assertEquals(1, closureItem.getLookaheads().getTerminals().size());
 		assertTrue(closureItem.getLookaheads().getTerminals().contains(eq));
 		assertEquals(0, closureItem.getClosureLinks().size());
 		//V → .*E  , = , no CP links
 		kernel = new LR0Item(grammar.getProductionAt(5), 0);
 		assertTrue(closureKernels.contains(kernel)); 
-		closureItem = closure.getItemByKernel(kernel);
+		closureItem = closure.getItemWithLookaheadByLR0Item(kernel);
 		assertEquals(1, closureItem.getLookaheads().getTerminals().size());
 		assertTrue(closureItem.getLookaheads().getTerminals().contains(eq));
 		assertEquals(0, closureItem.getClosureLinks().size());
@@ -112,7 +112,7 @@ public class LALR1CPStateTest
 		Tuple2<LALR1CPState, LinkedList<CPGoToLink>> goTo = state.goToCP(eq);
 		//result must have 1 item and 1 CP link
 		assertEquals(1, goTo.get1().getItemsCount());
-		LR0Item targetItem = goTo.get1().getFirstItem().getLR0Kernel();
+		LR0Item targetItem = goTo.get1().getFirstItem().getLR0Item();
 		assertTrue(new LR0Item(g.getProductionAt(1), 2).equals(targetItem));
 		assertEquals(1, goTo.get2().size());
 		assertTrue(goTo.get2().getFirst().getTargetItem().equals(targetItem));
@@ -123,7 +123,7 @@ public class LALR1CPStateTest
 	{
 		Set<LR0Item> kernels = set();
 		for (LALR1CPItem item : items)
-			kernels.add(item.getLR0Kernel());
+			kernels.add(item.getLR0Item());
 		return new LALR1CPState(kernels, Arrays.asList(items));
 	}
 	

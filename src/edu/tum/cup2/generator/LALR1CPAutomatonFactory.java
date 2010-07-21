@@ -137,7 +137,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 							}
 							
 							//add edge
-							dfaEdges.add(new Edge(stateKernel, symbol, shiftedStateKernel, item.getLR0Kernel()));
+							dfaEdges.add(new Edge(stateKernel, symbol, shiftedStateKernel, item.getLR0Item()));
 						}
 					}
 				}
@@ -168,7 +168,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 				if (gotoLink != null)
 				{
 					LALR1CPState targetState = gotoLink.getTargetState();
-					LALR1CPItem targetItem = targetState.getItemByKernel(gotoLink.getTargetItem());
+					LALR1CPItem targetItem = targetState.getItemWithLookaheadByLR0Item(gotoLink.getTargetItem());
 					//add lookaheads to target item
 					//if new lookaheads were found, add target item to the queue
 					EfficientTerminalSet before = lookaheads.get(targetItem);
@@ -184,7 +184,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 				for (LR0Item closureLink : item.getClosureLinks())
 				{
 					LALR1CPState targetState = itemStates.get(item); //same state as current item
-					LALR1CPItem targetItem = targetState.getItemByKernel(closureLink);
+					LALR1CPItem targetItem = targetState.getItemWithLookaheadByLR0Item(closureLink);
 					//add lookaheads to target item
 					//if new lookaheads were found, add target item to the queue
 					EfficientTerminalSet before = lookaheads.get(targetItem);
@@ -206,7 +206,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 			HashSet<LR1Item> lr1Items = new HashSet<LR1Item>();
 			for (LALR1CPItem item : state.getItems())
 			{
-				lr1Items.add(new LR1Item(item.getLR0Kernel(), item.getLookaheads()));
+				lr1Items.add(new LR1Item(item.getLR0Item(), item.getLookaheads()));
 			}
 			LR1State lr1State = new LR1State(lr1Items);
 			lalr1CPToLR1Map.put(state, lr1State);

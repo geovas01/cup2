@@ -36,7 +36,7 @@ public final class LALR1CPState
 {
 	
 	//cache
-	private final Set<LR0Item> kernels;
+	private final Set<LR0Item> strippedItems;
 	private final int hashCode;
 	
 	
@@ -44,10 +44,10 @@ public final class LALR1CPState
 	 * Creates a new {@link LALR1CPState} with the given items (and their kernels,
 	 * needed for performance reasons).
 	 */
-	public LALR1CPState(Set<LR0Item> kernels, Collection<LALR1CPItem> items)
+	public LALR1CPState(Set<LR0Item> strippedItems, Collection<LALR1CPItem> items)
 	{
 		super(items);
-		this.kernels = kernels;
+		this.strippedItems = strippedItems;
 		//compute hashcode
 		int sum = 0;
 		for (LALR1CPItem item : items)
@@ -67,7 +67,7 @@ public final class LALR1CPState
 		//the closure contains all items of the source... (here indexed by LR(0) kernel)
 		HashMap<LR0Item, LALR1CPItem> retItems = map();
 		for (LALR1CPItem item : this.items)
-			retItems.put(item.getLR0Kernel(), item);
+			retItems.put(item.getLR0Item(), item);
 		//... and the following ones: for any item "A → α.Xβ with lookahead z",
 		//any "X → γ" and any w ∈ FIRST(β), add "X → .γ with lookahead w". if "ɛ ∈ w" is
 		//nullable, add a context propagation link from the source item to the target item.
@@ -144,10 +144,10 @@ public final class LALR1CPState
 			if (source.getNextSymbol() == symbol)
 			{
 				LALR1CPItem target = source.shift();
-				targetKernels.add(target.getLR0Kernel());
+				targetKernels.add(target.getLR0Item());
 				targetItems.add(target);
 				//leave the target state null for now, will be set later
-				cpLinks.add(new CPGoToLink(source, null, target.getLR0Kernel()));
+				cpLinks.add(new CPGoToLink(source, null, target.getLR0Item()));
 			}
 		}
 		LALR1CPState targetState = new LALR1CPState(targetKernels, targetItems);
@@ -158,21 +158,21 @@ public final class LALR1CPState
 	/**
 	 * Gets the LALR1CPItem which belongs to the given LR(0) kernel.
 	 */
-	public LALR1CPItem getItemByKernel(LR0Item kernel)
+	public LALR1CPItem getItemWithLookaheadByLR0Item(LR0Item stripped)
 	{
 		//GOON!! performance! use hashmap! we save kernels anyway!
 		for (LALR1CPItem item : items)
 		{
-			if (item.getLR0Kernel().equals(kernel))
+			if (item.getLR0Item().equals(stripped))
 				return item;
 		}
-		throw new IllegalArgumentException("Unknown kernel " + kernel);
+		throw new IllegalArgumentException("Unknown kernel " + stripped);
 	}
 	
 	
-	public Set<LR0Item> getKernels()
+	public Set<LR0Item> getStrippedItems()
 	{
-		return kernels;
+		return strippedItems;
 	}
 	
 	
@@ -185,7 +185,7 @@ public final class LALR1CPState
 		if (obj instanceof LALR1CPState)
 		{
 			LALR1CPState s = (LALR1CPState) obj;
-			return s.kernels.equals(kernels);
+			return s.strippedItems.equals(strippedItems);
 		}
 		return false;
 	}
