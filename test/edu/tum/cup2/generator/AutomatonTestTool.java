@@ -68,7 +68,7 @@ public class AutomatonTestTool
 			
 			//number of outgoing edges must be equal
 			LinkedList<Edge> e1l = a1.getEdgesFrom(s1);
-			LinkedList<Edge> e2l = a1.getEdgesFrom(s2);
+			LinkedList<Edge> e2l = a2.getEdgesFrom(s2);
 			if (e1l.size() != e2l.size())
 			{
 				fail("Number of outgoing edges is different. State: " + s1);
