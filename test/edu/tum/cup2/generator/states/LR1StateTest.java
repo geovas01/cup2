@@ -7,6 +7,7 @@ import edu.tum.cup2.generator.items.LR1Item;
 import edu.tum.cup2.generator.terminals.TerminalSet;
 import edu.tum.cup2.grammar.Grammar;
 import edu.tum.cup2.test.GrammarAppel_3_26;
+import edu.tum.cup2.test.SpecJava14;
 import edu.tum.cup2.util.ArrayTools;
 
 import static edu.tum.cup2.grammar.SpecialTerminals.Placeholder;
@@ -47,6 +48,19 @@ public class LR1StateTest
 		assertTrue(closure.containsSimpleItem(grammar.getProductionAt(5), 0, eq)); //S → .*E  , =
 	}
 	
+	@Test public void recursiveCircularClosureTest(){
+		Grammar grammar = new SpecJava14().getGrammar();
+		GrammarInfo grammarInfo = new GrammarInfo(grammar);
+		LR1State state = createLR1State(
+				new LR1Item(grammar.getProductionAt(42),1,grammarInfo.getTerminalSet(Placeholder))
+		);
+		LR1State closure = state.closure(grammarInfo);
+		assertTrue(closure.containsSimpleItem(grammar.getProductionAt(30), 0, SpecJava14.Terminals.SEMICOLON));
+		assertTrue(closure.containsSimpleItem(grammar.getProductionAt(30), 0, SpecJava14.Terminals.DOT));
+		assertTrue(!closure.containsSimpleItem(grammar.getProductionAt(30), 0, Placeholder));
+	}
+		
+
 	
 	/**
 	 * Tests the goTo method (with closure), using the grammar 3.26 from Appel's book.

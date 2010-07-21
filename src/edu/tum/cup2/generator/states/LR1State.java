@@ -119,7 +119,7 @@ public class LR1State
 						if (!newLookaheads.equals(sameKernelItemLookaheads))
 						{
 							items.put(newItemLR0, newLookaheads);
-							queue.add(new LR1Item(newItemLR0, sameKernelItemLookaheads));
+							queue.add(new LR1Item(newItemLR0, newLookaheads));
 						}
 					}
 					else
