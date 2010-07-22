@@ -90,7 +90,7 @@ public class LALR1CPGenerator
 	@Override public Automaton<LR1Item, LR1State> createAutomaton()
 		throws GeneratorException
 	{
-		return new LALR1AutomatonFactory().createAutomaton(this, grammarInfo);
+		return new LALR1CPAutomatonFactory().createAutomaton(this, grammarInfo);
 	}
 
 }
