@@ -64,7 +64,7 @@ implements IVisitedElement
 		LinkedList<Edge> ret = new LinkedList<Edge>();
 		for (Edge edge : edges)
 		{
-			if (edge.getSrc() == state)
+			if (edge.getSrc().equals(state))
 				ret.add(edge);
 		}
 		return ret;
