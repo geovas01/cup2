@@ -107,7 +107,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 							//$-symbol: here we accept
 							lr0Edges.add(createAcceptEdge(stateKernel, symbol)); //GOON: with or without closure?
 						}
-						else if (!shiftedSymbols.add(symbol)) //shift each symbol only once
+						else if (shiftedSymbols.add(symbol)) //shift each symbol only once
 						{
 							//terminal or non-terminal
 							
