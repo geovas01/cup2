@@ -50,7 +50,7 @@ public final class LALR1CPState
 		this.strippedItems = strippedItems;
 		//compute hashcode
 		int sum = 0;
-		for (LALR1CPItem item : items)
+		for (LR0Item item : strippedItems)
 		{
 			sum += item.hashCode();
 		}
