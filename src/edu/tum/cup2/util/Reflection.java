@@ -154,7 +154,7 @@ public class Reflection
 	 * Gets the first class that extends {@link CUP2Specification} in
 	 * the current stack trace.
 	 */
-	@SuppressWarnings("unchecked") private static Class getSpecClass()
+	@SuppressWarnings("unchecked") public static Class getSpecClass()
 	{
 		try
 		{
@@ -218,10 +218,17 @@ public class Reflection
 	@SuppressWarnings("unchecked") public static SymbolValueClasses
 		getSymbolValueClasses(Terminal[] terminals, NonTerminal[] nonTerminals)
 	{
+		return getSymbolValueClasses(terminals, nonTerminals, getSpecClass());
+	}
+	
+	/**
+     * @see {@link Reflection#getSymbolValueClasses(Terminal[], NonTerminal[])}
+     */
+	@SuppressWarnings("unchecked") public static SymbolValueClasses
+		getSymbolValueClasses(Terminal[] terminals, NonTerminal[] nonTerminals, Class specClass)
+	{
 		try
 		{
-			//get the spec class
-			Class specClass = getSpecClass();
 			//get all classes that extend the SymbolValue class
 			SymbolValueClasses ret = new SymbolValueClasses();
 			Class[] childClasses = specClass.getClasses();
@@ -440,33 +447,9 @@ public class Reflection
 								.getRawType();
 					// System.out.println(paramType+" == "+expectedType);
 
+					Class<?> resolvedClass = resolvePrimitiveTypes(((Class<?>) paramType));
 					
-					// primitive Type can occur if you use scala for the specification,
-					// so first wrap the primitive types and then go on with checking
-					if (((Class<?>) paramType).isPrimitive()) {
-						
-						if(((Class<?>) paramType).isAssignableFrom(Integer.TYPE)) {
-							paramType = Integer.class;
-						} else if(((Class<?>) paramType).isAssignableFrom(Boolean.TYPE)) {
-							paramType = Boolean.class;
-						} else if(((Class<?>) paramType).isAssignableFrom(Character.TYPE)) {
-							paramType = Character.class;
-						} else if(((Class<?>) paramType).isAssignableFrom(Byte.TYPE)) {
-							paramType = Byte.class;
-						} else if(((Class<?>) paramType).isAssignableFrom(Short.TYPE)) {
-							paramType = Short.class;
-						} else if(((Class<?>) paramType).isAssignableFrom(Long.TYPE)) {
-							paramType = Long.class;
-						} else if(((Class<?>) paramType).isAssignableFrom(Float.TYPE)) {
-							paramType = Float.class;
-						} else if(((Class<?>) paramType).isAssignableFrom(Double.TYPE)) {
-							paramType = Double.class;
-						}
-						
-					}
-
-					if (((Class<?>) paramType)
-							.isAssignableFrom((Class<?>) expectedType))
+					if (resolvedClass.isAssignableFrom((Class<?>) expectedType))
 						break;
 					else {
 
@@ -528,6 +511,37 @@ public class Reflection
 		      throw new IllegalSpecException("The action occurs too late or it's method requires too less parameters: " + rhsSymbols.toString());
 		  }
 		}
+	}
+	
+	public static Class<?> resolvePrimitiveTypes(Class<?> clazz) {
+
+		// primitive Type can occur if you use scala for the specification,
+		// so first wrap the primitive types and then go on with checking
+		if (clazz.isPrimitive()) {
+			Class<?> c = null;
+			
+			if(clazz.isAssignableFrom(Integer.TYPE)) {
+				c = Integer.class;
+			} else if(clazz.isAssignableFrom(Boolean.TYPE)) {
+				c = Boolean.class;
+			} else if(clazz.isAssignableFrom(Character.TYPE)) {
+				c = Character.class;
+			} else if(clazz.isAssignableFrom(Byte.TYPE)) {
+				c = Byte.class;
+			} else if(clazz.isAssignableFrom(Short.TYPE)) {
+				c = Short.class;
+			} else if(clazz.isAssignableFrom(Long.TYPE)) {
+				c = Long.class;
+			} else if(clazz.isAssignableFrom(Float.TYPE)) {
+				c = Float.class;
+			} else if(clazz.isAssignableFrom(Double.TYPE)) {
+				c = Double.class;
+			}
+			
+			return c;
+		}
+		
+		return clazz;
 	}
 	
 	/**

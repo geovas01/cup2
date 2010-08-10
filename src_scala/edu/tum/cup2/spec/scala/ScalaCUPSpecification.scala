@@ -42,7 +42,17 @@ trait ScalaCUPSpecification { self : CUP2Specification =>
    */
   override def init() = {
     if (! isInit) {
-      symbolValueClasses = Reflection.getSymbolValueClasses(terminalsArr, nonTerminalsArr)
+      var specClass = Reflection.getSpecClass()
+      
+      // if the specification was defined as a singleton object you have
+      // to find a class object without the "$" sign at the end which
+      // will be the needed specification-definition.
+      if(specClass.getName().endsWith("$")) {
+    	  val name = specClass.getName().substring(0, specClass.getName().length-1)
+    	  specClass = specClass.getClassLoader().loadClass(name)
+      }
+    	
+      symbolValueClasses = Reflection.getSymbolValueClasses(terminalsArr, nonTerminalsArr, specClass)
       //inited
       isInit = true
     }
