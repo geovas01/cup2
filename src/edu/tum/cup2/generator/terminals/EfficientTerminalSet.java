@@ -181,7 +181,7 @@ public final class EfficientTerminalSet
 	{
 		int blockIndex = index / 32;
 		int bitIndex = index % 32;
-		return (data[blockIndex] & (1 << bitIndex)) > 0;
+		return (data[blockIndex] & (1 << bitIndex)) != 0;
 	}
 	
 	
