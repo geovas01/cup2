@@ -115,7 +115,7 @@ public class LR1toLALRGenerator
 					//have different destinations, we have a reduce-reduce conflict!
 					if (newEdge.getDest() != oldEdge.getDest())
 					{
-						throw new ReduceReduceConflict(""); //TODO
+						throw new ReduceReduceConflict("Reduce-Reduce-Konflikt"); //TODO
 					}
 					else
 					{

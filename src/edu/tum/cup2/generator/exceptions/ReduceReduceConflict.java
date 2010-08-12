@@ -24,10 +24,10 @@ public class ReduceReduceConflict
 	}
 	
 	
-	public ReduceReduceConflict(Reduce r1, Reduce r2,String message) {
+	public ReduceReduceConflict(String message) {
 		this.msg = message;
-		reduce1=r1;
-		reduce2=r2;
+		reduce1=null;
+		reduce2=null;
 	}
 
 
@@ -39,6 +39,7 @@ public class ReduceReduceConflict
 	public String getMessage() {
 		String rText1=null;
 		String rText2=null;
+		if (reduce1!=null){
 		if (reduce1.getProduction().getLHS() instanceof AuxiliaryLHS4SemanticShiftAction)
 			rText1 = ((AuxiliaryLHS4SemanticShiftAction) reduce1.getProduction()
 					.getLHS()).originatedFrom;
@@ -51,7 +52,7 @@ public class ReduceReduceConflict
 		else
 			rText1 = reduce2.getProduction().toString(
 					reduce2.getProduction().getRHS().size());
-		
+		}
 		return "Shift/reduce conflict between:\n"+
 		"  " + rText1 + "\n"+
 		"  and\n" + 
