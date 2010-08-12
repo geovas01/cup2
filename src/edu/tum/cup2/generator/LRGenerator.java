@@ -382,8 +382,7 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 			}
 			else if (action instanceof Reduce)
 			{
-				//TODO: more info
-				throw new ReduceReduceConflict();
+				throw new ReduceReduceConflict(reduce,(Reduce)action);
 			}
 			else
 				throw new GeneratorException("Unknown conflict");
