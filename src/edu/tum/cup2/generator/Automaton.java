@@ -1,5 +1,7 @@
 package edu.tum.cup2.generator;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -85,6 +87,32 @@ implements IVisitedElement
 		}
 		return ret;
 	}
-	
+	@Override
+	public String toString() {
+		Comparator<Edge> comp = new Comparator<Edge>(){
+			public int compare(Edge o1, Edge o2) {
+				return o1.toString().compareTo(o2.toString());
+			}
+		};
+		StringBuffer sb = new StringBuffer();
+		LinkedList<S> queue = new LinkedList<S>();
+		HashSet<S> set = new HashSet<S>();
+		queue.add(getStartState());
+		while (!queue.isEmpty()){
+			S s = queue.poll();
+			sb.append(s.toString());
+			set.add(s);
+			List<Edge> sortedList = getEdgesFrom(s);
+			Collections.sort(sortedList,comp);
+			for (Edge e : sortedList){
+				if (set.contains(e.getDest())) continue;
+				State st= e.getDest();
+				if (st!=null) queue.add((S)st);
+				
+			}
+		}
+		
+		return sb.toString();//+"\n"+edges.toString();
+	}
 
 }

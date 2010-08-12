@@ -1,5 +1,8 @@
 package edu.tum.cup2.generator.exceptions;
 
+import edu.tum.cup2.grammar.AuxiliaryLHS4SemanticShiftAction;
+import edu.tum.cup2.parser.actions.Reduce;
+
 
 /**
  * Exception for a reduce/reduce conflict.
@@ -12,12 +15,19 @@ public class ReduceReduceConflict
 	
 	String word = null;
 	private String msg;
+	private final Reduce reduce1;
+	private final Reduce reduce2;
 	
-	public ReduceReduceConflict() {}
+	public ReduceReduceConflict(Reduce r1, Reduce r2) {
+		reduce1=r1;
+		reduce2=r2;
+	}
 	
 	
-	public ReduceReduceConflict(String message) {
+	public ReduceReduceConflict(Reduce r1, Reduce r2,String message) {
 		this.msg = message;
+		reduce1=r1;
+		reduce2=r2;
 	}
 
 
@@ -27,7 +37,26 @@ public class ReduceReduceConflict
 	
 	@Override
 	public String getMessage() {
-		return (msg==null?"":msg+" -- ")+(word==null?"":"Example word: " + word);
+		String rText1=null;
+		String rText2=null;
+		if (reduce1.getProduction().getLHS() instanceof AuxiliaryLHS4SemanticShiftAction)
+			rText1 = ((AuxiliaryLHS4SemanticShiftAction) reduce1.getProduction()
+					.getLHS()).originatedFrom;
+		else
+			rText1 = reduce1.getProduction().toString(
+					reduce1.getProduction().getRHS().size());
+		if (reduce2.getProduction().getLHS() instanceof AuxiliaryLHS4SemanticShiftAction)
+			rText1 = ((AuxiliaryLHS4SemanticShiftAction) reduce2.getProduction()
+					.getLHS()).originatedFrom;
+		else
+			rText1 = reduce2.getProduction().toString(
+					reduce2.getProduction().getRHS().size());
+		
+		return "Shift/reduce conflict between:\n"+
+		"  " + rText1 + "\n"+
+		"  and\n" + 
+		"  " + rText2 + "\n" +
+		 (msg==null?"":msg+" -- ")+(word==null?"":"Example word: " + word);
 	}
 	
 
