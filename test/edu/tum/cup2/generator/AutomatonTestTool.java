@@ -2,12 +2,14 @@ package edu.tum.cup2.generator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static edu.tum.cup2.util.Tuple2.t;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
 import edu.tum.cup2.generator.states.State;
+import edu.tum.cup2.util.Tuple2;
 
 
 /**
@@ -113,6 +115,91 @@ public class AutomatonTestTool
 				else if ((!queue.contains(ts1)) && (!finished.contains(ts1)))
 				{
 					queue.add(ts1);
+				}
+			}
+			
+		}
+		
+	}
+	@SuppressWarnings("unchecked")
+	public static void testCongruency(Automaton a1, Automaton a2)
+	{
+		//we could test for equal number of states first, but we want to
+		//find the first state that is different, so we don't do that test here.
+		
+		//equal start state?
+		
+		//create map between states of a1 and a2
+		HashMap<State, State> statesMap = new HashMap<State, State>();
+		statesMap.put(a1.getStartState(), a2.getStartState());
+		
+		//queue: begin with start state of a1
+		LinkedList<Tuple2<State,State>> queue = new LinkedList<Tuple2<State,State>>();
+		queue.add(t(a1.getStartState(),a2.getStartState()));
+		
+		//set of already checked states
+		HashSet<State> finished = new HashSet<State>();
+		HashSet<State> inQueue = new HashSet<State>();
+		inQueue.add(a1.getStartState());
+		
+		//for each state in queue: find equal state in a2. then, look at all edges and
+		//find their equivalents. target states are added to the queue and are suspected to be equal
+		//(this is is tested as soon as the states are dequeued).
+		while (!queue.isEmpty())
+		{
+			Tuple2<State, State> t = queue.poll();
+			State s1 =t.get1();
+			inQueue.remove(s1);
+			
+			//find equal state in a2
+			State s2 = t.get2();
+			finished.add(s1);
+			
+			//number of outgoing edges must be equal
+			LinkedList<Edge> e1l = a1.getEdgesFrom(s1);
+			LinkedList<Edge> e2l = a2.getEdgesFrom(s2);
+			if (e1l.size() != e2l.size())
+			{
+				fail("Number of outgoing edges is different. State: " + s1);
+			}
+			
+			//follow edges
+			for (Edge e1 : e1l)
+			{
+				//find equivalent edge in e2
+				Edge e2 = null;
+				for (Edge e : e2l)
+				{
+					if (e.getSymbol().toString().equals(e1.getSymbol().toString()))
+					{
+						e2 = e;
+						break;
+					}
+				}
+				if (e2 == null)
+				{
+					fail("No edge with symbol " + e1.getSymbol() + " at state: " + s2);
+				}
+				
+				//target states must be equal. if still unknown, queue.
+				State ts1 = e1.getDest();
+				State ts2 = e2.getDest();
+				
+				if (ts1==null){
+					if (ts2!=null)
+						fail("Edge with symbol " + e1.getSymbol() + " leads to a final state in Automaton 1 only");
+					else
+						continue;
+				}
+
+				if (statesMap.containsKey(ts1)){
+					if (statesMap.get(ts1)!=ts2)
+						fail("Edge with symbol " + e1.getSymbol() + " leads to different states at state: " + ts1 + " and state "+ts2);
+				}
+				if ((!inQueue.contains(ts1)) && (!finished.contains(ts1)))
+				{
+					inQueue.add(ts1);
+					queue.add(t(ts1,ts2));
 				}
 			}
 			
