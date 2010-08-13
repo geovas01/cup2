@@ -47,13 +47,13 @@ public class ReduceReduceConflict
 			rText1 = reduce1.getProduction().toString(
 					reduce1.getProduction().getRHS().size());
 		if (reduce2.getProduction().getLHS() instanceof AuxiliaryLHS4SemanticShiftAction)
-			rText1 = ((AuxiliaryLHS4SemanticShiftAction) reduce2.getProduction()
+			rText2 = ((AuxiliaryLHS4SemanticShiftAction) reduce2.getProduction()
 					.getLHS()).originatedFrom;
 		else
-			rText1 = reduce2.getProduction().toString(
+			rText2 = reduce2.getProduction().toString(
 					reduce2.getProduction().getRHS().size());
 		}
-		return "Shift/reduce conflict between:\n"+
+		return "Reduce/reduce conflict between:\n"+
 		"  " + rText1 + "\n"+
 		"  and\n" + 
 		"  " + rText2 + "\n" +
