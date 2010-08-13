@@ -1,10 +1,12 @@
 package edu.tum.cup2.spec.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import edu.tum.cup2.grammar.SpecialTerminals;
 import edu.tum.cup2.grammar.Symbol;
+import edu.tum.cup2.grammar.Terminal;
 
 
 /**
@@ -18,7 +20,7 @@ public final class RHSSymbols
 {
 	
 	private final List<Symbol> symbols;
-	
+	private final Terminal precedence;
 	
 	public RHSSymbols(Symbol... symbols)
 	{
@@ -39,9 +41,22 @@ public final class RHSSymbols
 			}
 		}
 		this.symbols = Arrays.asList(symbols);
+		precedence=null;
+	}
+	private RHSSymbols(Terminal precedence, List<Symbol> syms){
+		this.precedence=precedence;
+		this.symbols=syms;
 	}
 	
-	
+	public RHSSymbols setPrec(Terminal precedence){
+		return new RHSSymbols(precedence,new ArrayList<Symbol>(symbols));
+	}
+	public boolean hasSpecialPrecedence(){
+		return precedence!=null;
+	}
+	public Terminal getPrecedence(){
+		return precedence;
+	}
 	public List<Symbol> getSymbols()
 	{
 		return symbols;
