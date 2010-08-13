@@ -45,13 +45,14 @@ public final class Production implements Serializable
 	
 	//cache
 	private Terminal lastTerminal;
+	private Terminal precTerminal; // save the Terminal with the precedence of this Production
 	private int rhsSizeWithoutEpsilon;
 	private int hashCode;
 
 	/**
 	 * Creates a new {@link Production}.
 	 */
-	public Production(int id, NonTerminal lhs, List<Symbol> rhs, Action reduceAction)
+	public Production(int id, NonTerminal lhs, List<Symbol> rhs, Action reduceAction, Terminal precTerminal)
 	{
 		//check rhs
 		if (rhs.size() == 0)
@@ -92,6 +93,7 @@ public final class Production implements Serializable
 			}
 		}
 		this.lastTerminal = lastTerminal;
+		this.precTerminal = (precTerminal!=null)?precTerminal:lastTerminal;
 		//hash code
 		computeHashcode();
 	}
@@ -118,7 +120,7 @@ public final class Production implements Serializable
 	 */
 	public Production(int id, NonTerminal lhs, Symbol... rhs)
 	{
-		this(id, lhs, Arrays.asList(rhs), null);
+		this(id, lhs, Arrays.asList(rhs), null,null);
 	}
 	
 	/**
@@ -300,11 +302,17 @@ public final class Production implements Serializable
 	
 	
 	/**
-	 * Gets the last terminal within this production or null if there is none.
+	 * Returns the last terminal within this production or null if there is none.
 	 */
 	public Terminal getLastTerminal()
 	{
 		return lastTerminal;
+	}
+	/**
+	 * Returns the Terminal responsible for the precedence rating of this production, or null if there is none.
+	 */
+	public Terminal getPrecedenceTerminal(){
+		return precTerminal;
 	}
 
 	

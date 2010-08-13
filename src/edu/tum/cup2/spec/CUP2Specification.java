@@ -205,6 +205,7 @@ public abstract class CUP2Specification
 
 		LinkedList<List<Symbol>> prodsRHS = new LinkedList<List<Symbol>>();
 		LinkedList<Action> prodsReduceAction = new LinkedList<Action>();
+		LinkedList<Terminal> prodsPrecedence = new LinkedList<Terminal>();
 		LinkedList<AuxiliaryLHS4SemanticShiftAction> auxNTs = new LinkedList<AuxiliaryLHS4SemanticShiftAction>();
 		for (RHSItem rhsItem : rhsItems) {
 			if (rhsItem instanceof RHSSymbols) {
@@ -268,6 +269,7 @@ public abstract class CUP2Specification
 				expurgatedRHS.trimToSize();
 				prodsRHS.add(expurgatedRHS);
 				prodsReduceAction.add(null);
+				prodsPrecedence.add(((RHSSymbols) rhsItem).getPrecedence());
 			} else
 				if (rhsItem instanceof Action) {
 					// action
@@ -288,7 +290,7 @@ public abstract class CUP2Specification
 						// and an open auxiliary LHS.
 						AuxiliaryLHS4SemanticShiftAction auxNT = auxNTs.remove();
 						Production auxProd = new Production(++productionCount, auxNT,
-							emptyRHS, action);
+							emptyRHS, action,null);
 						auxNT.symbolValueType = Reflection.getReturnTypeOfAction(action);
 						auxiliaryProductions.add(auxProd);
 						
@@ -322,7 +324,7 @@ public abstract class CUP2Specification
 			 * throw new IllegalSpecException("No reduce-action specified for the production with the RHS " + prodsRHS.getLast());
 			**/
 			ret[i] = new Production(productionCount + i + 1, lhs, prodsRHS.get(i),
-				prodsReduceAction.get(i)); //id 0 is for aux start production
+				prodsReduceAction.get(i),prodsPrecedence.get(i)); //id 0 is for aux start production
 		}
 		productionCount += prodsRHS.size();
 		return ret;
@@ -353,7 +355,14 @@ public abstract class CUP2Specification
 		return new RHSSymbols(symbols);
 	}
 
+	/**
+	 * Wraps around an rhs providing means to specify %prec like precedences 
+	 */
 
+	protected RHSSymbols prec(RHSSymbols syms,Terminal prec){
+		return syms.setPrec(prec);
+	}
+	
 	public Grammar getGrammar()
 	{
 		return grammar;

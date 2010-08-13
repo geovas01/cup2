@@ -36,7 +36,7 @@ public class Precedences
 	 */
 	public int compare(Production production, Terminal terminal)
 	{
-		Terminal prodTerm = production.getLastTerminal();
+		Terminal prodTerm = production.getPrecedenceTerminal();
 		if (prodTerm == null)
 		{
 			//precedence is equal, if there is also no precedence for the given terminal,
