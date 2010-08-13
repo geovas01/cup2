@@ -382,7 +382,26 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 			}
 			else if (action instanceof Reduce)
 			{
-				throw new ReduceReduceConflict(reduce,(Reduce)action);
+				//try to find out if production or terminal has higher precedence
+				Reduce reduce2=(Reduce)action;
+				int prec = 0;
+				if (precedences != null)
+				{
+					prec = precedences.compare(reduce.getProduction(), reduce2.getProduction().getPrecedenceTerminal());
+					if (prec == 1)
+					{
+						//reduction has higher precedence, hence reduce
+						actionTable.set(reduce, atState, atTerminal);
+					}
+					else if (prec == -1)
+					{
+						//reduction2 has higher precedence, hence shift
+						actionTable.set(reduce2,atState,atTerminal);
+					}else
+						throw new ReduceReduceConflict(reduce,(Reduce)action);
+				}else
+					throw new ReduceReduceConflict(reduce,(Reduce)action);
+				
 			}
 			else
 				throw new GeneratorException("Unknown conflict");
