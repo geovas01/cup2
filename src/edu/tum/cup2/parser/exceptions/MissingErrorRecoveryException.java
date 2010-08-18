@@ -3,6 +3,7 @@ package edu.tum.cup2.parser.exceptions;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.parser.states.LRParserState;
 import edu.tum.cup2.scanner.ScannerToken;
+import edu.tum.cup2.semantics.ErrorInformation;
 
 /**
  * 
@@ -15,18 +16,24 @@ public class MissingErrorRecoveryException extends LRParserException {
 	
 	private final LRParserState state;
 	private final ScannerToken<? extends Object> token;
+	private ErrorInformation errInf;
 	
 	/**
 	 * Creates a new {@link MissingErrorRecoveryException}.
 	 * @param message   a message.
 	 * @param state     the current state of the parser
+	 * @param errInf 
 	 * @param terminal  the terminal that was read
 	 */
-	public MissingErrorRecoveryException(String message, LRParserState state, ScannerToken<? extends Object> token)
+	public MissingErrorRecoveryException(String message, LRParserState state, ScannerToken<? extends Object> token, ErrorInformation errInf)
 	{
-		super(message+" State: " + state.getID() + ", Token: " + token);
+		super(message+" State: " + state.getID() + ", Token: " + token+" at "+"\n Error is "+errInf);
 		this.state = state;
 		this.token = token;
+		this.errInf = errInf;
+	}
+	public ErrorInformation getErrorInformation(){
+		return errInf;
 	}
 	
 }

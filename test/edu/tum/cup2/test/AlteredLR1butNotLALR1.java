@@ -1,7 +1,8 @@
-package edu.tum.cup2.spec;
+package edu.tum.cup2.test;
 
-import static edu.tum.cup2.spec.AlteredLR1butNotLALR1.Terminals.*;
-import static edu.tum.cup2.spec.AlteredLR1butNotLALR1.NonTerminals.*;
+import static edu.tum.cup2.test.AlteredLR1butNotLALR1.NonTerminals.*;
+import static edu.tum.cup2.test.AlteredLR1butNotLALR1.Terminals.*;
+import edu.tum.cup2.spec.CUP2Specification;
 
 
 /**

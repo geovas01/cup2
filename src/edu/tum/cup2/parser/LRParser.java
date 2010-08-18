@@ -666,7 +666,7 @@ public class LRParser implements Serializable
           System.out.println("No production for phrase-based error-recovery found :(");
         throw new MissingErrorRecoveryException(
             "Input does not match grammar. Grammar does not provide error-correction for current parsing.",
-            currentState, currentToken);
+            currentState, currentToken,errInf);
       }
 
       handleState = ((Shift) handleAction).getState();
