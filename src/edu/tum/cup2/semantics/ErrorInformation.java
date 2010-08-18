@@ -144,7 +144,7 @@ public class ErrorInformation implements Serializable {
 	{
 		StringBuilder sb = new StringBuilder();
 		if (beginLine!=-1)
-		  sb.append("@["+beginLine+":"+beginColumn+"-"+getEndLine()+":"+getEndColumn()+"[ ");
+		  sb.append("@["+beginLine+":"+beginColumn+"-"+getEndLine()+":"+getEndColumn()+"] ");
 		for(ScannerToken<? extends Object> t:getCorrectTokens())
 		{
 			if (t.hasValue())
