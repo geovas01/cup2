@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -109,13 +110,13 @@ public class LALR1CPStateTest
 		LALR1CPState state = createLALR1CPState(
 			new LALR1CPItem(new LR0Item(g.getProductionAt(1), 1), t$),  //S → V.=E , $
 			new LALR1CPItem(new LR0Item(g.getProductionAt(3), 1), t$)); //E → V.   , ∅
-		Tuple2<LALR1CPState, LinkedList<CPGoToLink>> goTo = state.goToCP(eq);
+		Tuple2<LALR1CPState, List<CPGoToLink>> goTo = state.goToCP(eq);
 		//result must have 1 item and 1 CP link
 		assertEquals(1, goTo.get1().getItemsCount());
 		LR0Item targetItem = goTo.get1().getFirstItem().getLR0Item();
 		assertTrue(new LR0Item(g.getProductionAt(1), 2).equals(targetItem));
 		assertEquals(1, goTo.get2().size());
-		assertTrue(goTo.get2().getFirst().getTargetItem().equals(targetItem));
+		assertTrue(goTo.get2().get(0).getTargetItem().equals(targetItem));
 	}
 	
 	

@@ -1,8 +1,11 @@
 package edu.tum.cup2.util;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 //TODO: doc
@@ -13,7 +16,7 @@ public class CollectionTools
 	/**
 	 * Creates a linked list.
 	 */
-	public static <T1> LinkedList<T1> llist()
+	public static <T1> List<T1> llist()
 	{
 		return new LinkedList<T1>();
 	}
@@ -22,7 +25,7 @@ public class CollectionTools
 	/**
 	 * Creates a new map.
 	 */
-	public static <T1, T2> HashMap<T1, T2> map()
+	public static <T1, T2> Map<T1, T2> map()
 	{
 		return new HashMap<T1, T2>();
 	}
@@ -31,9 +34,26 @@ public class CollectionTools
 	/**
 	 * Creates a new set.
 	 */
-	public static <T> HashSet<T> set()
+	public static <T> Set<T> set()
 	{
 		return new HashSet<T>();
+	}	
+	
+	/**
+	 * Creates a new synchronized map.
+	 */
+	public static <T1, T2> Map<T1, T2> synchronizedMap()
+	{
+		return Collections.synchronizedMap(new HashMap<T1, T2>());
+	}
+	
+	
+	/**
+	 * Creates a new synchronized set.
+	 */
+	public static <T> Set<T> synchronizedSet()
+	{
+		return Collections.synchronizedSet(new HashSet<T>());
 	}
 	
 	

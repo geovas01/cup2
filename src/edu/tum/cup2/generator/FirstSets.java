@@ -5,6 +5,7 @@ import static edu.tum.cup2.util.CollectionTools.map;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import edu.tum.cup2.generator.terminals.EfficientTerminalSet;
 import edu.tum.cup2.grammar.Grammar;
@@ -24,7 +25,7 @@ import edu.tum.cup2.grammar.Terminal;
 public final class FirstSets
 {
 	
-	private final HashMap<Symbol, EfficientTerminalSet> data;
+	private final Map<Symbol, EfficientTerminalSet> data;
 	
 	
 	
@@ -36,7 +37,7 @@ public final class FirstSets
 	 */
 	public FirstSets(Grammar grammar, NullableSet nullableSet)
 	{
-		HashMap<Symbol, EfficientTerminalSet> data = map();
+		Map<Symbol, EfficientTerminalSet> data = map();
 		
 		//initialize map for all symbols
 		EfficientTerminalSet emptySet = new EfficientTerminalSet(grammar.getTerminals());

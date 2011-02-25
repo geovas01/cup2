@@ -6,9 +6,9 @@ import static edu.tum.cup2.util.CollectionTools.set;
 import static edu.tum.cup2.util.Tuple2.t;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import edu.tum.cup2.generator.FirstSets;
@@ -65,7 +65,7 @@ public final class LALR1CPState
 	@Override public LALR1CPState closure(GrammarInfo grammarInfo)
 	{
 		//the closure contains all items of the source... (here indexed by LR(0) kernel)
-		HashMap<LR0Item, LALR1CPItem> retItems = map();
+		Map<LR0Item, LALR1CPItem> retItems = map();
 		for (LALR1CPItem item : this.items)
 			retItems.put(item.getLR0Item(), item);
 		//... and the following ones: for any item "A → α.Xβ with lookahead z",
@@ -133,11 +133,11 @@ public final class LALR1CPState
 	 * yet, if the target state is not already existing).
 	 * For a description of this algorithm, see Appel's book, page 60.
 	 */
-	public Tuple2<LALR1CPState, LinkedList<CPGoToLink>> goToCP(Symbol symbol)
+	public Tuple2<LALR1CPState, List<CPGoToLink>> goToCP(Symbol symbol)
 	{
-		HashSet<LR0Item> targetKernels = set();
-		HashSet<LALR1CPItem> targetItems = set();
-		LinkedList<CPGoToLink> cpLinks = llist();
+		Set<LR0Item> targetKernels = set();
+		Set<LALR1CPItem> targetItems = set();
+		List<CPGoToLink> cpLinks = llist();
 		//find all items where the given symbol follows and add them shifted
 		for (LALR1CPItem source : items)
 		{

@@ -47,7 +47,7 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 	protected final GrammarInfo grammarInfo;
 	private final LRParsingTable parsingTable;
 	private Automaton<I,S> automaton;
-	
+	protected static int numThreads = 4;
 	
 	/**
 	 * Computes a {@link LRParsingTable} for the given LR grammar.
@@ -127,8 +127,7 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 					try {
 						createReduceActions(actionTable, item, statesMap.get(stateKernel));
 					} catch (GeneratorException c) {
-						/*String word = getMinWordForState(stateKernel,dfa,state0,
-								new HashSet<State<?>>());*/
+						//String word = getMinWordForState(stateKernel,dfa,state0, new HashSet<State<?>>());
 						String word = getShortestWord4State(stateKernel,state0);
 						// word may be null if state can not be reached from state0
 						// (should never occur if automaton is calculated correctly)
@@ -428,6 +427,14 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 	public Automaton<I,S> getAutomaton()
 	{
 		return automaton;
+	}
+	
+	/**
+	 * Sets the number of threads (only for parallel programs)
+	 * @param n the new number of threads
+	 */
+	public static void setNumThreads(int n) {
+		numThreads = n;
 	}
 	
 }

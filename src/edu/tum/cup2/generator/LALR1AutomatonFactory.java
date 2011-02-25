@@ -86,7 +86,7 @@ public class LALR1AutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 		
 		//our queue consists of numbers instead of states
 		LinkedList<Integer> newQueue = new LinkedList<Integer>();
-		LR1State state = queue.removeFirst();
+		LR1State state = queue.remove(0);
 		numberedStates.put(0, state);
 		statesNumbered.put(state, 0);
 		newQueue.add(0);
@@ -196,6 +196,8 @@ public class LALR1AutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 			dfaEdges.add(new Edge(numberedStates.get(e.srcState), e.symbol,
 				numberedStates.get(e.destState), e.srcItem.getLR0Kernel()));
 		}
+		
+		printDebugResult();
 		
 		return ret;
 	}

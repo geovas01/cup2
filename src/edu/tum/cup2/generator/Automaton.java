@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import edu.tum.cup2.generator.items.Item;
 import edu.tum.cup2.generator.states.State;
@@ -22,8 +23,8 @@ public class Automaton<I extends Item, S extends State<I>>
 implements IVisitedElement
 {
 	
-	private HashSet<S> states = new HashSet<S>();
-	private HashSet<Edge> edges = new HashSet<Edge>();
+	private Set<S> states = Collections.synchronizedSet(new HashSet<S>());
+	private Set<Edge> edges = Collections.synchronizedSet(new HashSet<Edge>());
 	private S startState = null;
 	
 	
@@ -34,13 +35,13 @@ implements IVisitedElement
 	}
 	
 	
-	public HashSet<S> getStates()
+	public Set<S> getStates()
 	{
 		return states;
 	}
 	
 	
-	public HashSet<Edge> getEdges()
+	public Set<Edge> getEdges()
 	{
 		return edges;
 	}

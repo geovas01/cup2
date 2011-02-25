@@ -5,9 +5,12 @@ import static edu.tum.cup2.generator.Verbosity.None;
 import static edu.tum.cup2.generator.Verbosity.Sparse;
 import static edu.tum.cup2.generator.Verbosity.Verbose;
 import edu.tum.cup2.grammar.Grammar;
-
-import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.locks.ReentrantLock;
 import java.io.PrintStream;
 
 import edu.tum.cup2.generator.exceptions.GeneratorException;
@@ -31,15 +34,95 @@ public abstract class AutomatonFactory<I extends Item, S extends State<I>>
 	PrintStream debugOut = null;
 	Grammar grammar = null;
 	LRGenerator<I,S> generator = null;
-	LinkedList<S> queue = null;
+	List<S> queue = null;
 	S state = null; //current state during creation of the automaton
 	S stateKernel = null; //current state kernel 
-	HashSet<Edge> dfaEdges = null;
-	HashSet<S> dfaStates = null;
+	Set<Edge> dfaEdges = null;
+	Set<S> dfaStates = null;
 	int statesCounterMsgStep;
 	int statesCounterMsgNext;
 	int iterationsCounter;
 	boolean debug = false;
+	
+	// the following variables are used for the parallel AutomatonFactories
+	protected int numThreads;
+	protected final static int defaultNumThreads = 4;
+	protected ThreadPoolExecutor threadPool;
+	protected S state0;
+	protected int taskCount = 0;
+	protected ReentrantLock taskCountLock;
+	protected Thread shutDownThread;
+	
+	/**
+	 * Used in the parallel AutomatonFactories.
+	 * A WorkerTask handles one state of the automaton and creates new 
+	 * WorkerTasks for states acquired by shifting.
+	 * @author Johannes Schamburger
+	 *
+	 * @param <S> type of state used
+	 */
+	protected abstract class WorkerTask<S> implements Callable<Integer> {
+
+		protected S stateKernel;
+		protected S currentState;
+		protected ThreadPoolExecutor threadPool;
+		protected ReentrantLock taskCountLock;
+
+		/**
+		 * Constructor for a new WorkerTask.
+		 * @param state the state to be handled by this task.
+		 */
+		public WorkerTask(S state, ThreadPoolExecutor threadPool, ReentrantLock lock) {
+			this.stateKernel = state;
+			this.threadPool = threadPool;
+			this.taskCountLock = lock;
+			incrementTaskCount();
+		}
+		
+		/**
+		 * When a thread for this task is started by the ThreadPool, this method is called.
+		 */
+		public Integer call() {
+			return 0;
+		}
+		
+		/**
+		 * Decrements the number of running tasks.
+		 * If this number is 0, the ThreadPool is notified.
+		 */
+		protected void decrementTaskCount() {
+			taskCountLock.lock();
+			try {
+				taskCount--;
+//				System.out.println("\ttaskCount decremented to "+taskCount+" by "+Thread.currentThread());
+				// check if this task was the last
+				if(taskCount == 0) { 
+					// wake up shutdown-thread
+					synchronized(threadPool) {
+						threadPool.notify();
+					}
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				taskCountLock.unlock();
+			}
+		}
+
+		/**
+		 * Increments the number of running tasks.
+		 */
+		protected void incrementTaskCount() {
+			taskCountLock.lock();
+			try {
+				taskCount++;
+//				System.out.println("taskCount incremented to "+taskCount+" by "+Thread.currentThread());
+			} finally {
+				taskCountLock.unlock();
+			}
+		}
+		
+	}
 	
 	/**
 	 * Method for creating an Automaton - to be overridden in subclasses
@@ -60,10 +143,10 @@ public abstract class AutomatonFactory<I extends Item, S extends State<I>>
 		grammar = generator.getGrammar();
 		
 		//start state
-		S state0 = (S) generator.createStartState();
+		state0 = (S) generator.createStartState();
 		
 		queue = new LinkedList<S>();
-		queue.addLast(state0);
+		queue.add(state0);
 		
 		//set of DFA states and edges created so far
 		ret = new Automaton<I, S>(state0);
@@ -106,7 +189,6 @@ public abstract class AutomatonFactory<I extends Item, S extends State<I>>
 			{
 				debugOut.println(stateKernel);
 			}
-			S state = (S) stateKernel.closure(grammarInfo); //unpack state (from kernel to closure)
 			//find all shiftable items and shift them
 			if (verbosity == Detailled)
 			{

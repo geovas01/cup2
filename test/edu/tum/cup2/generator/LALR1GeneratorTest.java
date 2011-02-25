@@ -102,15 +102,18 @@ public class LALR1GeneratorTest
 		String strFileName1 = spec.getClass().getSimpleName();
 		String strFileName2 = spec.getClass().getSimpleName();
 		String strFileName3 = spec.getClass().getSimpleName();
+		String strFileName4 = spec.getClass().getSimpleName();
 		if(strFileName1 == null)
 		{
 			strFileName1 = "";
 			strFileName2 = "";
 			strFileName3 = "";
+			strFileName4 = "";
 		}
 		strFileName1 += ".table1" + strFileNameTail;
 		strFileName2 += ".table2" + strFileNameTail;
 		strFileName3 += ".table3" + strFileNameTail;
+		strFileName4 += ".table4" + strFileNameTail;
 		
 		//create an LALR1Generator
 		System.out.print(spec.getClass().getSimpleName() + " - LALR1Generator: ");
@@ -142,22 +145,40 @@ public class LALR1GeneratorTest
 		LALR1CPGenerator generator3 = new LALR1CPGenerator(spec);
 		timeStop = System.currentTimeMillis();
 		System.out.println((timeStop - timeStart) + " ms");
+		
+		//create an LALR1ParallelGenerator for comparison
+		System.out.print(spec.getClass().getSimpleName() + " - LALR1ParallelGenerator: ");
+		timeStart = System.currentTimeMillis();
+		LALR1ParallelGenerator generator4 = new LALR1ParallelGenerator(spec);
+		timeStop = System.currentTimeMillis();
+		System.out.println((timeStop - timeStart) + " ms");
 
+		// check if all automatons are equal
 		Automaton<LR1Item, LR1State> autoLALR1 = generator.getAutomaton();
 		Automaton<LR1Item, LR1State> autoLALR1CP = generator3.getAutomaton();
+		Automaton<LR1Item, LR1State> autoLALR1Parallel = generator4.getAutomaton();
 		
  		Assert.assertEquals(autoLALR1.getStates().size(), autoLALR1CP.getStates().size());
 		Assert.assertEquals(autoLALR1.getEdges().size(), autoLALR1CP.getEdges().size());
+ 		Assert.assertEquals(autoLALR1.getStates().size(), autoLALR1Parallel.getStates().size());
+		Assert.assertEquals(autoLALR1.getEdges().size(), autoLALR1Parallel.getEdges().size());
  		// AutomatonTestTool.testContainmentOfAllStates(autoLALR1);
 			
 		AutomatonTestTool.testEquals(autoLALR1, autoLALR1CP);
-		
+		AutomatonTestTool.testEquals(autoLALR1, autoLALR1Parallel);
 		
 		LRParsingTable tbl_LALR1CP = generator3.getParsingTable();
 		new LRParser(tbl_LALR1CP);
-//		LRParsingTableDump.dumpToHTML(tbl_LALR1CP, new File(strFileName3));
+		LRParsingTableDump.dumpToHTML(tbl_LALR1CP, new File(strFileName3));
 //		LRParsingTableTestTool.assertEquals(tbl_LR1toLALR1, tblLALR1);
 		LRParsingTableTestTool.assertEquals(tblLALR1, tbl_LALR1CP);
+		
+		LRParsingTable tbl_LALR1Parallel = generator4.getParsingTable();
+		new LRParser(tbl_LALR1CP);
+		LRParsingTableDump.dumpToHTML(tbl_LALR1Parallel, new File(strFileName4));
+		
+		LRParsingTableTestTool.assertEquals(tblLALR1, tbl_LALR1CP);
+		LRParsingTableTestTool.assertEquals(tblLALR1, tbl_LALR1Parallel);
 			
 	}
 	

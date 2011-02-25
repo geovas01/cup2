@@ -4,8 +4,7 @@ import static edu.tum.cup2.grammar.SpecialTerminals.Epsilon;
 import static edu.tum.cup2.util.CollectionTools.set;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import edu.tum.cup2.grammar.SpecialTerminals;
@@ -27,7 +26,7 @@ public final class EfficientTerminalSet
 	
 	private final int[] data;
 	
-	private final HashMap<Terminal, Integer> indices;
+	private final Map<Terminal, Integer> indices;
 	private final Collection<Terminal> terminals;
 	
 	//cache
@@ -68,7 +67,7 @@ public final class EfficientTerminalSet
 	 * @param data       the bit array
 	 */
 	private EfficientTerminalSet(Collection<Terminal> terminals,
-		HashMap<Terminal, Integer> indices, int[] data)
+		Map<Terminal, Integer> indices, int[] data)
 	{
 		this.terminals = terminals;
 		this.indices = indices;
@@ -221,7 +220,7 @@ public final class EfficientTerminalSet
 	 */
 	public Set<Terminal> getTerminals()
 	{
-		HashSet<Terminal> ret = set();
+		Set<Terminal> ret = set();
 		for (Terminal terminal : indices.keySet())
 		{
 			if (contains(terminal))

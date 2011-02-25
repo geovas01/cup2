@@ -32,7 +32,7 @@ public class LR0AutomatonFactory extends AutomatonFactory<LR0Item, LR0State>
 			//but: do we really need E here? I ignored it
 		{
 			//handle next state in queue
-			stateKernel = queue.removeFirst();
+			stateKernel = queue.remove(0);
 		
 			//debug messages
 			printDebugMessages();
