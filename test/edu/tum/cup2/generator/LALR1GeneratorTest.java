@@ -153,20 +153,31 @@ public class LALR1GeneratorTest
 		timeStop = System.currentTimeMillis();
 		System.out.println((timeStop - timeStart) + " ms");
 
+                //create an LALR1SCC for comparison
+		System.out.print(spec.getClass().getSimpleName() + " - LALR1SCCGenerator: ");
+		timeStart = System.currentTimeMillis();
+		LALR1SCCGenerator generator5 = new LALR1SCCGenerator(spec);
+		timeStop = System.currentTimeMillis();
+		System.out.println((timeStop - timeStart) + " ms");
+                
+                
 		// check if all automatons are equal
 		Automaton<LR1Item, LR1State> autoLALR1 = generator.getAutomaton();
 		Automaton<LR1Item, LR1State> autoLALR1CP = generator3.getAutomaton();
 		Automaton<LR1Item, LR1State> autoLALR1Parallel = generator4.getAutomaton();
-		
+		Automaton<LR1Item, LR1State> autoLALR1SCC = generator5.getAutomaton();
+                
  		Assert.assertEquals(autoLALR1.getStates().size(), autoLALR1CP.getStates().size());
 		Assert.assertEquals(autoLALR1.getEdges().size(), autoLALR1CP.getEdges().size());
  		Assert.assertEquals(autoLALR1.getStates().size(), autoLALR1Parallel.getStates().size());
 		Assert.assertEquals(autoLALR1.getEdges().size(), autoLALR1Parallel.getEdges().size());
- 		// AutomatonTestTool.testContainmentOfAllStates(autoLALR1);
+ 		Assert.assertEquals(autoLALR1.getEdges().size(), autoLALR1SCC.getEdges().size());
+                // AutomatonTestTool.testContainmentOfAllStates(autoLALR1);
 			
 		AutomatonTestTool.testEquals(autoLALR1, autoLALR1CP);
 		AutomatonTestTool.testEquals(autoLALR1, autoLALR1Parallel);
-		
+		AutomatonTestTool.testEquals(autoLALR1, autoLALR1SCC);
+                
 		LRParsingTable tbl_LALR1CP = generator3.getParsingTable();
 		new LRParser(tbl_LALR1CP);
 		LRParsingTableDump.dumpToHTML(tbl_LALR1CP, new File(strFileName3));
@@ -187,6 +198,8 @@ public class LALR1GeneratorTest
 		lalrTest(spec, ".html");
 	}
 	
+
+        
 	/**
 	 * Unit Test for LALRGenerator
 	 * @throws Exception
