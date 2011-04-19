@@ -151,7 +151,7 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
             }
         }
 
-        {
+        if(debug){
             long actual = System.currentTimeMillis();
             start=actual-start;
             System.out.println("LR(0) Generierung: "+(start/1000.0));
@@ -166,6 +166,7 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
             Stack<LALR1CPItem> dfsStack = stack();
             Stack<LALR1CPItem> sccStack = stack();
             Set<LALR1CPItem> sccSet = set();
+            Set<Tuple2<LALR1CPItem,LALR1CPItem>> edges = set();
             // DFS search and index
             int dfsIndex = 0;
             Map<LALR1CPItem, Integer> dfsIndices = map();
@@ -223,7 +224,7 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
                                 lowlink.put(item, Math.min(lowlink.get(item), dfsIndices.get(targetItem)));
                             }
                         }
-
+                        edges.add(t(item,targetItem));
                     }
                     for (LR0Item closureLink : item.getClosureLinks()) {
                         LALR1CPState targetState = itemStates.get(item); //same state as current item
@@ -242,6 +243,7 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
                                 lowlink.put(item, Math.min(lowlink.get(item), dfsIndices.get(targetItem)));
                             }
                         }
+                        edges.add(t(item,targetItem));
                     }
 
                     if (found == null) {                      // not found a child  
@@ -287,7 +289,7 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
                 }
             } while (!dfsStack.isEmpty());
 
-            {
+            if (debug){
                 long actual = System.currentTimeMillis();
                 start=actual-start;
                 System.out.println("Determining SCCs: "+(start/1000.0));
@@ -307,74 +309,17 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
                 incoming.put(it, 0);
                 edgerelation.put(it, new HashSet<LALR1CPItem>());
             }
-            dfsStack = stack();
-            dfsSet = set();
-            for (LALR1CPState sta : kernel2closure.values()) {
-                Collection<LALR1CPItem> col = sta.getItemsAsCollection();
-                for (LALR1CPItem it : col) {
-                    it = sta.getItemWithLookaheadByLR0Item(it.getLR0Item());
-                    dfsSet.add(it);
-                }
 
+            for (Tuple2<LALR1CPItem,LALR1CPItem> e :edges){
+                int source = lowlink.get(e.get1());
+                int target = lowlink.get(e.get2());
+                if (source==target) continue;
+                LALR1CPItem t = sccRoots.get(target);
+                if (edgerelation.get(sccRoots.get(source)).add(t))
+                      incoming.put(t, incoming.get(t)+1);
             }
-            dfsStack.push(firstItem);
-            // iterate through the graph until we touched all states 
-            do {
-                dfsSet.remove(dfsStack.peek());
 
-                while (!(dfsStack.isEmpty())) {
-                    found = null;
-                    LALR1CPItem item = dfsStack.peek();
-                    int source = lowlink.get(item);
-
-                    // visit all links outgoing from item
-                    CPGoToLink gotoLink = goToLinks.get(item);
-                    if (gotoLink != null) {
-                        LALR1CPState targetState = gotoLink.getTargetState();
-                        LALR1CPItem targetItem = targetState.getItemWithLookaheadByLR0Item(gotoLink.getTargetItem());
-                        if (dfsSet.contains(targetItem)) {
-                            found = targetItem;
-                            dfsStack.push(found);
-                            dfsSet.remove(found);
-                        }
-                        int target = lowlink.get(targetItem);
-                        if (source != target) // cross-SCC link detected
-                        {
-                            if (edgerelation.get(sccRoots.get(source)).add(sccRoots.get(target))) {
-                                incoming.put(sccRoots.get(target), incoming.get(sccRoots.get(target)) + 1);
-                            }
-                        }
-                    }
-                    for (LR0Item closureLink : item.getClosureLinks()) {
-                        LALR1CPState targetState = itemStates.get(item); //same state as current item
-                        LALR1CPItem targetItem = targetState.getItemWithLookaheadByLR0Item(closureLink);
-                        if (dfsSet.contains(targetItem)) {
-                            found = targetItem;
-                            dfsStack.push(found);
-                            dfsSet.remove(found);
-                        }
-                        int target = lowlink.get(targetItem);
-                        if (source != target) // cross-SCC link detected
-                        {
-                            if (edgerelation.get(sccRoots.get(source)).add(sccRoots.get(target))) {
-                                incoming.put(sccRoots.get(target), incoming.get(sccRoots.get(target)) + 1);
-                            }
-                        }
-                    }
-                    if (found == null) {                      // not found a child  
-                        dfsStack.pop();           // ascend
-                    }
-                }
-
-
-                try {
-                    LALR1CPItem item = dfsSet.iterator().next();
-                    dfsStack.push(item);
-                } catch (NoSuchElementException nse) {
-                }
-            } while (!dfsStack.isEmpty());
-
-            {
+            if (debug){
                 long actual = System.currentTimeMillis();
                 start=actual-start;
                 System.out.println("Inter SCC-edges: "+(start/1000.0));
@@ -395,7 +340,7 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
                     lookaheads.put(t, edgela.plusAll(itla));
                 }
             }
-            {
+            if (debug) {
                 long actual = System.currentTimeMillis();
                 start=actual-start;
                 System.out.println("Propagating LAs: "+(start/1000.0));
