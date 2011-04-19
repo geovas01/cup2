@@ -110,5 +110,11 @@ import edu.tum.cup2.io.IVisitedElement;
 	{
 		visitor.visit(this);
 	}
+
+    @Override
+    public String toString() {
+        return srcItem + " "+symbol;
+    }
+        
 	
 }

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 //TODO: doc
 public class CollectionTools
@@ -28,6 +29,14 @@ public class CollectionTools
 	public static <T1, T2> Map<T1, T2> map()
 	{
 		return new HashMap<T1, T2>();
+	}
+	
+	/**
+	 * Creates a new standard stack.
+	 */
+	public static <T> Stack<T> stack()
+	{
+		return new Stack<T>();
 	}
 	
 	
