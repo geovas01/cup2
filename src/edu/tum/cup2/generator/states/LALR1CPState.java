@@ -38,7 +38,8 @@ public final class LALR1CPState
 	//cache
 	private final Set<LR0Item> strippedItems;
 	private final int hashCode;
-	
+	private final Map<LR0Item,LALR1CPItem> stripped2Full = map();
+        
 	
 	/**
 	 * Creates a new {@link LALR1CPState} with the given items (and their kernels,
@@ -55,6 +56,9 @@ public final class LALR1CPState
 			sum += item.hashCode();
 		}
 		this.hashCode = sum;
+                for (LALR1CPItem it: items){
+                    stripped2Full.put(it.getLR0Item(),it);
+                }
 	}
 	
 	
@@ -160,13 +164,9 @@ public final class LALR1CPState
 	 */
 	public LALR1CPItem getItemWithLookaheadByLR0Item(LR0Item stripped)
 	{
-		//GOON!! performance! use hashmap! we save kernels anyway!
-		for (LALR1CPItem item : items)
-		{
-			if (item.getLR0Item().equals(stripped))
-				return item;
-		}
-		throw new IllegalArgumentException("Unknown kernel " + stripped);
+            LALR1CPItem ret = stripped2Full.get(stripped);
+            if (ret==null) throw new IllegalArgumentException("Unknown kernel " + stripped);
+            return ret;
 	}
 	
 	
