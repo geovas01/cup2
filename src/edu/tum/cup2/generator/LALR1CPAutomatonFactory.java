@@ -56,7 +56,7 @@ public class LALR1CPAutomatonFactory extends AutomatonFactory<LR1Item, LR1State>
 		Set<LALR1CPItem> startStateItem = set();
 		startStateItem.add(new LALR1CPItem(startStateKernelItem, grammarInfo.getTerminalSet(Placeholder)));
 		LALR1CPState startStateKernel = new LALR1CPState(
-			startStateItemKernel, startStateItem);
+			startStateItem);
 		
 		//hashmap which matches a kernel of a state
 		//to its complete (with closure) state

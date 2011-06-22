@@ -36,8 +36,7 @@ public final class LALR1CPState
 {
 	
 	//cache
-	private final Set<LR0Item> strippedItems;
-	private final int hashCode;
+        private final int hashCode;
 	private final Map<LR0Item,LALR1CPItem> stripped2Full = map();
         
 	
@@ -45,20 +44,18 @@ public final class LALR1CPState
 	 * Creates a new {@link LALR1CPState} with the given items (and their kernels,
 	 * needed for performance reasons).
 	 */
-	public LALR1CPState(Set<LR0Item> strippedItems, Collection<LALR1CPItem> items)
+        //TODO: Parameter strippedItems is redundant
+        public LALR1CPState(Collection<LALR1CPItem> items)
 	{
 		super(items);
-		this.strippedItems = strippedItems;
 		//compute hashcode
 		int sum = 0;
-		for (LR0Item item : strippedItems)
-		{
-			sum += item.hashCode();
-		}
-		this.hashCode = sum;
                 for (LALR1CPItem it: items){
-                    stripped2Full.put(it.getLR0Item(),it);
+                    LR0Item item = it.getLR0Item();
+                    sum+=item.hashCode();
+                    stripped2Full.put(item,it);
                 }
+		this.hashCode = sum;
 	}
 	
 	
@@ -115,7 +112,7 @@ public final class LALR1CPState
 				}
 			}
 		}
-		return new LALR1CPState(retItems.keySet(), retItems.values());
+		return new LALR1CPState(retItems.values());
 	}
 	
 	
@@ -139,7 +136,6 @@ public final class LALR1CPState
 	 */
 	public Tuple2<LALR1CPState, List<CPGoToLink>> goToCP(Symbol symbol)
 	{
-		Set<LR0Item> targetKernels = set();
 		Set<LALR1CPItem> targetItems = set();
 		List<CPGoToLink> cpLinks = llist();
 		//find all items where the given symbol follows and add them shifted
@@ -148,13 +144,12 @@ public final class LALR1CPState
 			if (source.getNextSymbol() == symbol)
 			{
 				LALR1CPItem target = source.shift();
-				targetKernels.add(target.getLR0Item());
 				targetItems.add(target);
 				//leave the target state null for now, will be set later
 				cpLinks.add(new CPGoToLink(source, null, target.getLR0Item()));
 			}
 		}
-		LALR1CPState targetState = new LALR1CPState(targetKernels, targetItems);
+		LALR1CPState targetState = new LALR1CPState(targetItems);
 		return t(targetState, cpLinks);
 	}
 	
@@ -172,7 +167,7 @@ public final class LALR1CPState
 	
 	public Set<LR0Item> getStrippedItems()
 	{
-		return strippedItems;
+		return stripped2Full.keySet();
 	}
 	
 	
@@ -185,7 +180,7 @@ public final class LALR1CPState
 		if (obj instanceof LALR1CPState)
 		{
 			LALR1CPState s = (LALR1CPState) obj;
-			return s.strippedItems.equals(strippedItems);
+			return s.stripped2Full.keySet().equals(stripped2Full.keySet());
 		}
 		return false;
 	}

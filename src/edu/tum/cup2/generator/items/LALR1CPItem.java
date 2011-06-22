@@ -55,7 +55,7 @@ public final class LALR1CPItem
 		this.lookaheads = lookaheads;
 		this.closureLinks = closureLinks;
 		//compute hashcode
-		this.hashCode = this.stripped.hashCode() + lookaheads.hashCode() * 100;
+		this.hashCode = (this.stripped.hashCode() + lookaheads.hashCode() * 100);
 	}
 	
 	

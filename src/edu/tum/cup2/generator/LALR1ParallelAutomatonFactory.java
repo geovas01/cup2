@@ -239,7 +239,7 @@ public class LALR1ParallelAutomatonFactory extends AutomatonFactory<LR1Item, LR1
 		Set<LALR1CPItem> startStateItem = set();
 		startStateItem.add(new LALR1CPItem(startStateKernelItem, grammarInfo.getTerminalSet(Placeholder)));
 		LALR1CPState startStateKernel = new LALR1CPState(
-			startStateItemKernel, startStateItem);
+			 startStateItem);
 		
 		kernel2closure = synchronizedMap();
 		goToLinks = synchronizedMap();

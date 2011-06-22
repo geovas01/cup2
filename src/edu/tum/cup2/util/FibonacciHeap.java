@@ -461,8 +461,8 @@ public class FibonacciHeap<T>
         // reconstruct the root list from the array entries in array[].
         minNode = null;
 
-        for (int i = 0; i < arraySize; i++) {
-            FibonacciHeapNode<T> y = array.get(i);
+        
+        for (FibonacciHeapNode<T> y :array){
             if (y == null) {
                 continue;
             }

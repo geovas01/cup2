@@ -43,24 +43,15 @@ public class LR1State
 		super(items);
 		//hash code
 		int sum = 0;
-		for (LR1Item item : items)
-		{
-			sum += item.hashCode();
-		}
-		this.hashCode = sum;
-		//create LR(0) kernels
-		HashSet<LR0Item> kernelItems = new HashSet<LR0Item>();
-		for (LR1Item item : items)
-		{
-			kernelItems.add(item.getLR0Kernel());
-		}
-		kernel = new LR0State(kernelItems);
 		//create map with LR(0) kernels as key
 		itemsWithKernels = new HashMap<LR0Item, LR1Item>();
 		for (LR1Item item : items)
 		{
 			itemsWithKernels.put(item.getLR0Kernel(), item);
+			sum += item.hashCode();
 		}
+                kernel = new LR0State(itemsWithKernels.keySet());
+		this.hashCode = sum;
 	}
 
 

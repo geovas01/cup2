@@ -29,6 +29,7 @@ import edu.tum.cup2.io.IVisitedElement;
 	private final State src, dest;
 	private final Symbol symbol;
 	private final LR0Item srcItem;
+        private final int hashCache;
 	
 	
 	/**
@@ -40,6 +41,7 @@ import edu.tum.cup2.io.IVisitedElement;
 		this.symbol = symbol;
 		this.dest = dest;
 		this.srcItem = srcItem;
+                this.hashCache = src.hashCode() * 100 + symbol.hashCode();
 	}
 	
 	
@@ -100,7 +102,7 @@ import edu.tum.cup2.io.IVisitedElement;
 	
 	@Override public int hashCode()
 	{
-		return src.hashCode() * 100 + symbol.hashCode();
+		return hashCache;
 	}
 
 	/**

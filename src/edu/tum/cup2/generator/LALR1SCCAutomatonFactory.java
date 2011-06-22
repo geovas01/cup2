@@ -56,7 +56,7 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
         initCreation();
 
         long start = System.currentTimeMillis();
-
+        //debug=true;
         //create the start state (start production with dot at position 0 and "Placeholder" as lookahead)
         LR0Item startStateKernelItem = this.queue.remove(0).getLR0Kernel().getFirstItem();
         Set<LR0Item> startStateItemKernel = set();
@@ -64,7 +64,7 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
         Set<LALR1CPItem> startStateItem = set();
         startStateItem.add(new LALR1CPItem(startStateKernelItem, grammarInfo.getTerminalSet(Placeholder)));
         LALR1CPState startStateKernel = new LALR1CPState(
-                startStateItemKernel, startStateItem);
+                startStateItem);
 
         //hashmap which matches a kernel of a state
         //to its complete (with closure) state
@@ -274,17 +274,27 @@ public class LALR1SCCAutomatonFactory extends AutomatonFactory<LR1Item, LR1State
 
 
 
-                try {
-                    LALR1CPItem item = dfsSet.iterator().next();
-                    dfsStack.push(item);
-                    sccStack.push(item);
-                    sccSet.add(item);
-                    dfsIndex++;
-                    dfsIndices.put(item, dfsIndex);
-                    lowlink.put(item, dfsIndex);
-
-                } catch (NoSuchElementException nse) {
+                LALR1CPItem item = null;
+                LALR1CPItem backup = null;
+                for (LALR1CPItem it : dfsSet) {
+                    backup = it;
+                    if (it.getPosition() == 0) {
+                        item = it;
+                        break;
+                    }
                 }
+                if (item == null && backup == null) {
+                    break;
+                } else {
+                    item = backup;
+                }
+
+                dfsStack.push(item);
+                sccStack.push(item);
+                sccSet.add(item);
+                dfsIndex++;
+                dfsIndices.put(item, dfsIndex);
+                lowlink.put(item, dfsIndex);
             } while (!dfsStack.isEmpty());
 
             if (debug) {
