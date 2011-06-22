@@ -1,5 +1,6 @@
 package edu.tum.cup2.test;
 
+import edu.tum.cup2.generator.LALR1SCCGenerator;
 import java.io.File;
 
 import org.junit.Test;

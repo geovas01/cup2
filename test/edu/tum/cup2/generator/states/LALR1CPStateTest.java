@@ -125,7 +125,7 @@ public class LALR1CPStateTest
 		Set<LR0Item> kernels = set();
 		for (LALR1CPItem item : items)
 			kernels.add(item.getLR0Item());
-		return new LALR1CPState(kernels, Arrays.asList(items));
+		return new LALR1CPState(Arrays.asList(items));
 	}
 	
 

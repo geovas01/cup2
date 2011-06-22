@@ -7,8 +7,8 @@ import java.io.File;
 import org.junit.Test;
 
 import edu.tum.cup2.io.LRParsingTableDump;
+import edu.tum.cup2.io.LRParsingTableTest;
 import edu.tum.cup2.parser.tables.LRParsingTable;
-import edu.tum.cup2.parser.tables.LRParsingTableTest;
 import edu.tum.cup2.test.GrammarAppel_3_20;
 import edu.tum.cup2.test.GrammarWiki1;
 
@@ -53,7 +53,7 @@ public class LR0GeneratorTest
 		
 		//check table
 		LRParsingTable correctTable = grammar.getParsingTable();
-		LRParsingTableTest.assertEquals(correctTable, table);
+		assertEquals(correctTable, table);
 	}
 
 }

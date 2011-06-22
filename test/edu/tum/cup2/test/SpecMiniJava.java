@@ -1,5 +1,6 @@
 package edu.tum.cup2.test;
 
+import edu.tum.cup2.generator.LALR1SCCGenerator;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -271,6 +272,7 @@ public class SpecMiniJava
 		try
 		{
 			LRParsingTable table = new LR1Generator(this).getParsingTable();
+                        //LRParsingTable table = new LALR1SCCGenerator(this).getParsingTable();
 			LRParsingTableDump.dumpToHTML(table, new File("SpecMiniJava.html")); //TEST
 			
 			//send through test program:

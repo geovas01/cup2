@@ -1,5 +1,6 @@
 package edu.tum.cup2.test;
 
+import edu.tum.cup2.generator.LALR1SCCGenerator;
 import org.junit.Test;
 
 import edu.tum.cup2.generator.LR0Generator;
@@ -95,6 +96,26 @@ public class SpecCalc3
 		try
 		{
 			new LR1Generator(this).getParsingTable();
+			fail("Shift/reduce conflict expected!");
+		}
+		catch (ShiftReduceConflict ex)
+		{
+			System.out.println(ex.getMessage());
+		}
+		catch (GeneratorException ex)
+		{
+			fail("Wrong exception");
+		}
+	}
+	/**
+	 * LR(1) generator must fail.
+	 */
+	@Test public void testLALR1SCC()
+		throws GeneratorException, LRParserException
+	{
+		try
+		{
+			new LALR1SCCGenerator(this).getParsingTable();
 			fail("Shift/reduce conflict expected!");
 		}
 		catch (ShiftReduceConflict ex)

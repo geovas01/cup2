@@ -1,5 +1,6 @@
 package edu.tum.cup2.test;
 
+import edu.tum.cup2.generator.LALR1SCCGenerator;
 import java.io.File;
 
 import org.junit.Test;
@@ -89,7 +90,18 @@ public class SpecCalc1
 		//result must be 38
 		assertEquals(38, result);
 	}
-	
+	@Test public void testLALR1SCC()
+		throws Exception
+	{
+			LRParsingTable table = new LALR1SCCGenerator(this).getParsingTable();
+			LRParsingTableDump.dumpToHTML(table, new File("calc4-lalr.html")); //TEST
+        		Object result = new LRParser(table).parse(new TestScanner(
+			terminal(NUMBER, 13),
+			terminal(PLUS),
+			terminal(NUMBER, 25)));
+		//result must be 38
+		assertEquals(38, result);
+	}	
 	
 	@Test public void testTime()
 	{

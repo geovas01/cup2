@@ -1,5 +1,6 @@
 package edu.tum.cup2.test;
 
+import edu.tum.cup2.generator.LALR1SCCGenerator;
 import java.io.Serializable;
 import java.io.File;
 import java.io.FileReader;
@@ -247,6 +248,32 @@ public class SpecCalc4
 		try
 		{
 			LRParsingTable table = new LALR1Generator(this).getParsingTable();
+			LRParsingTableDump.dumpToHTML(table, new File("calc4-lalr.html")); //TEST
+			Object result = new LRParser(table).parse(new TestScanner(
+				terminal(NUMBER, 13),
+				terminal(PLUS),
+				terminal(NUMBER, 25),
+				terminal(MINUS),
+				terminal(NUMBER, 39),
+				terminal(PLUS),
+				terminal(NUMBER, 2)));
+			//result must be 1
+			assertEquals(1, result);
+		}
+		catch (GeneratorException ex)
+		{
+			fail(ex.getMessage());
+		}
+	}
+	/**
+	 * LALR(1) must work. Compute 13+25-39+2.
+	 */
+	@Test public void testLALR1SCC()
+		throws GeneratorException, LRParserException, IOException
+	{
+		try
+		{
+			LRParsingTable table = new LALR1SCCGenerator(this).getParsingTable();
 			LRParsingTableDump.dumpToHTML(table, new File("calc4-lalr.html")); //TEST
 			Object result = new LRParser(table).parse(new TestScanner(
 				terminal(NUMBER, 13),

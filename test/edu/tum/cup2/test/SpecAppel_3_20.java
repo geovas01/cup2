@@ -1,5 +1,6 @@
 package edu.tum.cup2.test;
 
+import edu.tum.cup2.generator.LALR1SCCGenerator;
 import java.io.File;
 
 import org.junit.Test;
@@ -60,6 +61,13 @@ public class SpecAppel_3_20 extends CUP2Specification {
 
 	public void testLR0Parallel() throws Exception {
 		LRParsingTable table = new LR0ParallelGenerator(this, Verbosity.Sparse).getParsingTable();
+		LRParsingTableDump.dumpToHTML(table, new File(
+				"SpecAppel_3_20.LR0Parallel.html")); // TEST
+
+
+	}
+	public void testLALR1SCC() throws Exception {
+		LRParsingTable table = new LALR1SCCGenerator(this, Verbosity.Sparse).getParsingTable();
 		LRParsingTableDump.dumpToHTML(table, new File(
 				"SpecAppel_3_20.LR0Parallel.html")); // TEST
 
