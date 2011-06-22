@@ -56,7 +56,7 @@ import javax.swing.text.Highlighter.HighlightPainter;
 
 import compiler.MiniJavaSpec;
 
-import edu.tum.cup2.generator.LALR1NSEGenerator;
+import edu.tum.cup2.generator.LALR1SCCGenerator;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.parser.tables.LRParsingTable;
@@ -106,7 +106,7 @@ public class EditorWindow
 
 		/** initialize grammar-features **/
 		try {
-			table = (new LALR1NSEGenerator(new MiniJavaSpec())).getParsingTable();
+			table = (new LALR1SCCGenerator(new MiniJavaSpec())).getParsingTable();
 		} catch (Exception e) {
 			if (e instanceof GeneratorException)
 			{

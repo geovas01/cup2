@@ -1,5 +1,6 @@
 package compiler;
 
+import edu.tum.cup2.generator.LALR1SCCGenerator;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
@@ -7,7 +8,7 @@ import java.io.PrintStream;
 
 import javax.sound.midi.SysexMessage;
 
-import edu.tum.cup2.generator.LALR1NSEGenerator;
+
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.parser.LRParser;
 import edu.tum.cup2.parser.exceptions.LRParserException;
@@ -109,7 +110,7 @@ public class Main
 
 		try
 		{
-			LALR1NSEGenerator gen = new LALR1NSEGenerator(new MiniJavaSpec());
+			LALR1SCCGenerator gen = new LALR1SCCGenerator(new MiniJavaSpec());
 			LRParser p = new LRParser(gen.getParsingTable());
 
 			/** Find insertions **/

@@ -1,5 +1,6 @@
 package compiler;
 
+import edu.tum.cup2.spec.CUP2Specification;
 import ide.EditorWindow;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ import minijava.Stmt;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.parser.LRParser;
-import edu.tum.cup2.spec.CUPSpecification;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.semantics.ErrorInformation;
 import edu.tum.cup2.semantics.ParserInterface;
 import edu.tum.cup2.semantics.SymbolValue;
@@ -36,7 +37,7 @@ import static edu.tum.cup2.grammar.SpecialTerminals.Error;
  * @author Michael Petter
  */
 public class MiniJavaSpec
-	extends CUPSpecification
+	extends CUP2Specification
 	implements Serializable 
 {
   
