@@ -70,4 +70,3 @@ public class AlteredLR1butNotLALR1 extends CUP2Specification
 	
 
 }
-}
