@@ -11,6 +11,7 @@ import java.util.HashSet;
 import edu.tum.cup2.generator.Automaton;
 import edu.tum.cup2.generator.Edge;
 import edu.tum.cup2.generator.states.State;
+import java.util.Set;
 
 /**
  * GraphBuilderVisitor
@@ -59,7 +60,7 @@ public class GraphBuilderVisitor implements IAutomatonVisitor
 		init();
 		
 		this.fStartState = a.getStartState();
-		HashSet<Edge> he = (HashSet<Edge>) a.getEdges();
+		Set<Edge> he = (Set<Edge>) a.getEdges();
 		for(Edge e : he)
 		{
 			e.visited(this);
@@ -238,11 +239,11 @@ public class GraphBuilderVisitor implements IAutomatonVisitor
 		
 		//create a picture file with dot.exe from the dot input file
 		try {
-			File fDotExe = new File("dot.exe");
+			File fDotExe = new File("dot");
 			if(fDotExe.canExecute())
 			{
 				String[] cmdarray = {
-					"dot.exe", 
+					"dot", 
 					"-Tpng", 
 					"-o" + strFileName + ".png",
 					strFileName
