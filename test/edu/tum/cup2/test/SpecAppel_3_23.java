@@ -1,5 +1,7 @@
 package edu.tum.cup2.test;
 
+import edu.tum.cup2.io.GraphBuilderVisitor;
+import edu.tum.cup2.generator.LR1Generator;
 import java.io.File;
 
 import org.junit.Test;
@@ -38,7 +40,7 @@ public class SpecAppel_3_23
 		S, E, T
 	}
 
-	
+
 	public SpecAppel_3_23()
 	{
 		grammar(
@@ -48,6 +50,28 @@ public class SpecAppel_3_23
 			prod(T,  rhs(x)));
 	}
 	
+        @Test public void testLR1()
+	{
+		try
+		{
+                        LR1Generator gen = new LR1Generator(this);
+			LRParsingTable table = gen.getParsingTable();
+			LRParsingTableDump.dumpToHTML(table, new File("appel_3_23-LR1.html"));
+                        GraphBuilderVisitor gbvLALR1 = new GraphBuilderVisitor();
+                        gbvLALR1.visit(gen.getAutomaton());
+                        gbvLALR1.saveGraphVizInput(this.getClass().getName()+"-LR1.dot");
+
+		}
+		catch (ShiftReduceConflict ex)
+		{
+			fail("No Shift/reduce conflict expected!");
+                        //ok
+		}
+		catch (GeneratorException ex)
+		{
+			fail("Wrong exception");
+		}
+	}	
 	
 	/**
 	 * Test with LR(0) generator: Must fail with shift/reduce-conflict.

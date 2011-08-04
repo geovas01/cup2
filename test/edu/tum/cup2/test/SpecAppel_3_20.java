@@ -35,8 +35,11 @@ public class SpecAppel_3_20 extends CUP2Specification {
 	}
 
 	public SpecAppel_3_20() {
-		grammar(prod(S_primed, rhs(S, $)), prod(S, rhs(leftbr, L, rightbr),
-				rhs(x)), prod(L, rhs(S), rhs(L, comma, S)));
+		grammar(prod(S_primed, rhs(S, $)), 
+                        prod(S, rhs(leftbr, L, rightbr),
+                                rhs(x)), 
+                        prod(L, rhs(S), 
+                                rhs(L, comma, S)));
 	}
 
 	/**
