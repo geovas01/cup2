@@ -32,7 +32,7 @@ import edu.tum.cup2.util.Tuple2;
  * @author Andreas Wenger
  */
 public final class LALR1CPState
-	extends State<LALR1CPItem>
+	extends LRState<LALR1CPItem>
 {
 	
 	//cache

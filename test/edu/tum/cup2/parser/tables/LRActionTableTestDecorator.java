@@ -1,6 +1,5 @@
 package edu.tum.cup2.parser.tables;
 
-import java.util.Collection;
 import java.util.Hashtable;
 
 import edu.tum.cup2.parser.actions.LRAction;

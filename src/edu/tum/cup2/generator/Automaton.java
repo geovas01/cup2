@@ -19,8 +19,7 @@ import edu.tum.cup2.io.IVisitedElement;
  * 
  * @author Andreas Wenger
  */
-public class Automaton<I extends Item, S extends State<I>>
-implements IVisitedElement
+public class Automaton<I extends Item, S extends State<I>> implements IVisitedElement
 {
 	
 	private Set<S> states = Collections.synchronizedSet(new HashSet<S>());
@@ -52,6 +51,7 @@ implements IVisitedElement
 		return startState;
 	}
 	
+	
 	public void visited(IAutomatonVisitor visitor)
 	{
 		visitor.visit(this);
@@ -73,7 +73,8 @@ implements IVisitedElement
 		return ret;
 	}
 	
-	/** 
+	
+	/**
 	 * Gets the edge arriving in the given state.
 	 * This implementation is not optimized and runs in O(n).
 	 */
@@ -83,15 +84,20 @@ implements IVisitedElement
 		for (Edge edge : edges)
 		{
 			State<?> dest = edge.getDest();
-			if (dest!=null && dest.equals(state))
+			if (dest != null && dest.equals(state))
 				ret.add(edge);
 		}
 		return ret;
 	}
+	
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	public String toString() {
-		Comparator<Edge> comp = new Comparator<Edge>(){
-			public int compare(Edge o1, Edge o2) {
+	public String toString()
+	{
+		Comparator<Edge> comp = new Comparator<Edge>() {
+			public int compare(Edge o1, Edge o2)
+			{
 				return o1.toString().compareTo(o2.toString());
 			}
 		};
@@ -99,21 +105,25 @@ implements IVisitedElement
 		LinkedList<S> queue = new LinkedList<S>();
 		HashSet<S> set = new HashSet<S>();
 		queue.add(getStartState());
-		while (!queue.isEmpty()){
+		while (!queue.isEmpty())
+		{
 			S s = queue.poll();
 			sb.append(s.toString());
 			set.add(s);
 			List<Edge> sortedList = getEdgesFrom(s);
-			Collections.sort(sortedList,comp);
-			for (Edge e : sortedList){
-				if (set.contains(e.getDest())) continue;
-				State st= e.getDest();
-				if (st!=null) queue.add((S)st);
+			Collections.sort(sortedList, comp);
+			for (Edge e : sortedList)
+			{
+				if (set.contains(e.getDest()))
+					continue;
+				State<?> st = e.getDest();
+				if (st != null)
+					queue.add((S) st);
 				
 			}
 		}
 		
-		return sb.toString();//+"\n"+edges.toString();
+		return sb.toString();// +"\n"+edges.toString();
 	}
-
+	
 }

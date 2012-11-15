@@ -20,6 +20,8 @@ public interface Item
 	
 	public boolean isShiftable();
 	
+	public boolean isComplete();
+	
 	public Item shift();
 
 }

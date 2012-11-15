@@ -1,9 +1,9 @@
 package edu.tum.cup2.parser.actions;
 
+import java.io.Serializable;
+
 import edu.tum.cup2.grammar.Production;
 import edu.tum.cup2.parser.states.LRParserState;
-import edu.tum.cup2.semantics.Action;
-import java.io.Serializable;
 
 /**
  * LR shift parser action.

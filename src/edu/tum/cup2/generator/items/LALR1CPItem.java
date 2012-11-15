@@ -87,6 +87,12 @@ public final class LALR1CPItem
 	}
 	
 	
+	public boolean isComplete()
+	{
+		return stripped.isComplete();
+	}
+	
+	
 	/**
 	 * Returns this item with the position shifted one symbol further.
 	 * The already known lookaheads stay the same (it would also be ok to use

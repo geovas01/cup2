@@ -1,5 +1,6 @@
 package edu.tum.cup2.generator.states;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -17,7 +18,7 @@ import edu.tum.cup2.grammar.Symbol;
  * @author Andreas Wenger
  */
 public final class LR0State
-	extends State<LR0Item>
+	extends LRState<LR0Item>
 {
 	
 	//cache
@@ -37,6 +38,12 @@ public final class LR0State
 			sum += item.hashCode();
 		}
 		this.hashCode = sum;
+	}
+	
+	
+	public LR0State(LR0Item... items)
+	{
+		this(Arrays.asList(items));
 	}
 	
 	

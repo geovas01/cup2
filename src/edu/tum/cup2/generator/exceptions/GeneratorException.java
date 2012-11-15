@@ -7,9 +7,11 @@ package edu.tum.cup2.generator.exceptions;
  * 
  * @author Andreas Wenger
  */
-public class GeneratorException
-	extends Exception
+public class GeneratorException extends Exception
 {
+	/**  */
+	private static final long serialVersionUID = 1540402270436552083L;
+	
 	
 	public GeneratorException()
 	{
@@ -19,6 +21,17 @@ public class GeneratorException
 	public GeneratorException(String message)
 	{
 		super(message);
-	}	
-
+	}
+	
+	
+	public GeneratorException(Throwable cause)
+	{
+		super(cause);
+	}
+	
+	
+	public GeneratorException(String message, Throwable cause)
+	{
+		super(message, cause);
+	}
 }

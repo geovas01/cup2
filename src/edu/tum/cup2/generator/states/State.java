@@ -2,9 +2,7 @@ package edu.tum.cup2.generator.states;
 
 import java.util.Collection;
 
-import edu.tum.cup2.generator.GrammarInfo;
 import edu.tum.cup2.generator.items.Item;
-import edu.tum.cup2.grammar.Symbol;
 import edu.tum.cup2.io.IAutomatonVisitor;
 import edu.tum.cup2.io.IVisitedElement;
 import edu.tum.cup2.util.It;
@@ -50,23 +48,6 @@ public abstract class State<T extends Item>
 	{
 		return items.size();
 	}
-	
-	
-	/**
-	 * Returns the closure of this {@link State} as another
-	 * {@link State}.
-	 * For a description of this algorithm, see Appel's book, page 62.
-	 */
-	public abstract State<T> closure(GrammarInfo grammarInfo);
-	
-	
-	/**
-	 * Moves the position if the items one step further when
-	 * the given symbol follows and returns them as a new state
-	 * (only the kernel, without closure).
-	 * For a description of this algorithm, see Appel's book, page 62.
-	 */
-	public abstract State<T> goTo(Symbol symbol);
 
 		
 	@Override public String toString()

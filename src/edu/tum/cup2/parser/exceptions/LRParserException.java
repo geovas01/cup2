@@ -7,13 +7,13 @@ package edu.tum.cup2.parser.exceptions;
  * 
  * @author Andreas Wenger
  */
-public class LRParserException
-	extends Exception
+public class LRParserException extends ParserException
 {
-	
+	/**  */
+	private static final long serialVersionUID = 5821534198543313926L;
+
 	public LRParserException(String message)
 	{
 		super(message);
 	}
-
 }

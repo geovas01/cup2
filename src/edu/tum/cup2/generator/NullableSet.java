@@ -15,9 +15,10 @@ import edu.tum.cup2.grammar.Symbol;
  * 
  * @author Andreas Wenger
  */
-public class NullableSet
-	extends HashSet<NonTerminal>
+public class NullableSet extends HashSet<NonTerminal>
 {
+	private static final long serialVersionUID = -5744818657858711176L;
+	
 	
 	/**
 	 * Computes the non-terminals that can derive the empty string.
@@ -25,9 +26,9 @@ public class NullableSet
 	 */
 	public NullableSet(LinkedList<Production> productions)
 	{
-		//iterate as long as we get new nullable productions.
-		//in the first step, we only get the trivial ones (X → ɛɛɛ...),
-		//then the ones using X (e.g. Y -> XɛX), and so on
+		// iterate as long as we get new nullable productions.
+		// in the first step, we only get the trivial ones (X → ɛɛɛ...),
+		// then the ones using X (e.g. Y -> XɛX), and so on
 		boolean changed;
 		do
 		{
@@ -35,10 +36,10 @@ public class NullableSet
 			for (Production production : productions)
 			{
 				NonTerminal lhs = production.getLHS();
-				//only check non-terminals which are not nullable already
+				// only check non-terminals which are not nullable already
 				if (!this.contains(lhs))
 				{
-					//all rhs symbols nullable?
+					// all rhs symbols nullable?
 					boolean nullable = true;
 					for (Symbol symbol : production.getRHS())
 					{
@@ -48,7 +49,7 @@ public class NullableSet
 							break;
 						}
 					}
-					//then remember it as a nullable terminal
+					// then remember it as a nullable terminal
 					if (nullable)
 					{
 						this.add(lhs);
@@ -56,8 +57,7 @@ public class NullableSet
 					}
 				}
 			}
-		}
-		while (changed);
+		} while (changed);
 	}
-
+	
 }

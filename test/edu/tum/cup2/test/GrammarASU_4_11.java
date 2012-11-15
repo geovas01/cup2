@@ -6,6 +6,7 @@ import edu.tum.cup2.grammar.Grammar;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Production;
 import edu.tum.cup2.grammar.Terminal;
+import edu.tum.cup2.spec.CUP2Specification;
 import edu.tum.cup2.util.ArrayTools;
 
 //locate static imports after others to be compatible with javac
@@ -19,7 +20,7 @@ import static edu.tum.cup2.test.GrammarASU_4_11.N.*;
  * 
  * @author Andreas Wenger
  */
-public class GrammarASU_4_11
+public class GrammarASU_4_11 extends CUP2Specification
 {
 
 	public enum T implements Terminal

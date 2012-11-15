@@ -25,7 +25,7 @@ import edu.tum.cup2.generator.states.*;
  * @author Michael Hausmann
  * 
  */
-public abstract class AutomatonFactory<I extends Item, S extends State<I>>
+public abstract class AutomatonFactory<I extends Item, S extends LRState<I>>
 	implements IAutomatonFactory<I,S>
 {
 	Automaton<I, S> ret = null; //Automaton that is going to be returned by createAutomaton
@@ -59,12 +59,12 @@ public abstract class AutomatonFactory<I extends Item, S extends State<I>>
 	 * WorkerTasks for states acquired by shifting.
 	 * @author Johannes Schamburger
 	 *
-	 * @param <S> type of state used
+	 * @param <WS> type of state used
 	 */
-	protected abstract class WorkerTask<S> implements Callable<Integer> {
+	protected abstract class WorkerTask<WS> implements Callable<Integer> {
 
-		protected S stateKernel;
-		protected S currentState;
+		protected WS stateKernel;
+		protected WS currentState;
 		protected ThreadPoolExecutor threadPool;
 		protected ReentrantLock taskCountLock;
 
@@ -72,7 +72,7 @@ public abstract class AutomatonFactory<I extends Item, S extends State<I>>
 		 * Constructor for a new WorkerTask.
 		 * @param state the state to be handled by this task.
 		 */
-		public WorkerTask(S state, ThreadPoolExecutor threadPool, ReentrantLock lock) {
+		public WorkerTask(WS state, ThreadPoolExecutor threadPool, ReentrantLock lock) {
 			this.stateKernel = state;
 			this.threadPool = threadPool;
 			this.taskCountLock = lock;

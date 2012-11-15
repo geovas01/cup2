@@ -1,6 +1,5 @@
 package edu.tum.cup2.generator.states;
 
-import static edu.tum.cup2.test.GrammarAppel_3_20.Terminals.leftbr;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

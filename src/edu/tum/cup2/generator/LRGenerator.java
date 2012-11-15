@@ -11,6 +11,7 @@ import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.generator.exceptions.ReduceReduceConflict;
 import edu.tum.cup2.generator.exceptions.ShiftReduceConflict;
 import edu.tum.cup2.generator.items.Item;
+import edu.tum.cup2.generator.states.LRState;
 import edu.tum.cup2.generator.states.State;
 import edu.tum.cup2.grammar.NonTerminal;
 import edu.tum.cup2.grammar.Production;
@@ -40,7 +41,7 @@ import edu.tum.cup2.util.It;
  * @author Andreas Wenger
  * @author Stefan Dangl
  */
-public abstract class LRGenerator<I extends Item, S extends State<I>>
+public abstract class LRGenerator<I extends Item, S extends LRState<I>>
 	extends Generator
 {
 	
@@ -116,9 +117,9 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 		}
 		
 		//create the reduce actions
-		for (State<I> stateKernel : statesMap.keySet()) //for each generator state
+		for (LRState<I> stateKernel : statesMap.keySet()) //for each generator state
 		{
-			State<I> state = stateKernel.closure(grammarInfo); //unpack state (from kernel to closure)
+			LRState<I> state = stateKernel.closure(grammarInfo); //unpack state (from kernel to closure)
 			//if any item is not shiftable any more, reduce it to the left hand side of its production
 			for (I item : state.getItems())
 			{
@@ -200,7 +201,7 @@ public abstract class LRGenerator<I extends Item, S extends State<I>>
 				}
 				
 				// yay, we found the shortest word for this state 
-				LinkedList<String> nextWord = (LinkedList<String>)currentWord.clone();
+				LinkedList<String> nextWord = new LinkedList<String>(currentWord);
 				List<String> symbolStrings = null;
 				Symbol symbol = currentEdge.getSymbol();
 				if (symbol instanceof Terminal)

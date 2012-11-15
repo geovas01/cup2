@@ -16,6 +16,8 @@ import edu.tum.cup2.parser.states.LRParserState;
 public final class ErrorActionException
 	extends LRParserException
 {
+	/**  */
+	private static final long serialVersionUID = -4128108282482359853L;
 	
 	private final LRParserState state;
 	private final Terminal terminal;

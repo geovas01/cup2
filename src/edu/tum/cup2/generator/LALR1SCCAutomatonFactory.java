@@ -1,17 +1,20 @@
 package edu.tum.cup2.generator;
 
-import static edu.tum.cup2.util.Tuple2.t;
 import static edu.tum.cup2.generator.Edge.createAcceptEdge;
 import static edu.tum.cup2.grammar.SpecialTerminals.EndOfInputStream;
 import static edu.tum.cup2.grammar.SpecialTerminals.Placeholder;
+import static edu.tum.cup2.util.CollectionTools.llist;
 import static edu.tum.cup2.util.CollectionTools.map;
 import static edu.tum.cup2.util.CollectionTools.set;
 import static edu.tum.cup2.util.CollectionTools.stack;
-import static edu.tum.cup2.util.CollectionTools.llist;
+import static edu.tum.cup2.util.Tuple2.t;
+
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.generator.items.CPGoToLink;
@@ -24,12 +27,6 @@ import edu.tum.cup2.generator.terminals.EfficientTerminalSet;
 import edu.tum.cup2.grammar.Symbol;
 import edu.tum.cup2.util.FibonacciHeap;
 import edu.tum.cup2.util.Tuple2;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.PriorityQueue;
-import java.util.Stack;
 
 /**
  * Factory for a LALR(1) automaton, that improves on 

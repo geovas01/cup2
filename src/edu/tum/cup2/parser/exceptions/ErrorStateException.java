@@ -8,14 +8,14 @@ import edu.tum.cup2.parser.states.LRParserState;
 /**
  * This exception is thrown when the parser tries
  * to set a new current state from the goto table,
- * but if the corresponding cell has an {@link ErrorState}
- * (i.e. "is empty" like in most books about parsing).
+ * but if the corresponding cell has an {@link ErrorState} (i.e. "is empty" like in most books about parsing).
  * 
  * @author Andreas Wenger
  */
-public final class ErrorStateException
-	extends LRParserException
+public final class ErrorStateException extends LRParserException
 {
+	/**  */
+	private static final long serialVersionUID = -6827529790345681925L;
 	
 	private final LRParserState state;
 	private final NonTerminal nonterminal;
@@ -23,8 +23,8 @@ public final class ErrorStateException
 	
 	/**
 	 * Creates a new {@link ErrorStateException}.
-	 * @param state        the current state of the parser
-	 * @param nonterminal  the non-terminal that was reduced to
+	 * @param state the current state of the parser
+	 * @param nonterminal the non-terminal that was reduced to
 	 */
 	public ErrorStateException(LRParserState state, NonTerminal nonterminal)
 	{
@@ -41,8 +41,8 @@ public final class ErrorStateException
 	{
 		return state;
 	}
-
-
+	
+	
 	/**
 	 * Gets the non-terminal that was reduced to when the exception was created.
 	 */
@@ -50,6 +50,6 @@ public final class ErrorStateException
 	{
 		return nonterminal;
 	}
-
-
+	
+	
 }

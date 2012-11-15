@@ -1,11 +1,8 @@
 package edu.tum.cup2.semantics;
 
-import java.util.List;
+import java.io.Serializable;
 
 import edu.tum.cup2.parser.LRParser;
-import edu.tum.cup2.parser.exceptions.EndOfInputstreamException;
-import edu.tum.cup2.scanner.ScannerToken;
-import java.io.Serializable;
 
 
 /*

@@ -9,7 +9,7 @@ import edu.tum.cup2.spec.util.RHSItem;
  * @author Andreas Wenger
  */
 public interface Terminal
-	extends Symbol, RHSItem
+	extends Symbol, RHSItem, IEnumTerminal
 {
 
 }

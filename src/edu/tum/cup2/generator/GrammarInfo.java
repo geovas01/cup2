@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import edu.tum.cup2.generator.terminals.EfficientTerminalSet;
 import edu.tum.cup2.grammar.Grammar;
@@ -29,6 +30,7 @@ public final class GrammarInfo
 	private final NullableSet nullableSet;
 	private final FirstSets firstSets;
 	private final HashMap<NonTerminal, List<Production>> productionsStartingWith;
+	private final Map<NonTerminal, List<Production>> constProductionsStartingWith;
 	
 	private final EfficientTerminalSet emptyTerminalsSet;
 	
@@ -53,6 +55,7 @@ public final class GrammarInfo
 			}
 			this.productionsStartingWith.put(nonTerminal, Collections.unmodifiableList(list));
 		}
+		this.constProductionsStartingWith = Collections.unmodifiableMap(this.productionsStartingWith);
 		//empty set of terminals
 		this.emptyTerminalsSet = new EfficientTerminalSet(grammar.getTerminals());
 	}
@@ -73,6 +76,15 @@ public final class GrammarInfo
 	public List<Production> getProductionsFrom(NonTerminal lhs)
 	{
 		return productionsStartingWith.get(lhs);
+	}
+	
+	
+	/**
+	 * Gets all productions beginning with the given {@link NonTerminal}
+	 */
+	public Map<NonTerminal, List<Production>> getProductionsFrom()
+	{
+		return constProductionsStartingWith;
 	}
 
 

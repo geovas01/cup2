@@ -168,8 +168,7 @@ public class CUP2AntTask
 						log(" === Creating parsing table ===");
 
 					//create Parsing Table
-					LRGenerator<? extends Object, ? extends Object> generator =
-						createGenerator(this.cup2Specification);
+					LRGenerator<?, ?> generator = createGenerator(this.cup2Specification);
 					table = generator.getParsingTable();
 
 					LRParser parser = new LRParser(table);

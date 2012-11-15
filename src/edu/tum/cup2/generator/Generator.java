@@ -3,20 +3,20 @@ package edu.tum.cup2.generator;
 import java.io.PrintStream;
 
 import edu.tum.cup2.grammar.Grammar;
-import edu.tum.cup2.parser.states.LRParserState;
 import edu.tum.cup2.parser.tables.LRParsingTable;
 import edu.tum.cup2.precedences.Precedences;
 
 
 /**
- * Abstract class for a LR parser generator, that
- * creates a {@link LRParsingTable} and a start {@link LRParserState} for a
+ * Abstract class for a parser generator, that
+ * creates a parsing table and a start state for a
  * given {@link Grammar}.
  * 
  * This class can write its {@link LRParsingTable} to a Java file that will
  * reconstruct the table when executed. (TODO)
  * 
  * @author Andreas Wenger
+ * @author Gero
  */
 public abstract class Generator
 {

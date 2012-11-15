@@ -33,12 +33,13 @@ public class TestScanner
 	}
 	
 	
-	@SuppressWarnings("unchecked") public TestScanner(ScannerToken... tokens)
+	@SuppressWarnings("unchecked")
+	public TestScanner(ScannerToken<?>... tokens)
 	{
 		this.input = new ArrayList<ScannerToken<Object>>(tokens.length);
 		for (int i = 0; i < tokens.length; i++)
 		{
-			this.input.add(tokens[i]);
+			this.input.add((ScannerToken<Object>) tokens[i]);
 		}
 	}
 

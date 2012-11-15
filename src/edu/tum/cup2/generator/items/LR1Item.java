@@ -80,6 +80,12 @@ public final class LR1Item
 	}
 	
 	
+	public boolean isComplete()
+	{
+		return kernel.isComplete();
+	}
+	
+	
 	/**
 	 * Returns a new {@link LR1Item}, having the same LR(0) kernel as this
 	 * one and containing the union of the lookahead symbols of this item

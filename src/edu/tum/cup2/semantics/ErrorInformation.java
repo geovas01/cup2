@@ -1,13 +1,12 @@
 package edu.tum.cup2.semantics;
 
+import static edu.tum.cup2.semantics.SymbolValue.NoValue;
+
 import java.io.Serializable;
-import java.util.List;
 
 import edu.tum.cup2.grammar.SpecialTerminals;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.scanner.ScannerToken;
-
-import static edu.tum.cup2.semantics.SymbolValue.NoValue;
 
 /**
  * Objects of this class represent the {@link SymbolValue} of the

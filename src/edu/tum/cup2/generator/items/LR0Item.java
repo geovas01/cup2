@@ -18,14 +18,13 @@ import edu.tum.cup2.grammar.Symbol;
  * 
  * @author Andreas Wenger
  */
-public class LR0Item
-	implements Item
+public class LR0Item implements Item
 {
 	
 	protected final Production production;
 	protected final int position;
 	
-	//cache
+	// cache
 	protected final Symbol nextSymbol;
 	protected final int hashCode;
 	private final boolean shiftable;
@@ -40,22 +39,22 @@ public class LR0Item
 	public LR0Item(Production production, int position)
 	{
 		this.production = production;
-		//correct position if epsilons are following
+		// correct position if epsilons are following
 		List<Symbol> rhs = production.getRHS();
 		int correctedPosition = position;
 		if (position == 0 && rhs.get(0) == SpecialTerminals.Epsilon)
 		{
-			correctedPosition = 1; //immediately shift over epsilon
+			correctedPosition = 1; // immediately shift over epsilon
 		}
 		this.position = correctedPosition;
-		//shiftable
+		// shiftable
 		this.shiftable = (this.position < rhs.size());
-		//next symbol
+		// next symbol
 		if (this.shiftable)
 			this.nextSymbol = rhs.get(this.position);
 		else
 			this.nextSymbol = null;
-		//hash code
+		// hash code
 		this.hashCode = production.hashCode() + this.position;
 	}
 	
@@ -88,32 +87,54 @@ public class LR0Item
 	}
 	
 	
+	public boolean isComplete()
+	{
+		return !shiftable;
+	}
+	
+	
 	/**
 	 * Returns this item with the position shifted one symbol further.
 	 */
 	public LR0Item shift()
 	{
 		if (!isShiftable())
-			throw new RuntimeException(
-				"Shifting not possible: Item already closed: " + this);
+			throw new RuntimeException("Shifting not possible: Item already closed: " + this);
 		
-		//return shifted item
+		// return shifted item
 		return new LR0Item(production, position + 1);
 	}
 	
 	
-	@Override public String toString()
+	/**
+	 * @return A new {@link LR0Item} with the same production but shifted until it is complete
+	 */
+	public LR0Item complete()
+	{
+		if (isComplete())
+		{
+			return this;
+		} else
+		{
+			return new LR0Item(production, production.getRHS().size());
+		}
+	}
+	
+	
+	@Override
+	public String toString()
 	{
 		return production.toString(position);
 	}
 	
 	
-	@Override public boolean equals(Object obj)
+	@Override
+	public boolean equals(Object obj)
 	{
 		if (obj instanceof LR0Item)
 		{
 			LR0Item l = (LR0Item) obj;
-			//if (production != l.production) //OBSOLETE: 
+			// if (production != l.production) //OBSOLETE:
 			if (!production.equals(l.production))
 				return false;
 			if (position != l.position)
@@ -124,10 +145,11 @@ public class LR0Item
 	}
 	
 	
-	@Override public int hashCode()
+	@Override
+	public int hashCode()
 	{
 		return hashCode;
 	}
-
-
+	
+	
 }

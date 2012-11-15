@@ -20,7 +20,7 @@ public class BufferedScannerForTesting extends BufferedScanner {
 		return this.fNumberOfBufferedTokens;
 	}
 
-	public List getBuffer()
+	public List<ScannerToken<?>> getBuffer()
 	{
 		return this.fTokenQueue;
 	}

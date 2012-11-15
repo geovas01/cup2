@@ -45,7 +45,6 @@ public final class StateSymbolKey implements Serializable
 	/**
 	 * Creates a key for the given state and symbol.
 	 */
-	@SuppressWarnings("unchecked")
 	public StateSymbolKey(LRParserState state, Symbol symbol)
 	{
 		//save state and symbol
@@ -58,7 +57,7 @@ public final class StateSymbolKey implements Serializable
 		{
 			//symbols should be enums in most (if not any) cases, but if not,
 			//hashing works anyway (just not as good).
-			symbolNo = ((Enum)symbol).ordinal();
+			symbolNo = ((Enum<?>)symbol).ordinal();
 		}
 		hashCode = symbolNo * 1000000 + stateNo; //TODO: find good hash code
 	}

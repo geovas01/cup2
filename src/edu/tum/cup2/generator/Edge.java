@@ -22,11 +22,11 @@ import edu.tum.cup2.io.IVisitedElement;
  * 
  * @author Andreas Wenger
  */
-@SuppressWarnings("unchecked") public final class Edge
+public final class Edge
 	implements IVisitedElement
 {
 
-	private final State src, dest;
+	private final State<?> src, dest;
 	private final Symbol symbol;
 	private final LR0Item srcItem;
         private final int hashCache;
@@ -35,7 +35,7 @@ import edu.tum.cup2.io.IVisitedElement;
 	/**
 	 * Edge which leads to another non-accepting state.
 	 */
-	public Edge(State src, Symbol symbol, State dest, LR0Item srcItem)
+	public Edge(State<?> src, Symbol symbol, State<?> dest, LR0Item srcItem)
 	{
 		this.src = src;
 		this.symbol = symbol;
@@ -48,19 +48,19 @@ import edu.tum.cup2.io.IVisitedElement;
 	/**
 	 * Edge which leads to the accepting state.
 	 */
-	public static Edge createAcceptEdge(State src, Symbol symbol)
+	public static Edge createAcceptEdge(State<?> src, Symbol symbol)
 	{
 		return new Edge(src, symbol, null, null);
 	}
 	
 	
-	public State getSrc()
+	public State<?> getSrc()
 	{
 		return src;
 	}
 
 	
-	public State getDest()
+	public State<?> getDest()
 	{
 		return dest;
 	}

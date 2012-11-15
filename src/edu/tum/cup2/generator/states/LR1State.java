@@ -26,7 +26,7 @@ import edu.tum.cup2.grammar.Terminal;
  * @author Andreas Wenger
  */
 public class LR1State
-	extends State<LR1Item>
+	extends LRState<LR1Item>
 {
 
 

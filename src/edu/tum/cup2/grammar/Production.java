@@ -1,23 +1,21 @@
 package edu.tum.cup2.grammar;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.io.Serializable;
-import edu.tum.cup2.semantics.Action;
-import edu.tum.cup2.util.It;
-
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.*;
+import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
+
+import edu.tum.cup2.semantics.Action;
 import edu.tum.cup2.spec.CUP2Specification;
+import edu.tum.cup2.util.It;
+
 
 /**
- * A production consists of a left hand side {@link NonTerminal}
- * and a list of right hand side {@link Symbol}s.
+ * A production consists of a left hand side {@link NonTerminal} and a list of right hand side {@link Symbol}s.
  * There may be on single {@link Action} which is performed when
  * the production is reduced.
  * 
@@ -43,31 +41,30 @@ public final class Production implements Serializable
 	private List<Symbol> rhs;
 	private Action reduceAction;
 	
-	//cache
+	// cache
 	private Terminal lastTerminal;
 	private Terminal precTerminal; // save the Terminal with the precedence of this Production
 	private int rhsSizeWithoutEpsilon;
 	private int hashCode;
-
+	
+	
 	/**
 	 * Creates a new {@link Production}.
 	 */
 	public Production(int id, NonTerminal lhs, List<Symbol> rhs, Action reduceAction, Terminal precTerminal)
 	{
-		//check rhs
+		// check rhs
 		if (rhs.size() == 0)
 		{
-			//empty RHS means epsilon
+			// empty RHS means epsilon
 			rhs = Arrays.asList((Symbol) SpecialTerminals.Epsilon);
 			this.rhsSizeWithoutEpsilon = 0;
-		}
-		else if (rhs.size() == 1)
+		} else if (rhs.size() == 1)
 		{
 			this.rhsSizeWithoutEpsilon = (rhs.get(0) == SpecialTerminals.Epsilon ? 0 : 1);
-		}
-		else if (rhs.size() > 1)
+		} else if (rhs.size() > 1)
 		{
-			//check, that there is no epsilon in a RHS with at least 2 symbols
+			// check, that there is no epsilon in a RHS with at least 2 symbols
 			for (Symbol symbol : rhs)
 			{
 				if (symbol == SpecialTerminals.Epsilon)
@@ -81,8 +78,8 @@ public final class Production implements Serializable
 		this.lhs = lhs;
 		this.rhs = rhs;
 		this.reduceAction = reduceAction;
-		//cache
-		//find last terminal
+		// cache
+		// find last terminal
 		Terminal lastTerminal = null;
 		for (int i = rhs.size() - 1; i >= 0; i--)
 		{
@@ -93,10 +90,11 @@ public final class Production implements Serializable
 			}
 		}
 		this.lastTerminal = lastTerminal;
-		this.precTerminal = (precTerminal!=null)?precTerminal:lastTerminal;
-		//hash code
+		this.precTerminal = (precTerminal != null) ? precTerminal : lastTerminal;
+		// hash code
 		computeHashcode();
 	}
+	
 	
 	/**
 	 * compute the hashCode for this Production
@@ -104,7 +102,7 @@ public final class Production implements Serializable
 	 */
 	private int computeHashcode()
 	{
-		int sum = lhs.hashCode(); //default hashCode is the object address
+		int sum = lhs.hashCode(); // default hashCode is the object address
 		for (Symbol s : rhs)
 		{
 			sum = (sum + s.hashCode()) % ((1 << 31) - 1);
@@ -112,80 +110,93 @@ public final class Production implements Serializable
 		this.hashCode = sum;
 		return this.hashCode;
 	}
-		
+	
+	
 	/**
-	 * Convenience constructor: Just give an ID, a left hand side {@link NonTerminal}
-	 * and a list of right hand side {@link Symbol}s.
+	 * Convenience constructor: Just give an ID, a left hand side {@link NonTerminal} and a list of right hand side
+	 * {@link Symbol}s.
 	 * The {@link Production} contains no {@link Action}s.
 	 */
 	public Production(int id, NonTerminal lhs, Symbol... rhs)
 	{
-		this(id, lhs, Arrays.asList(rhs), null,null);
+		this(id, lhs, Arrays.asList(rhs), null, null);
 	}
+	
 	
 	/**
 	 * readObject() de-serializes a semantic action
 	 */
-	private synchronized void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException
+	@SuppressWarnings("unchecked")
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException
 	{
 		this.id = (Integer) stream.readObject();
 		this.lhs = (NonTerminal) stream.readObject();
 		this.rhs = (List<Symbol>) stream.readObject();
-		//this.actions = (List<Action>) stream.readObject();
+		// this.actions = (List<Action>) stream.readObject();
 		deserializeReduceAction(stream);
 		this.lastTerminal = (Terminal) stream.readObject();
 		this.rhsSizeWithoutEpsilon = (Integer) stream.readObject();
 		this.hashCode = (Integer) stream.readObject();
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	private void deserializeReduceAction(ObjectInputStream stream) throws IOException, ClassNotFoundException
 	{
-		try{
-			Object outer = null; //helper variable for specification which this production belongs to			
+		try
+		{
+			Object outer = null; // helper variable for specification which this production belongs to
 			Class<Action> clazz = (Class<Action>) stream.readObject();
-
-			//if clazz is null then add the null entry to the actions list.
-			//this guarantees that the actions list is completely restored.
-			//attention: when clazz is null, the loop continues with the next iteration
-			if(clazz == null)
+			
+			// if clazz is null then add the null entry to the actions list.
+			// this guarantees that the actions list is completely restored.
+			// attention: when clazz is null, the loop continues with the next iteration
+			if (clazz == null)
 			{
 				reduceAction = null;
 				return;
 			}
-			//System.out.println("clazz : "+clazz);
-			Constructor<CUP2Specification> c_enclosing = (Constructor<CUP2Specification>) clazz.getEnclosingConstructor(); //gets constructor for specification
-			//System.out.println("constructor enclosing : "+c_enclosing);
+			// System.out.println("clazz : "+clazz);
+			Constructor<CUP2Specification> c_enclosing = (Constructor<CUP2Specification>) clazz.getEnclosingConstructor(); // gets
+																																								// constructor
+																																								// for
+																																								// specification
+			// System.out.println("constructor enclosing : "+c_enclosing);
 			Class<CUP2Specification> clazz_enclosing = (Class<CUP2Specification>) clazz.getEnclosingClass();
-			if (c_enclosing==null){
+			if (c_enclosing == null)
+			{
 				int min = Integer.MAX_VALUE;
-				for (Constructor c : clazz_enclosing.getDeclaredConstructors()){
-					Class[] cParms = c.getParameterTypes();
-					if(cParms.length <= min){
+				for (Constructor<?> c : clazz_enclosing.getDeclaredConstructors())
+				{
+					Class<?>[] cParms = c.getParameterTypes();
+					if (cParms.length <= min)
+					{
 						min = cParms.length;
-						c_enclosing = c;
+						c_enclosing = (Constructor<CUP2Specification>) c;
 						break;
 					}
 				}
 			}
-			//System.out.println("clazz enclosing : "+clazz_enclosing);
-			Constructor[] c_declared = clazz.getDeclaredConstructors(); //1 constructor - NOT public, NOT default (expects reference to outer object)
-			for(Constructor c : c_declared)
+			// System.out.println("clazz enclosing : "+clazz_enclosing);
+			Constructor<?>[] c_declared = clazz.getDeclaredConstructors(); // 1 constructor - NOT public, NOT default (expects
+																							// reference to outer object)
+			for (Constructor<?> c : c_declared)
 			{
-				Class[] cParms = c.getParameterTypes();
-				if(cParms.length == 1)
+				Class<?>[] cParms = c.getParameterTypes();
+				if (cParms.length == 1)
 				{
-					if(cParms[0].equals(clazz_enclosing))
+					if (cParms[0].equals(clazz_enclosing))
 					{
-						//creating a new instance of Specification is ugly, if Specification should be serialized:
-						//after de-serialization actions belong to a different specification instance
-						//this could lead to errors, if actions reference fields in the spec
-						if(outer == null)
+						// creating a new instance of Specification is ugly, if Specification should be serialized:
+						// after de-serialization actions belong to a different specification instance
+						// this could lead to errors, if actions reference fields in the spec
+						if (outer == null)
 						{
 							Object[] args = new Object[c_enclosing.getParameterTypes().length];
 							outer = c_enclosing.newInstance(args);
 						}
 						
-						//Problem: constructor c needs to be public in order to be accessed from here
+						// Problem: constructor c needs to be public in order to be accessed from here
 						c.setAccessible(true);
 						
 						Action a = (Action) c.newInstance(outer);
@@ -193,7 +204,7 @@ public final class Production implements Serializable
 					}
 				}
 			}
-				
+			
 		} catch (IllegalAccessException e)
 		{
 			e.printStackTrace();
@@ -210,10 +221,11 @@ public final class Production implements Serializable
 		}
 	}
 	
+	
 	/**
 	 * writes fields to file
 	 */
-	private synchronized void writeObject(ObjectOutputStream stream) throws IOException 
+	private synchronized void writeObject(ObjectOutputStream stream) throws IOException
 	{
 		stream.writeObject(this.id);
 		stream.writeObject(this.lhs);
@@ -221,23 +233,23 @@ public final class Production implements Serializable
 		this.serializeReduceAction(stream);
 		stream.writeObject(this.lastTerminal);
 		stream.writeObject(this.rhsSizeWithoutEpsilon);
-		stream.writeObject(this.hashCode);	
+		stream.writeObject(this.hashCode);
 	}
 	
 	
-  private void serializeReduceAction(ObjectOutputStream stream) throws IOException
+	private void serializeReduceAction(ObjectOutputStream stream) throws IOException
 	{
-		if(reduceAction != null)
+		if (reduceAction != null)
 		{
-		  @SuppressWarnings("unchecked")
+			@SuppressWarnings("unchecked")
 			Class<Action> c = (Class<Action>) reduceAction.getClass();
 			stream.writeObject(c);
-		}
-		else
+		} else
 		{
 			stream.writeObject(null);
 		}
 	}
+	
 	
 	/**
 	 * Gets the ID of this production.
@@ -289,16 +301,17 @@ public final class Production implements Serializable
 	@Deprecated
 	public Action getAction(int position)
 	{
-	  if (position<this.rhs.size())
-	    return null;
-	  else
-	    return reduceAction;
+		if (position < this.rhs.size())
+			return null;
+		else
+			return reduceAction;
 	}
 	
-  public Action getReduceAction()
-  {
-      return reduceAction;
-  }
+	
+	public Action getReduceAction()
+	{
+		return reduceAction;
+	}
 	
 	
 	/**
@@ -308,15 +321,19 @@ public final class Production implements Serializable
 	{
 		return lastTerminal;
 	}
+	
+	
 	/**
 	 * Returns the Terminal responsible for the precedence rating of this production, or null if there is none.
 	 */
-	public Terminal getPrecedenceTerminal(){
+	public Terminal getPrecedenceTerminal()
+	{
 		return precTerminal;
 	}
-
 	
-	@Override public boolean equals(Object obj)
+	
+	@Override
+	public boolean equals(Object obj)
 	{
 		if (obj instanceof Production)
 		{
@@ -331,13 +348,15 @@ public final class Production implements Serializable
 	}
 	
 	
-	@Override public int hashCode()
+	@Override
+	public int hashCode()
 	{
 		return hashCode;
 	}
 	
 	
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		StringBuilder rhsString = new StringBuilder();
 		for (Symbol s : rhs)
@@ -361,5 +380,5 @@ public final class Production implements Serializable
 		return "Production " + id + ": " + lhs + " → " + rhsString;
 	}
 	
-
+	
 }

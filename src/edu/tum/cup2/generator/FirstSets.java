@@ -3,8 +3,6 @@ package edu.tum.cup2.generator;
 import static edu.tum.cup2.grammar.SpecialTerminals.Epsilon;
 import static edu.tum.cup2.util.CollectionTools.map;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import edu.tum.cup2.generator.terminals.EfficientTerminalSet;

@@ -443,7 +443,7 @@ public class CheckedGrammar implements IGrammar
 		this.checkReachability();
 		LinkedList<NonTerminal> requiredNonTerminals = this.getProductiveAndReachableNonTerminals();
 		LinkedList<Production> allProductions = this.getProductions();
-		LinkedList<Production> reducedProductions = (LinkedList<Production>) allProductions.clone();
+		LinkedList<Production> reducedProductions = new LinkedList<Production>(allProductions);
 		for(Production p : allProductions)
 		{
 			boolean bKeepProduction = true;
