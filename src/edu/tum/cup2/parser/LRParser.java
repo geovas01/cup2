@@ -15,10 +15,12 @@ import edu.tum.cup2.grammar.Production;
 import edu.tum.cup2.grammar.SpecialTerminals;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.parser.actions.Accept;
+import edu.tum.cup2.parser.actions.ConsecutiveNonAssocAction;
 import edu.tum.cup2.parser.actions.ErrorAction;
 import edu.tum.cup2.parser.actions.LRAction;
 import edu.tum.cup2.parser.actions.Reduce;
 import edu.tum.cup2.parser.actions.Shift;
+import edu.tum.cup2.parser.exceptions.ConsecutiveNonAssocException;
 import edu.tum.cup2.parser.exceptions.EndOfInputstreamException;
 import edu.tum.cup2.parser.exceptions.ErrorActionException;
 import edu.tum.cup2.parser.exceptions.ErrorStateException;
@@ -171,6 +173,12 @@ public class LRParser extends AParser implements Serializable
 				// look up an action in the action table
 				LRAction action = table.getActionTable().get(currentState, currentToken.getSymbol());
 				
+                                // if consecutive non-associative terminals are encountered,
+                                // we yield a compiler error!
+                                if (action instanceof ConsecutiveNonAssocAction){
+                                    throw new ConsecutiveNonAssocException(currentToken);
+                                }
+                                
 				// if error-action (i.e. unexpected terminal) encountered,
 				// try reducing first - but only if only one single reduction is possible!
 				if (action instanceof ErrorAction)

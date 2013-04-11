@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import edu.tum.cup2.generator.exceptions.ConsecutiveNonAssocException;
 import edu.tum.cup2.generator.exceptions.GeneratorException;
 import edu.tum.cup2.generator.exceptions.ReduceReduceConflict;
 import edu.tum.cup2.generator.exceptions.ShiftReduceConflict;
@@ -19,6 +18,7 @@ import edu.tum.cup2.grammar.SpecialTerminals;
 import edu.tum.cup2.grammar.Symbol;
 import edu.tum.cup2.grammar.Terminal;
 import edu.tum.cup2.parser.actions.Accept;
+import edu.tum.cup2.parser.actions.ConsecutiveNonAssocAction;
 import edu.tum.cup2.parser.actions.LRAction;
 import edu.tum.cup2.parser.actions.Reduce;
 import edu.tum.cup2.parser.actions.Shift;
@@ -363,7 +363,9 @@ public abstract class LRGenerator<I extends Item, S extends LRState<I>>
 							Terminal crashTerminal = atTerminal;
 							if (atTerminal==SpecialTerminals.WholeRow)
 								crashTerminal = actionTable.getTerminalOfFirstShiftAction(atState);
-							throw new ConsecutiveNonAssocException((Shift) action, reduce, crashTerminal);
+							// throw new ConsecutiveNonAssocException((Shift) action, reduce, crashTerminal);
+                                                        // to be consistent with CUP, an in general to be more logical, we defer the error reporting to the runtime
+                                                        actionTable.set(new ConsecutiveNonAssocAction(), atState, atTerminal);
 						} else {
 							Terminal crashTerminal = atTerminal;
 							if (atTerminal==SpecialTerminals.WholeRow)
